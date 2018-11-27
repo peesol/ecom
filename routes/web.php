@@ -21,10 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 
 //Products
-Route::get('/admin/product', 'Admin\ProductController@index')->name('adminProduct');
-Route::get('/admin/product/category', 'Admin\ProductController@categoryPage');
-Route::post('/admin/product/category/add', 'Admin\ProductController@addCategory');
-Route::get('/admin/product/upload', 'Admin\ProductController@uploadPage');
+Route::get('/admin/product', 'Admin\Product\ProductController@index')->name('adminProduct');
+Route::get('/admin/product/upload', 'Admin\Product\ProductController@uploadPage');
+
+Route::get('/admin/category', 'Admin\Category\CategoryController@index');
+Route::post('/admin/category/add', 'Admin\Category\CategoryController@create');
+Route::put('/admin/category/update', 'Admin\Category\CategoryController@update');
+Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryController@delete');
+
 
 //Utility
 Route::get('/api/get/category', 'Api\GetterController@getCategory');

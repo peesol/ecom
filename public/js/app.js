@@ -57280,6 +57280,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -57292,10 +57296,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sub: []
       },
       formVisible: false,
-      editForm: {
-        index: null,
-        name: null
-      }
+      editForm: null
     };
   },
 
@@ -57308,22 +57309,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     submit: function submit() {
       var _this = this;
 
-      axios.post(this.$root.url + '/admin/product/category/add', {
-        category_name: this.form.name,
-        subs: this.form.sub,
-        hasSub: this.form.hasSub
-      }).then(function (response) {
-        toastr.success('เพิ่มหมวดหมู่แล้ว');
-        _.mapValues(_this.form, function () {
-          return null;
+      if (this.form.hasSub && !this.form.sub.length) {
+        alert('ถ้าหากไม่มีหมวดหมู่ย่อย โปรดเลือก ไม่มี');
+      } else {
+        axios.post(this.$root.url + '/admin/category/add', {
+          category_name: this.form.name,
+          subs: this.form.sub,
+          hasSub: this.form.hasSub
+        }).then(function (response) {
+          toastr.success('เพิ่มหมวดหมู่แล้ว');
+          _this.form.hasSub = false;
+          _this.form.sub = [];
+          _this.form.name = null;
+          _this.categories.push(response.data);
+        }, function (response) {
+          toastr.error('เกิดข้อผิดพลาด');
         });
-        _this.categories.push(response.data);
+      }
+    },
+    edit: function edit(index, id) {
+      this.editForm = index;
+    },
+    submitEdit: function submitEdit(category) {
+      var _this2 = this;
+
+      axios.put(this.$root.url + '/admin/category/update', {
+        category: category
+      }).then(function (response) {
+        toastr.success('บันทึกแล้ว');
+        _this2.editForm = null;
       }, function (response) {
         toastr.error('เกิดข้อผิดพลาด');
       });
     },
-    edit: function edit(index, id) {
-      this.editForm.index = index;
+    cancleEdit: function cancleEdit() {
+      this.editForm = null;
+    },
+    remove: function remove(index, id) {
+      var _this3 = this;
+
+      if (confirm('ถ้าคุณลบหมวดหมู่นี้ สินค้าทั้งหมดที่อยู่ในหมวดหมู่นี้รวมถึงหมวดหมู่ย่อยจะถูกลบด้วย คุณแน่ใจหรือไม่?')) {
+        axios.delete(this.$root.url + '/admin/category/delete/' + id).then(function (response) {
+          toastr.success('ลบหมวดหมู่เรียบร้อยแล้ว');
+          _this3.categories.splice(index, 1);
+        }, function (response) {
+          toastr.error('เกิดข้อผิดพลาด');
+        });
+      }
     }
   },
   created: function created() {
@@ -57340,220 +57372,242 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "padding-15-bottom" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn blue form-submit",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.formVisible = !_vm.formVisible
-            }
-          }
-        },
-        [_vm._v("เพิ่มหมวดหมู่ "), _c("i", { staticClass: "fas fa-plus" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.formVisible,
-              expression: "formVisible"
-            }
-          ],
-          staticClass: "toggle-form margin-15-top"
-        },
-        [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
+    _c(
+      "div",
+      { staticClass: "padding-15-bottom" },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn blue form-submit",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.formVisible = !_vm.formVisible
               }
+            }
+          },
+          [_vm._v("เพิ่มหมวดหมู่ "), _c("i", { staticClass: "fas fa-plus" })]
+        ),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.formVisible,
+                  expression: "formVisible"
+                }
+              ],
+              staticClass: "toggle-form margin-15-top"
             },
             [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { staticClass: "full" }, [_vm._v("ชื่อหมวดหมู่")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.name,
-                      expression: "form.name"
-                    }
-                  ],
-                  attrs: { type: "text", name: "name" },
-                  domProps: { value: _vm.form.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "name", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { staticClass: "full" }, [
-                  _vm._v("มีหมวดหมู่ย่อยหรือไม่")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.hasSub,
-                      expression: "form.hasSub"
-                    }
-                  ],
-                  staticClass: "radio",
-                  attrs: { id: "yes", type: "radio", name: "sub" },
-                  domProps: {
-                    value: true,
-                    checked: _vm._q(_vm.form.hasSub, true)
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.$set(_vm.form, "hasSub", true)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { staticClass: "radio", attrs: { for: "yes" } }, [
-                  _vm._v("มี")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.hasSub,
-                      expression: "form.hasSub"
-                    }
-                  ],
-                  staticClass: "radio",
-                  attrs: { id: "no", type: "radio", name: "sub" },
-                  domProps: {
-                    value: false,
-                    checked: _vm._q(_vm.form.hasSub, false)
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.$set(_vm.form, "hasSub", false)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { staticClass: "radio", attrs: { for: "no" } }, [
-                  _vm._v("ไม่มี")
-                ])
-              ]),
-              _vm._v(" "),
               _c(
-                "div",
+                "form",
                 {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.form.hasSub,
-                      expression: "form.hasSub"
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
                     }
-                  ],
-                  staticClass: "form-group"
+                  }
                 },
                 [
-                  _c("label", { staticClass: "full" }, [
-                    _vm._v("ชื่อหมวดหมู่ย่อย")
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "full" }, [
+                      _vm._v("ชื่อหมวดหมู่")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      attrs: { required: "", type: "text", name: "name" },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "name", $event.target.value)
+                        }
+                      }
+                    })
                   ]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.subName,
-                        expression: "subName"
-                      }
-                    ],
-                    staticClass: "margin-10-right",
-                    attrs: { type: "text", name: "name" },
-                    domProps: { value: _vm.subName },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "full" }, [
+                      _vm._v("มีหมวดหมู่ย่อยหรือไม่")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.hasSub,
+                          expression: "form.hasSub"
                         }
-                        _vm.subName = $event.target.value
+                      ],
+                      staticClass: "radio",
+                      attrs: { id: "yes", type: "radio", name: "sub" },
+                      domProps: {
+                        value: true,
+                        checked: _vm._q(_vm.form.hasSub, true)
+                      },
+                      on: {
+                        change: function($event) {
+                          _vm.$set(_vm.form, "hasSub", true)
+                        }
                       }
-                    }
-                  }),
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      { staticClass: "radio", attrs: { for: "yes" } },
+                      [_vm._v("มี")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.hasSub,
+                          expression: "form.hasSub"
+                        }
+                      ],
+                      staticClass: "radio",
+                      attrs: { id: "no", type: "radio", name: "sub" },
+                      domProps: {
+                        value: false,
+                        checked: _vm._q(_vm.form.hasSub, false)
+                      },
+                      on: {
+                        change: function($event) {
+                          _vm.$set(_vm.form, "hasSub", false)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      { staticClass: "radio", attrs: { for: "no" } },
+                      [_vm._v("ไม่มี")]
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
-                    "button",
+                    "div",
                     {
-                      staticClass: "btn blue",
-                      attrs: { disabled: !_vm.subName, type: "button" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.addSub($event)
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.form.hasSub,
+                          expression: "form.hasSub"
                         }
-                      }
+                      ],
+                      staticClass: "form-group"
                     },
                     [
-                      _vm._v("เพิ่ม "),
-                      _c("small", { staticClass: "fas fa-plus" })
+                      _c("label", { staticClass: "full" }, [
+                        _vm._v("ชื่อหมวดหมู่ย่อย")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.subName,
+                            expression: "subName"
+                          }
+                        ],
+                        staticClass: "margin-10-right",
+                        attrs: { type: "text", name: "name" },
+                        domProps: { value: _vm.subName },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.subName = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn blue",
+                          attrs: { disabled: !_vm.subName, type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.addSub($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v("เพิ่ม "),
+                          _c("small", { staticClass: "fas fa-plus" })
+                        ]
+                      )
                     ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.form.hasSub && _vm.form.sub.length,
-                      expression: "form.hasSub && form.sub.length"
-                    }
-                  ],
-                  staticClass: "form-group"
-                },
-                [
-                  _c("p", [_vm._v("หมวดหมู่ย่อย")]),
+                  ),
                   _vm._v(" "),
-                  _vm._l(_vm.form.sub, function(sub) {
-                    return _c("li", { staticClass: "number" }, [
-                      _vm._v(_vm._s(sub))
-                    ])
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _vm._m(0)
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.form.hasSub && _vm.form.sub.length,
+                          expression: "form.hasSub && form.sub.length"
+                        }
+                      ],
+                      staticClass: "form-group"
+                    },
+                    [
+                      _c("p", [_vm._v("หมวดหมู่ย่อย")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.form.sub, function(sub) {
+                        return _c("li", { staticClass: "number" }, [
+                          _vm._v(_vm._s(sub))
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-right padding-15-top" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn green form-submit",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("ยืนยัน")]
+                    )
+                  ])
+                ]
+              )
             ]
           )
-        ]
-      )
-    ]),
+        ])
+      ],
+      1
+    ),
     _vm._v(" "),
     _vm.categories.length
       ? _c(
@@ -57573,8 +57627,8 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
-                          value: _vm.editForm.index !== index,
-                          expression: "editForm.index !== index"
+                          value: _vm.editForm !== index,
+                          expression: "editForm !== index"
                         }
                       ],
                       staticClass: "col-2-flex-res"
@@ -57607,18 +57661,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                if (
-                                  !("button" in $event) &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "prevent",
-                                    undefined,
-                                    $event.key,
-                                    undefined
-                                  )
-                                ) {
-                                  return null
-                                }
+                                $event.preventDefault()
                                 _vm.edit(index, category.id)
                               }
                             }
@@ -57633,18 +57676,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                if (
-                                  !("button" in $event) &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "prevent",
-                                    undefined,
-                                    $event.key,
-                                    undefined
-                                  )
-                                ) {
-                                  return null
-                                }
+                                $event.preventDefault()
                                 _vm.remove(index, category.id)
                               }
                             }
@@ -57655,97 +57687,135 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.editForm.index == index,
-                          expression: "editForm.index == index"
-                        }
-                      ],
-                      staticClass: "col-2-flex-res"
-                    },
-                    [
-                      _c("div", [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { staticClass: "full" }, [
-                            _vm._v("ชื่อหมวดหมู่")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: category.name,
-                                expression: "category.name"
-                              }
-                            ],
-                            attrs: { type: "text" },
-                            domProps: { value: category.name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(category, "name", $event.target.value)
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
+                  _c("transition", { attrs: { name: "fade" } }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
                           {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: category.subcategory.length,
-                                expression: "category.subcategory.length"
-                              }
-                            ],
-                            staticClass: "form-group"
-                          },
-                          [
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editForm == index,
+                            expression: "editForm == index"
+                          }
+                        ],
+                        staticClass: "col-2-flex-res"
+                      },
+                      [
+                        _c("div", [
+                          _c("div", { staticClass: "form-group" }, [
                             _c("label", { staticClass: "full" }, [
-                              _vm._v("หมวดหมู่รอง")
+                              _vm._v("ชื่อหมวดหมู่")
                             ]),
                             _vm._v(" "),
-                            _vm._l(category.subcategory, function(sub) {
-                              return _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: sub.name,
-                                    expression: "sub.name"
-                                  }
-                                ],
-                                attrs: { type: "text" },
-                                domProps: { value: sub.name },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(sub, "name", $event.target.value)
-                                  }
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: category.name,
+                                  expression: "category.name"
                                 }
-                              })
+                              ],
+                              attrs: { type: "text" },
+                              domProps: { value: category.name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    category,
+                                    "name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
                             })
-                          ],
-                          2
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(1, true)
-                    ]
-                  )
-                ]
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: category.subcategory.length,
+                                  expression: "category.subcategory.length"
+                                }
+                              ],
+                              staticClass: "form-group"
+                            },
+                            [
+                              _c("label", { staticClass: "full" }, [
+                                _vm._v("หมวดหมู่รอง")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(category.subcategory, function(sub) {
+                                return _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: sub.name,
+                                      expression: "sub.name"
+                                    }
+                                  ],
+                                  staticClass: "margin-10-bottom",
+                                  attrs: { type: "text" },
+                                  domProps: { value: sub.name },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(sub, "name", $event.target.value)
+                                    }
+                                  }
+                                })
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-right" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn green",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.submitEdit(category)
+                                }
+                              }
+                            },
+                            [_vm._v("บันทึก")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn red",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.cancleEdit()
+                                }
+                              }
+                            },
+                            [_vm._v("ยกเลิก")]
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                ],
+                1
               )
             })
           ],
@@ -57758,34 +57828,7 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-right padding-15-top" }, [
-      _c(
-        "button",
-        { staticClass: "btn green form-submit", attrs: { type: "submit" } },
-        [_vm._v("ยืนยัน")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-right" }, [
-      _c("button", { staticClass: "btn green", attrs: { type: "button" } }, [
-        _vm._v("บันทึก")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn red", attrs: { type: "button" } }, [
-        _vm._v("ยกเลิก")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -19,7 +19,7 @@ class CreateSubcategoriesTable extends Migration
           $table->string('name');
           $table->text('translation')->nullable();
 
-          $table->foreign('category_id')->references('id')->on('categories');
+          $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
