@@ -3,7 +3,7 @@
   <div class="border-bottom panel-head small">
     <h1>จัดการหลังร้าน</h1>
   </div>
-  <div class="panel small">
+  <div class="panel small round">
     <li class="padding-10-v no-style font-large">
       <a href="{{ url('/admin/product') }}">สินค้า&nbsp;<i class="fas fa-angle-right"></i></a><br>
       <sub>จัดการสินค้า ราคา สต๊อก หรือ โปรโมชั่น</sub>

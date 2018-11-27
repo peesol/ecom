@@ -16,14 +16,14 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('category_id')->unsigned();
-          $table->integer('subcategory_id')->unsigned();
+          $table->integer('subcategory_id')->unsigned()->nullable();
           $table->string('uid');
           $table->string('name');
           $table->integer('price');
           $table->integer('discount_price')->nullable();
           $table->text('description')->nullable();
           $table->string('thumbnail');
-          $table->text('choice');
+          $table->text('choice')->nullable();
           $table->integer('view_count')->default(0);
           $table->enum('visibility', ['public', 'unlisted']);
           $table->integer('stock')->default(1);

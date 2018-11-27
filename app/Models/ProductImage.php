@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductImage extends Model
 {
-    //
+  protected $fillable = [ 'filename', 'product_id'];
+
+  public function product()
+  {
+    return $this->belingsTo(Product::class);
+  }
 }

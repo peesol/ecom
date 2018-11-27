@@ -9,9 +9,14 @@ class Category extends Model
   protected $fillable = ['name', 'translation'];
   protected $casts = ['translation' => 'array'];
   public $timestamps = false;
-  
-  public function Subcategory()
+
+  public function subcategory()
   {
     return $this->hasMany(Subcategory::class);
+  }
+
+  public function product()
+  {
+    return $this->hasMany(Product::class);
   }
 }

@@ -6,9 +6,18 @@ $height: 200px
   box-shadow: 1px 1px 3px 0 #f2f2f2
   display: inline-block
   position: relative
-  .img-fit
+  &.fit
     width: $width
     height: $height
+  &.product
+    width: 200px
+    height: 280px
+  p
+    margin: 5px
+    &.title
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
 
 .thumbnail-grid
   display: grid

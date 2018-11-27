@@ -43,6 +43,7 @@
   </head>
   <body>
     <div id="app">
+      <vue-progress-bar></vue-progress-bar>
       <div class="container">
         @yield('content')
       </div>

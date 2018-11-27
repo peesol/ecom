@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use DB;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +10,7 @@ class GetterController extends Controller
 {
   public function getCategory()
   {
-    $data = DB::table('categories')->get();
+    $data = Category::with('subcategory')->get();
 
     return response()->json($data);
   }

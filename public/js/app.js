@@ -11502,17 +11502,9 @@ window.Vue = __webpack_require__(35);
 
 
 var progressBar = {
-  color: '#bffaf3',
+  color: '#46ff4a',
   failedColor: '#874b4b',
-  thickness: '5px',
-  transition: {
-    speed: '0.2s',
-    opacity: '0.6s',
-    termination: 300
-  },
-  autoRevert: true,
-  location: 'left',
-  inverse: false
+  thickness: '7px'
 };
 
 
@@ -11558,7 +11550,8 @@ window.addEventListener('load', function () {
     data: function data() {
       return {
         url: window.Data.url,
-        authenticated: window.Data.user.authenticated
+        authenticated: window.Data.user.authenticated,
+        loading: false
       };
     },
     created: function created() {
@@ -52952,7 +52945,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/product/UploadProduct.vue"
+Component.options.__file = "resources/js/components/admin/UploadProduct.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52961,9 +52954,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-433f6e33", Component.options)
+    hotAPI.createRecord("data-v-54bc185a", Component.options)
   } else {
-    hotAPI.reload("data-v-433f6e33", Component.options)
+    hotAPI.reload("data-v-54bc185a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53046,11 +53039,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -53060,14 +53048,12 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
       categories: [],
       subcategories: [],
       choiceInput: null,
-      form: {
-        category: null,
-        subcategory: null,
-        name: null,
-        price: null,
-        description: null,
-        choices: []
-      }
+      category: null,
+      subcategory: null,
+      name: null,
+      price: null,
+      description: null,
+      choices: []
     };
   },
 
@@ -53080,23 +53066,25 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
     getCategory: function getCategory() {
       var _this = this;
 
+      this.$root.loading = true;
+      this.$Progress.start();
       axios.get(this.$root.url + '/api/get/category').then(function (response) {
         _this.categories = response.data;
+        _this.$root.loading = false;
+        _this.$Progress.finish();
       });
     },
     selectCategory: function selectCategory(category) {
       this.subcategories = category.subcategory;
       this.subcategory = [];
-      this.type = null;
-      this.types = [];
     },
     addChoice: function addChoice() {
-      this.form.choices.push(this.choiceInput);
+      this.choices.push(this.choiceInput);
       this.choiceInput = null;
     },
     removeChoice: function removeChoice(index) {
       if (confirm('คุณแน่ใจหรือไม่ว่าจะลบ?')) {
-        this.form.choices.splice(index, 1);
+        this.choices.splice(index, 1);
       }
     },
 
@@ -53105,7 +53093,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
       self.$nextTick(function () {
         self.image = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a('#image', {
           method: 'post',
-          url: self.$root.url + '/sell/new',
+          url: self.$root.url + '/admin/product/create',
           autoProcessQueue: false,
           uploadMultiple: true,
           parallelUploads: 6,
@@ -53125,7 +53113,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 this.removeFile(this.files[0]);
               }
               if (file.size > 2097152) {
-                alert(self.$trans.translation.file_size_limit + ' 2 MB');
+                alert('ขนาดรูปต้องไม่เกินรูปละ 2 MB');
                 this.removeFile(file);
               }
             });
@@ -53134,7 +53122,6 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             formData.append("name", self.name);
             formData.append("price", self.price);
             formData.append("description", self.description);
-            formData.append("visibility", self.visibility);
             formData.append("category_id", self.category.id);
             formData.append("subcategory_id", self.subcategory.id);
           },
@@ -53142,21 +53129,25 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             self.$Progress.start();
           },
           success: function success() {
-            toastr.success(self.$trans.translation.success);
+            toastr.success('อัพโหลดเรียบร้อย');
             this.removeFile(this.files[0]);
             self.$Progress.finish();
-            document.location.href = self.$root.url + 'admin/product/upload';
+            document.location.href = self.$root.url + 'admin/product';
           },
           error: function error() {
             self.$Progress.fail();
-            toastr.error(self.$trans.translation.error);
+            toastr.error('เกิดข้อผิดพลาด');
             this.removeFile(this.files[0]);
           }
         });
       });
     },
     submit: function submit() {
-      self.image.processQueue();
+      if (this.errors.any()) {
+        alert('กรุณาแก้ไขข้อมูล');
+      } else {
+        self.image.processQueue();
+      }
     }
   },
   created: function created() {
@@ -56712,63 +56703,174 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "form",
+    {
+      staticClass: "relative",
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.submit($event)
+        }
+      }
+    },
     [
-      _c("vue-progress-bar"),
+      _c("load-overlay", {
+        attrs: { bg: "white-bg", show: _vm.$root.loading }
+      }),
       _vm._v(" "),
-      _c(
-        "form",
-        {
-          staticClass: "relative",
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
+      _c("div", { staticClass: "padding-15-top" }, [
+        _vm._v("\n    อัพโหลดได้ 6 รูป ขนาดรูปละไม่เกิน 2 mb\n  ")
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { staticClass: "full" }, [_vm._v("ชื่อสินค้า")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: "required|min:6",
+                expression: "'required|min:6'"
+              },
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.name,
+                expression: "name"
+              }
+            ],
+            staticClass: "form-input full-width",
+            attrs: { type: "text", name: "product_name" },
+            domProps: { value: _vm.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.name = $event.target.value
+              }
             }
-          }
-        },
-        [
-          _c("load-overlay", {
-            attrs: { bg: "white-bg", show: _vm.$root.loading }
           }),
           _vm._v(" "),
-          _c("div", { staticClass: "padding-15-top" }, [
-            _vm._v("\r\n      อัพโหลดได้ 6 รูป ขนาดรูปละไม่เกิน 2 mb\r\n    ")
-          ]),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.errors.has("product_name"),
+                  expression: "errors.has('product_name')"
+                }
+              ],
+              staticClass: "error"
+            },
+            [_vm._v(_vm._s(_vm.errors.first("product_name")))]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group half-width-res" }, [
+          _c("label", { staticClass: "full" }, [_vm._v("ราคา")]),
           _vm._v(" "),
-          _vm._m(0),
+          _c("input", {
+            directives: [
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: "required|numeric",
+                expression: "'required|numeric'"
+              },
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.price,
+                expression: "price"
+              }
+            ],
+            staticClass: "form-input full-width",
+            attrs: { type: "text", name: "price" },
+            domProps: { value: _vm.price },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.price = $event.target.value
+              }
+            }
+          }),
           _vm._v(" "),
-          _c("div", [
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.errors.has("price"),
+                  expression: "errors.has('price')"
+                }
+              ],
+              staticClass: "error"
+            },
+            [_vm._v(_vm._s(_vm.errors.first("price")))]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-2-flex-res" },
+          [
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { staticClass: "full" }, [_vm._v("ชื่อสินค้า")]),
+              _c("label", { staticClass: "full", attrs: { for: "category" } }, [
+                _vm._v("หมวดหมู่")
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required|min:6",
-                    expression: "'required|min:6'"
-                  },
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.name,
-                    expression: "name"
-                  }
-                ],
-                staticClass: "form-input full-width",
-                attrs: { type: "text", name: "product_name" },
-                domProps: { value: _vm.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.category,
+                      expression: "category"
                     }
-                    _vm.name = $event.target.value
+                  ],
+                  staticClass: "full-width",
+                  attrs: { required: "" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.category = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function($event) {
+                        $event.preventDefault()
+                        _vm.selectCategory(_vm.category)
+                      }
+                    ]
                   }
-                }
-              }),
+                },
+                _vm._l(_vm.categories, function(category) {
+                  return _c("option", { domProps: { value: category } }, [
+                    _vm._v(_vm._s(category.name))
+                  ])
+                })
+              ),
               _vm._v(" "),
               _c(
                 "span",
@@ -56777,73 +56879,35 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.errors.has("product_name"),
-                      expression: "errors.has('product_name')"
+                      value: !_vm.categories.length,
+                      expression: "!categories.length"
                     }
                   ],
                   staticClass: "error"
                 },
-                [_vm._v(_vm._s(_vm.errors.first("product_name")))]
+                [_vm._v("คุณไม่มีหมวดหมู่")]
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group half-width-res" }, [
-              _c("label", { staticClass: "full" }, [_vm._v("ราคา")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required|numeric",
-                    expression: "'required|numeric'"
-                  },
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.price,
-                    expression: "price"
-                  }
-                ],
-                staticClass: "form-input full-width",
-                attrs: { type: "text", name: "price" },
-                domProps: { value: _vm.price },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.price = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
+            _c("transition", { attrs: { name: "fade" } }, [
               _c(
-                "span",
+                "div",
                 {
                   directives: [
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.errors.has("price"),
-                      expression: "errors.has('price')"
+                      value: _vm.subcategories.length,
+                      expression: "subcategories.length"
                     }
                   ],
-                  staticClass: "error"
+                  staticClass: "form-group"
                 },
-                [_vm._v(_vm._s(_vm.errors.first("price")))]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-2-flex-res" },
-              [
-                _c("div", { staticClass: "form-group" }, [
+                [
                   _c(
                     "label",
-                    { staticClass: "full", attrs: { for: "category" } },
-                    [_vm._v("หมวดหมู่")]
+                    { staticClass: "full", attrs: { for: "subcategory" } },
+                    [_vm._v("หมวดหมู่ย่อย")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -56853,280 +56917,193 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.category,
-                          expression: "category"
+                          value: _vm.subcategory,
+                          expression: "subcategory"
                         }
                       ],
-                      staticClass: "select-input full-width",
+                      staticClass: "full-width",
                       attrs: { required: "" },
                       on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.category = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          },
-                          function($event) {
-                            $event.preventDefault()
-                            _vm.selectCategory(_vm.category)
-                          }
-                        ]
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.subcategory = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
                       }
                     },
-                    _vm._l(_vm.categories, function(category) {
-                      return _c("option", { domProps: { value: category } }, [
-                        _vm._v(_vm._s(category.name))
-                      ])
-                    })
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !_vm.categories.length,
-                          expression: "!categories.length"
-                        }
-                      ],
-                      staticClass: "error"
-                    },
-                    [_vm._v("คุณไม่มีหมวดหมู่")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "slide-down-input" } }, [
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.subcategories.length,
-                          expression: "subcategories.length"
-                        }
-                      ],
-                      staticClass: "form-group"
-                    },
-                    [
-                      _c(
-                        "label",
-                        { staticClass: "full", attrs: { for: "subcategory" } },
-                        [_vm._v("หมวดหมู่ย่อย")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.subcategory,
-                              expression: "subcategory"
-                            }
-                          ],
-                          staticClass: "select-input",
-                          attrs: { required: "" },
-                          on: {
-                            change: [
-                              function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.subcategory = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              },
-                              function($event) {
-                                $event.preventDefault()
-                                _vm.selectSubcategory(_vm.subcategory)
-                              }
-                            ]
-                          }
-                        },
-                        _vm._l(_vm.subcategories, function(subcategory, index) {
-                          return _c(
-                            "option",
-                            { domProps: { value: subcategory } },
-                            [_vm._v(_vm._s(subcategory.name))]
-                          )
-                        })
+                    _vm._l(_vm.subcategories, function(subcategory, index) {
+                      return _c(
+                        "option",
+                        { domProps: { value: subcategory } },
+                        [_vm._v(_vm._s(subcategory.name))]
                       )
-                    ]
+                    })
                   )
-                ])
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "full" }, [_vm._v("คำอธิบายสินค้า")]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: "required",
-                  expression: "'required'"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.description,
-                  expression: "description"
+                ]
+              )
+            ])
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "full" }, [_vm._v("คำอธิบายสินค้า")]),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "validate",
+              rawName: "v-validate",
+              value: "required",
+              expression: "'required'"
+            },
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.description,
+              expression: "description"
+            }
+          ],
+          staticClass: "description-input full-width",
+          attrs: { required: "", name: "description" },
+          domProps: { value: _vm.description },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.description = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.errors.has("description"),
+                expression: "errors.has('description')"
+              }
+            ],
+            staticClass: "error"
+          },
+          [_vm._v(_vm._s(_vm.errors.first("description")))]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { staticClass: "full" }, [
+          _vm._v("ตัวเลือกสินค้า (ไม่มีก็ได้)")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "padding-10-bottom" }, [
+          _vm._v("เช่น สี ไซส์ สามารถเพิ่มเท่าไหร่ก็ได้")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.choiceInput,
+                expression: "choiceInput"
+              }
+            ],
+            staticClass: "form-input margin-10-right",
+            attrs: { type: "text", name: "choices" },
+            domProps: { value: _vm.choiceInput },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              ],
-              staticClass: "description-input full-width",
-              attrs: { required: "", name: "description" },
-              domProps: { value: _vm.description },
+                _vm.choiceInput = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn blue",
+              attrs: { disabled: !_vm.choiceInput, type: "button" },
               on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.description = $event.target.value
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.addChoice()
                 }
               }
-            }),
-            _vm._v(" "),
-            _c(
-              "span",
+            },
+            [_vm._v("เพิ่ม "), _c("small", { staticClass: "fas fa-plus" })]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
               {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.errors.has("description"),
-                    expression: "errors.has('description')"
-                  }
-                ],
-                staticClass: "error"
-              },
-              [_vm._v(_vm._s(_vm.errors.first("description")))]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "full" }, [_vm._v("ตัวเลือกสินค้า")]),
+                name: "show",
+                rawName: "v-show",
+                value: _vm.choices.length,
+                expression: "choices.length"
+              }
+            ],
+            staticClass: "full-width padding-10-v"
+          },
+          [
+            _c("p", [_vm._v("ตัวเลือกของสินค้านี้")]),
             _vm._v(" "),
-            _c("div", { staticClass: "padding-10-bottom" }, [
-              _vm._v("เช่น สี ไซส์ สามารถเพิ่มเท่าไหร่ก็ได้")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flex" }, [
-              _c("input", {
-                directives: [
+            _vm._l(_vm.choices, function(choice, index) {
+              return _c("li", { staticClass: "number table-like" }, [
+                _vm._v(_vm._s(choice) + " "),
+                _c(
+                  "a",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.choiceInput,
-                    expression: "choiceInput"
-                  }
-                ],
-                staticClass: "form-input margin-10-right",
-                attrs: { type: "text", name: "choices" },
-                domProps: { value: _vm.choiceInput },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                    staticClass: "float-right delete",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.removeChoice(index)
+                      }
                     }
-                    _vm.choiceInput = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn blue",
-                  attrs: { disabled: !_vm.choiceInput, type: "button" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.addChoice()
-                    }
-                  }
-                },
-                [_vm._v("เพิ่ม "), _c("small", { staticClass: "fas fa-plus" })]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.form.choices.length,
-                    expression: "form.choices.length"
-                  }
-                ],
-                staticClass: "full-width padding-10-v"
-              },
-              [
-                _c("p", [_vm._v("ตัวเลือกของสินค้านี้")]),
-                _vm._v(" "),
-                _vm._l(_vm.form.choices, function(choice, index) {
-                  return _c("li", { staticClass: "number table-like" }, [
-                    _vm._v(_vm._s(choice) + " "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "float-right delete",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.removeChoice(index)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "fas fa-trash-alt font-large" })]
-                    )
-                  ])
-                })
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-right full-width padding-15-top" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn green form-submit",
-                attrs: {
-                  disabled: _vm.$root.loading,
-                  type: "submit",
-                  id: "submit-all"
-                }
-              },
-              [_vm._v("ยืนยัน")]
-            )
-          ])
-        ],
-        1
-      )
+                  },
+                  [_c("i", { staticClass: "fas fa-trash-alt font-large" })]
+                )
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-right full-width padding-15-top" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn green form-submit",
+            attrs: {
+              disabled: _vm.$root.loading || _vm.errors.any(),
+              type: "submit",
+              id: "submit-all"
+            }
+          },
+          [_vm._v("ยืนยัน")]
+        )
+      ])
     ],
     1
   )
@@ -57154,7 +57131,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-433f6e33", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-54bc185a", module.exports)
   }
 }
 
@@ -57184,7 +57161,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/product/Category.vue"
+Component.options.__file = "resources/js/components/admin/Category.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -57193,9 +57170,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-06443cee", Component.options)
+    hotAPI.createRecord("data-v-d1b3502e", Component.options)
   } else {
-    hotAPI.reload("data-v-06443cee", Component.options)
+    hotAPI.reload("data-v-d1b3502e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -57834,7 +57811,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-06443cee", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-d1b3502e", module.exports)
   }
 }
 

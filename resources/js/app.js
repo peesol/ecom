@@ -13,17 +13,9 @@ import VeeValidate from 'vee-validate';
 
 
 const progressBar = {
-  color: '#bffaf3',
+  color: '#46ff4a',
   failedColor: '#874b4b',
-  thickness: '5px',
-  transition: {
-    speed: '0.2s',
-    opacity: '0.6s',
-    termination: 300
-  },
-  autoRevert: true,
-  location: 'left',
-  inverse: false
+  thickness: '7px',
 }
 
 import thai from 'vee-validate/dist/locale/th';
@@ -44,8 +36,8 @@ Vue.use(VeeValidate, {
 
 
 Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
-Vue.component('product-upload', require('./components/product/UploadProduct.vue'));
-Vue.component('category', require('./components/product/Category.vue'));
+Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
+Vue.component('category', require('./components/admin/Category.vue'));
 
 Vue.component('load-overlay', {
   props: ['bg','show', 'padding'],
@@ -71,6 +63,7 @@ Vue.component('load-overlay', {
         return {
           url: window.Data.url,
           authenticated: window.Data.user.authenticated,
+          loading: false
         }
       },
       created() {
