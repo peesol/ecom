@@ -1,0 +1,48 @@
+%display-flex
+  display: flex
+
+.flex
+  display: flex
+
+.col-2-flex,
+.col-3-flex,
+.col-4-flex,
+.col-2-flex-res,
+.col-3-flex-res,
+.col-4-flex-res,
+  display: flex
+
+.col-2-flex > div
+  width: 50%
+
+.col-3-flex > div
+  width: 33.3%
+
+.col-4-flex > div
+  width: 25%
+
+.col-2-flex-res,
+.col-3-flex-res,
+.col-4-flex-res
+  flex-direction: column
+
+.col-2-flex-res > div, .col-3-flex-res > div, .col-4-flex-res > div
+  width: 100%
+
+@media(min-width: 768px)
+  .col-2-flex-res,
+  .col-3-flex-res,
+  .col-4-flex-res
+    flex-direction: row
+
+  .col-2-flex-res > div.form-group:last-child
+    padding-right: 10px
+
+  .col-2-flex-res > div
+    width: 50%
+
+  .col-3-flex-res > div
+    width: 33.3%
+
+  .col-4-flex-res > div
+    width: 25%

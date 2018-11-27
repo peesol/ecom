@@ -1,0 +1,92 @@
+@import "_variables"
+
+%hover-red
+  color: $idle-red
+  background: #fff
+  border-color: $active-red
+
+%hover-blue
+  color: $idle-blue
+  background: #fff
+  border-color: $active-blue
+
+button:disabled
+  cursor: not-allowed
+.btn
+  border: 1px solid transparent
+  padding: 8px 10px
+  border-radius: 8px
+  transition: all ease 0.2s
+  color: #fff
+  &.green
+    background: $idle-green
+    &:hover
+      color: $idle-green
+      background: #fff
+      border-color: $active-green
+  &.grey
+    color: #6c6c6c
+    background: #b3b3b3
+    &:hover
+      color: #fff
+      background: #c2c2c2
+  &.red
+    background: $idle-red
+    &:hover
+      @extend %hover-red
+  &.blue
+    background: $idle-blue
+    &:hover
+      @extend %hover-blue
+  &.form-submit
+    min-width: 100%
+  &:disabled
+    color: #6c6c6c
+    background: #ddd
+    &:hover
+      color: #6c6c6c
+      background: #ddd
+      border: 1px solid #6c6c6c
+  &:active
+    background: red
+
+
+.btn-gradient
+  flex: 1 1 auto
+  padding: 10px
+  text-align: center
+  transition: 0.5s
+  background-size: 200% auto
+  color: white
+  box-shadow: 0 0 20px #eee
+  border-radius: 10px
+  &:hover
+    background-position: right top
+    /* change the direction of the change here
+  &.red
+    background-image: linear-gradient(to right, $active-red 0%, $idle-red 51%, $active-red 100%)
+
+.btn-flat
+  border: none
+  background: transparent
+  color: #c2c2c2
+  font-size: 1.2em
+  &.red
+    color: $idle-red
+    &:hover
+      color: $active-red
+  &.blue
+    color: $idle-blue
+    &:hover
+      color: $active-blue
+
+
+@media(min-width: 768px)
+  .btn
+    &.form-submit
+      min-width: 120px
+a
+  &.delete
+    color: $active-red
+    &:hover
+      color: $idle-red

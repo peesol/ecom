@@ -1,0 +1,47 @@
+$width: 200px
+$height: 200px
+
+.thumbnail-wrapper
+  border: 1px solid #eee
+  box-shadow: 1px 1px 3px 0 #f2f2f2
+  display: inline-block
+  position: relative
+  .img-fit
+    width: $width
+    height: $height
+
+.thumbnail-grid
+  display: grid
+  width: 100%
+  justify-items: center
+    grid-gap: 10px
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
+
+@media (min-width: 768px)
+  .thumbnail-grid
+    display: grid
+    width: 100%
+    grid-gap: 10px
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+    justify-items: center
+
+span, i
+  &.top-right, &.top-left, &.bottom-left, &.bottom-right
+    position: absolute
+  &.top-right
+    top: 5px
+    right: 5px
+  &.top-left
+    top: 5px
+    left: 5px
+  &.bottom-left
+    bottom: 7px
+    left: 5px
+  &.bottom-right
+    bottom: 7px
+    right: 5px
+
+.float-right
+  float: right
+.float-left
+  float: left

@@ -1,0 +1,325 @@
+$cont-top-margin: 70px
+
+html
+  font-family: 'Prompt', sans-serif
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+
+body
+  margin: 0
+  background: #49c0f0
+  background: -moz-linear-gradient(top, #49c0f0 0%, #4291d6 100%, #2cafe3 100%)
+  background: -webkit-linear-gradient(top, #49c0f0 0%,#4291d6 100%,#2cafe3 100%)
+  background: linear-gradient(to bottom, #49c0f0 0%,#4291d6 100%,#2cafe3 100%)
+  background-attachment: fixed
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary
+  display: block
+
+audio, canvas, progress, video
+  display: inline-block
+  vertical-align: baseline
+
+audio:not([controls])
+  display: none
+  height: 0
+
+[hidden], template
+  display: none
+
+a
+  cursor: pointer
+  background-color: transparent
+  &:active, &:hover
+    outline: none
+
+abbr[title]
+  border-bottom: 1px dotted
+
+b, strong
+  font-weight: bold
+
+dfn
+  font-style: italic
+
+mark
+  background: #ff0
+  color: #000
+
+small
+  font-size: 80%
+
+sub
+  font-size: 75%
+  line-height: 0
+  position: relative
+  vertical-align: baseline
+
+sup
+  font-size: 75%
+  line-height: 0
+  position: relative
+  vertical-align: baseline
+  top: -0.5em
+
+sub
+  bottom: -0.25em
+
+img
+  border: 0
+
+svg:not(:root)
+  overflow: hidden
+
+figure
+  margin: 1em 40px
+
+hr
+  -webkit-box-sizing: content-box
+  -moz-box-sizing: content-box
+  box-sizing: content-box
+  height: 0
+
+pre
+  overflow: auto
+
+code, kbd, pre, samp
+  font-family: monospace, monospace
+  font-size: 1em
+
+button, input, optgroup, select, textarea
+  color: inherit
+  font: inherit
+  margin: 0
+  outline: none
+
+button
+  overflow: visible
+  text-transform: none
+
+select
+  text-transform: none
+
+button, html input[type="button"]
+  -webkit-appearance: button
+  cursor: pointer
+
+input
+  &[type="reset"], &[type="submit"]
+    -webkit-appearance: button
+    cursor: pointer
+
+button[disabled], html input[disabled]
+  cursor: default
+
+button::-moz-focus-inner
+  border: 0
+  padding: 0
+
+input
+  &::-moz-focus-inner
+    border: 0
+    padding: 0
+  line-height: normal
+  &[type="checkbox"], &[type="radio"]
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    padding: 0
+  &[type="number"]
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button
+      height: auto
+  &[type="search"]
+    -webkit-appearance: textfield
+    -webkit-box-sizing: content-box
+    -moz-box-sizing: content-box
+    box-sizing: content-box
+    &::-webkit-search-cancel-button, &::-webkit-search-decoration
+      -webkit-appearance: none
+
+fieldset
+  border: 1px solid #c0c0c0
+  margin: 0 2px
+  padding: 0.35em 0.625em 0.75em
+
+legend
+  border: 0
+  padding: 0
+
+textarea
+  overflow: auto
+
+optgroup
+  font-weight: bold
+
+table
+  border-collapse: collapse
+  border-spacing: 0
+
+td, th
+  padding: 0
+
+/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css
+@media print
+  *
+    background: transparent !important
+    color: #000 !important
+    -webkit-box-shadow: none !important
+    box-shadow: none !important
+    text-shadow: none !important
+    &:before, &:after
+      background: transparent !important
+      color: #000 !important
+      -webkit-box-shadow: none !important
+      box-shadow: none !important
+      text-shadow: none !important
+  a
+    text-decoration: underline
+    &[href]:after
+      content: " (" attr(href) ")"
+  abbr[title]:after
+    content: " (" attr(title) ")"
+  a
+    &[href^="#"]:after, &[href^="javascript:"]:after
+      content: ""
+  pre, blockquote
+    border: 1px solid #999
+    page-break-inside: avoid
+  thead
+    display: table-header-group
+  tr
+    page-break-inside: avoid
+  img
+    page-break-inside: avoid
+    max-width: 100% !important
+  p, h2, h3
+    orphans: 3
+    widows: 3
+  h2, h3
+    page-break-after: avoid
+  .navbar
+    display: none
+  .btn > .caret, .dropup > .btn > .caret
+    border-top-color: #000 !important
+  .label
+    border: 1px solid #000
+  .table
+    border-collapse: collapse !important
+    td, th
+      background-color: #fff !important
+  .table-bordered
+    th, td
+      border: 1px solid #ddd !important
+
+h1,h2,h3,h4,h5
+  margin: 10px 0
+
+*
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  &:before, &:after
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+
+html
+  font-size: 10px
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+
+body
+  font-size: 14px
+  line-height: 1.42857143
+  color: #333333
+  background-color: #ffffff
+
+input, button, select, textarea
+  font-family: inherit
+  font-size: inherit
+  line-height: inherit
+
+a
+  color: #337ab7
+  text-decoration: none
+  &:hover
+    color: #23527c
+    text-decoration: none
+  &:focus
+    color: #23527c
+    text-decoration: none
+    outline: 5px auto -webkit-focus-ring-color
+    outline-offset: -2px
+
+figure
+  margin: 0
+
+img
+  vertical-align: middle
+
+.img-responsive
+  display: block
+  max-width: 100%
+  height: auto
+
+.img-rounded
+  border-radius: 6px
+
+.img-thumbnail
+  padding: 4px
+  line-height: 1.42857143
+  background-color: #ffffff
+  border: 1px solid #dddddd
+  border-radius: 4px
+  -webkit-transition: all 0.2s ease-in-out
+  -o-transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out
+  display: inline-block
+  max-width: 100%
+  height: auto
+
+.img-circle
+  border-radius: 50%
+
+[role="button"]
+  cursor: pointer
+
+ul, ol
+  margin-top: 0
+  margin-bottom: 10px
+
+ul ul, ol ul, ul ol, ol ol
+  margin-bottom: 0
+
+.list-unstyled
+  padding-left: 0
+  list-style: none
+
+.list-inline
+  padding-left: 0
+  list-style: none
+  margin-left: -5px
+  > li
+    display: inline-block
+    padding-left: 5px
+    padding-right: 5px
+
+.center-block
+  display: block
+  margin-left: auto
+  margin-right: auto
+
+.hide
+  display: none !important
+
+.show
+  display: block !important
+
+.invisible
+  visibility: hidden
+
+.text-hide
+  font: 0/0 a
+  color: transparent
+  text-shadow: none
+  background-color: transparent
+  border: 0

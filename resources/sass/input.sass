@@ -1,0 +1,56 @@
+@import "_variables"
+$border-radius: 7px
+$border-style: 1px solid #c2c2c2
+
+label
+  display: block
+  &.full
+    width: 100%
+    margin-bottom: 6px
+
+.form-group
+  display: block
+  margin-bottom: 15px
+  label
+    font-size: 1.2em
+  input[type=text], select
+    padding: 5px
+    height: 35px
+  .btn
+    height: 35px
+    padding: 0 10px
+  .radio
+    display: inline-block
+    &:nth-child(2n+1)
+      margin-right: 10px
+
+input[type=text], textarea, select
+  font-family: 'Arial', sans-serif !important
+  border-radius: $border-radius
+  border: $border-style
+  transition: all ease 0.2s
+  resize: none
+  &:focus
+    border-color: $active-blue
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1)
+  &.error
+    border-color: $red
+    &:focus
+      border-color: $red
+
+.description-input
+  min-height: 170px
+
+span
+  &.error
+    display: block
+    color: $red
+    width: 100%
+    padding-top: 7px
+    &::before
+      content: "*"
+
+.toggle-form
+  border-radius: $border-radius
+  padding: 10px
+  border: 1px solid $active-blue

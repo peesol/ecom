@@ -1,0 +1,19 @@
+li
+  &.number
+    list-style-type: decimal
+  &.disc
+    list-style-type: disc
+  &.table-like
+    padding: 8px 0px
+    border-bottom: 1px solid #c2c2c2
+    &:first-child
+      border-top: 1px solid #c2c2c2
+  &.dash
+    list-style-type: none
+    &::before
+      content: '- '
+.list
+  h1,h2,h3,h4,h5,p
+    margin: 0 0 5px 0 !important
+  li
+    padding-left: 8px
