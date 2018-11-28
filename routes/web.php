@@ -33,3 +33,4 @@ Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryContr
 
 //Utility
 Route::get('/api/get/category', 'Api\GetterController@getCategory');
+Route::get('/api/get/products', 'Api\GetterController@getProduct');

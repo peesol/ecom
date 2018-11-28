@@ -11,6 +11,8 @@ window.Vue = require('vue');
 import VueProgressBar from 'vue-progressbar'
 import VeeValidate from 'vee-validate';
 
+import number from './misc/number-filter'
+Vue.use(number)
 
 const progressBar = {
   color: '#46ff4a',
@@ -38,6 +40,7 @@ Vue.use(VeeValidate, {
 Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
 Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
+Vue.component('product-show', require('./components/product/ProductShow.vue'));
 
 Vue.component('load-overlay', {
   props: ['bg','show', 'padding'],
@@ -55,17 +58,19 @@ Vue.component('load-overlay', {
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+ import {store} from './store/store'
+ import {router} from './route/router'
 
  window.addEventListener('load', function () {
     const vue = new Vue({
       el: '#app',
-      data() {
-        return {
-          url: window.Data.url,
-          authenticated: window.Data.user.authenticated,
-          loading: false
-        }
+      data: {
+        url: window.Data.url,
+        authenticated: window.Data.user.authenticated,
+        loading: false
       },
+      store,
+      router,
       created() {
         this.$validator.localize(dictionary)
         this.$validator.localize('th')

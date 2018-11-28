@@ -9,17 +9,8 @@
   <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">สต๊อก</button>
   <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">โปรโมชั่น</button>
 </div>
-<div class="panel large round">
-  <div class="thumbnail-grid">
-    @foreach ($products as $product)
-      <div class="thumbnail-wrapper product">
-        <img src="{{ $product->getThumbnail() }}" alt="{{ $product->thumbnail }}">
-        <p class="title">{{ $product->name }}</p>
-        <p class="price">{{ number_format($product->price) }}</p>
-        <p class="category">{{ $product->category->name }} / {{ $product->subcategory->name }}</p>
-      </div>
-    @endforeach
-  </div>
-
+<div class="panel large round relative">
+  <load-overlay bg="white-bg" :show="$root.loading"></load-overlay>
+  <product-show></product-show>
 </div>
 @endsection

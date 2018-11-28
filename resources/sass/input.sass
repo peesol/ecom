@@ -13,7 +13,7 @@ label
   margin-bottom: 15px
   label
     font-size: 1.2em
-  input[type=text], select
+  input[type=text], input[type=number], select
     padding: 5px
     height: 35px
   .btn
@@ -24,7 +24,7 @@ label
     &:nth-child(2n+1)
       margin-right: 10px
 
-input[type=text], textarea, select
+input[type=text], input[type=number], textarea, select
   font-family: 'Arial', sans-serif !important
   border-radius: $border-radius
   border: $border-style
@@ -54,3 +54,25 @@ span
   border-radius: $border-radius
   padding: 10px
   border: 1px solid $active-blue
+
+input[type=checkbox]
+  cursor: pointer
+  &.regular
+    -webkit-appearance: none
+    background: #eee
+    padding: 10px
+    border: 1px solid #c2c2c2
+    border-radius: 5px
+    display: inline-block
+    position: relative
+    &:checked
+      background-color: #fff
+      &::after
+        font-family: "Font Awesome 5 Free" !important
+        content: "\f00c"
+        font-size: 17px
+        font-weight: 600
+        position: absolute
+        top: -1px
+        left: 1px
+        color: #29ad2c

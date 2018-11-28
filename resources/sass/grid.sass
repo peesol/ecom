@@ -1,3 +1,4 @@
+$m-width: 160px
 $width: 200px
 $height: 200px
 
@@ -6,14 +7,20 @@ $height: 200px
   box-shadow: 1px 1px 3px 0 #f2f2f2
   display: inline-block
   position: relative
+  img
+    width: 100%
   &.fit
-    width: $width
+    width: $m-width
     height: $height
   &.product
-    width: 200px
+    width: $m-width
     height: 280px
+  &.thumbnail-img-wrapper
+    position: relative
+    width: $m-width
+    height: 160px
   p
-    margin: 5px
+    margin: 5px 5px 0
     &.title
       text-overflow: ellipsis
       overflow: hidden
@@ -23,10 +30,21 @@ $height: 200px
   display: grid
   width: 100%
   justify-items: center
-    grid-gap: 10px
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
+  grid-gap: 10px
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
 
 @media (min-width: 768px)
+  .thumbnail-wrapper
+    &.fit
+      width: $width
+      height: $height
+    &.product
+      width: 200px
+      height: 280px
+    &.thumbnail-img-wrapper
+      width: 200px
+      height: 200px
+
   .thumbnail-grid
     display: grid
     width: 100%
