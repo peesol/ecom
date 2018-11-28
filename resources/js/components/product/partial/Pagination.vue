@@ -1,37 +1,33 @@
 <template>
   <div class="pagination">
-    <div class="first" :class="{'transparent-el' : meta[0].current_page < 1}" v-show="meta[0].total_pages > 1">
-      <a @click.prevent="switched(0)" v-show="meta[0].current_page > 0">
-        &laquo;&nbsp;{{ $trans.translation.first_page }}
-      </a>
+    <div class="first" :class="{'hidden' : meta.current_page === 1}" v-show="meta.last_page > 1">
+      <a class="font-large" @click.prevent="switched(0)" v-show="meta.current_page > 0">&laquo;&nbsp;หน้าแรก</a>
     </div>
 
     <div class="pages">
 
-      <div class="arrow" :class="{'transparent-el' : meta[0].current_page < 1}">
-        <a v-show="meta[0].current_page > 0" @click.prevent="switched(meta[0].current_page - 1)">
-            &laquo;
+      <div class="arrow" :class="{'disabled' : meta.current_page === 1}">
+        <a v-show="meta.current_page > 1" @click.prevent="switched(meta.current_page - 1)">
+          <i class="fas fa-caret-left"></i>
         </a>
       </div>
 
-      <div class="page" v-for="page in meta[0].total_pages" :class="{'active' : meta[0].current_page == page - 1}" v-show="Math.abs(page - meta[0].current_page - 1) < 3">
-        <a @click.prevent="switched(page - 1)">
+      <div class="page" v-for="page in meta.last_page" :class="{'active' : meta.current_page == page}" v-show="Math.abs(page - meta.current_page) < 3">
+        <a @click.prevent="switched(page)">
           <span>{{ page }}</span>
         </a>
       </div>
 
-      <div class="arrow" :class="{'transparent-el' : meta[0].current_page === meta[0].total_pages - 1}">
-        <a v-show="meta[0].current_page < meta[0].total_pages - 1" @click.prevent="switched(meta[0].current_page + 1)">
-          &raquo;
+      <div class="arrow" :class="{'disabled' : meta.current_page === meta.last_page}">
+        <a v-show="meta.current_page < meta.last_page" @click.prevent="switched(meta.current_page + 1)">
+          <i class="fas fa-caret-right"></i>
         </a>
       </div>
 
     </div>
 
-    <div class="last" :class="{'transparent-el' : meta[0].current_page === meta[0].total_pages - 1}">
-      <a v-show="meta[0].current_page < meta[0].total_pages - 1" @click.prevent="switched(meta[0].total_pages - 1)">
-        {{ $trans.translation.last_page }}&nbsp;&raquo;
-      </a>
+    <div class="last" :class="{'hidden' : meta.current_page === meta.last_page}">
+      <a class="font-large" v-show="meta.current_page < meta.last_page" @click.prevent="switched(meta.last_page)">หน้าสุดท้าย&nbsp;&raquo;</a>
     </div>
 
   </div>
@@ -43,17 +39,17 @@ export default {
     'meta'
   ],
   methods: {
-    switched(page, query = this.$route.query) {
+    switched(page) {
       if (this.pageIsOutOfBounds(page)) {
         return alert('out of bound');
       }
-        this.$router.replace({
-          query: Object.assign({}, this.$route.query, {page})
-        })
+      if (page !== this.meta.current_page) {
+        this.$emit('switched', page)
+      }
     },
 
     pageIsOutOfBounds(page) {
-      return page < 0 || page > this.meta[0].total_pages
+      return page < 0 || page > this.meta.last_page
     }
   }
 }
