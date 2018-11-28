@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Jobs\Images;
+namespace App\Jobs\Images;
 
 use Storage;
 use Illuminate\Bus\Queueable;

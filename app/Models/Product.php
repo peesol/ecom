@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filters\Product\ProductFilters;
 
 class Product extends Model
 {
@@ -36,5 +38,9 @@ class Product extends Model
   public function getThumbnail()
   {
     return config('app.url') . '/file/product/thumbnail/'. $this->thumbnail ;
+  }
+  public function scopeFilter(Builder $builder, Request $request, array $filters = [])
+  {
+    return (new ProductFilters(request()))->add($filters)->filter($builder);
   }
 }

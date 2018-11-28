@@ -1,6 +1,6 @@
 <?php
 
-namespace Closet\Jobs\Product;
+namespace App\Jobs\Product;
 
 use Image;
 use Storage;

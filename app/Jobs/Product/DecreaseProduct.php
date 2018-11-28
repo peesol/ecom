@@ -1,8 +1,8 @@
 <?php
 
-namespace Closet\Jobs\Product;
+namespace App\Jobs\Product;
 
-use Closet\Models\Product;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

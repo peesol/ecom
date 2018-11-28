@@ -1,11 +1,11 @@
 <?php
 
-namespace Closet\Jobs\Product;
+namespace App\Jobs\Product;
 
 use Image;
 use File;
 use Storage;
-use Closet\Models\ProductImage;
+use App\Models\ProductImage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
