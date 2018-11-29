@@ -19,6 +19,7 @@ class ProductFilters extends FiltersAbstract
      * @var array
      */
     protected $filters = [
+      'name' => NameFilter::class,
       'c' => CategoryFilter::class,
       'sub' => SubcategoryFilter::class,
       'type' => TypeFilter::class,

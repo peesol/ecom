@@ -16,9 +16,15 @@ class ProductController extends Controller
     $products = Product::all();
     return view('admin.product.index', ['products' => $products]);
   }
+
   public function uploadPage()
   {
     return view('admin.product.upload');
+  }
+
+  public function editPage(Product $product)
+  {
+    return view('admin.product.edit', ['product' => $product]);
   }
 
   public function create(Request $request)
@@ -53,6 +59,13 @@ class ProductController extends Controller
       ]);
     }
 
-    return response()->json($request->file('image'));
+    return ;
+  }
+
+  public function delete(Request $request, Product $product)
+  {
+    $product->delete();
+
+    return ;
   }
 }

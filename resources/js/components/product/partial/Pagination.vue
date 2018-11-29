@@ -1,6 +1,6 @@
 <template>
   <div class="pagination">
-    <div class="first" :class="{'hidden' : meta.current_page === 1}" v-show="meta.last_page > 1">
+    <div class="first" :class="{'hidden' : meta.current_page === 1}">
       <a class="font-large" @click.prevent="switched(0)" v-show="meta.current_page > 0">&laquo;&nbsp;หน้าแรก</a>
     </div>
 

@@ -38,6 +38,12 @@ button:disabled
     background: $idle-blue
     &:hover
       @extend %hover-blue
+  &.teal
+    background: $teal
+    &:hover
+      border-color: $teal
+      color: $teal
+      background: #fff
   &.form-submit
     min-width: 100%
   &:disabled
@@ -79,7 +85,17 @@ button:disabled
     color: $idle-blue
     &:hover
       color: $active-blue
+  &.active
+    color: $idle-blue
 
+.btn-icon
+  border: none
+  background: transparent
+  padding: 8px 10px
+  font-size: 1.5em
+  color: #c2c2c2
+  &.active, &:hover
+    color: $idle-blue
 
 @media(min-width: 768px)
   .btn

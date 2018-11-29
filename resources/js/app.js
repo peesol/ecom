@@ -67,6 +67,7 @@ Vue.component('load-overlay', {
       data: {
         url: window.Data.url,
         authenticated: window.Data.user.authenticated,
+        role: window.Data.user.role,
         loading: false
       },
       store,

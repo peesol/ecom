@@ -23,7 +23,9 @@ Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 //Products
 Route::get('/admin/product', 'Admin\Product\ProductController@index')->name('adminProduct');
 Route::get('/admin/product/upload', 'Admin\Product\ProductController@uploadPage');
+Route::get('/admin/product/edit/{product}', 'Admin\Product\ProductController@editPage');
 Route::post('/admin/product/create', 'Admin\Product\ProductController@create');
+Route::delete('/admin/product/delete/{product}', 'Admin\Product\ProductController@delete');
 
 Route::get('/admin/category', 'Admin\Category\CategoryController@index');
 Route::post('/admin/category/add', 'Admin\Category\CategoryController@create');

@@ -36,6 +36,7 @@
       locale: '{{ App::getLocale() }}',
       user: {
         authenticated: {{ Auth::check() ? 'true' : 'false' }},
+        role: 'admin',
       }
     };
     </script>

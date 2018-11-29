@@ -22525,6 +22525,7 @@ window.addEventListener('load', function () {
     data: {
       url: window.Data.url,
       authenticated: window.Data.user.authenticated,
+      role: window.Data.user.role,
       loading: false
     },
     store: __WEBPACK_IMPORTED_MODULE_4__store_store__["a" /* store */],
@@ -57916,6 +57917,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -57930,13 +57940,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       meta: [],
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       query: {
+        name: null,
         category: null,
         subcategory: null,
         maxPrice: null,
         minPrice: null,
         discount: null,
         page: null
-      }
+      },
+      view: 'grid'
     };
   },
 
@@ -57945,6 +57957,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       _.mapValues(this.query, function (val) {
         val = null;
       });
+      this.query.name = params.name;
       this.query.category = params.category;
       this.query.subcategory = params.subcategory;
       this.query.maxPrice = params.max;
@@ -57957,6 +57970,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.query.page = page;
       this.getProduct();
     },
+    changeView: function changeView(view) {
+      this.view = view;
+    },
     getProduct: function getProduct() {
       var _this = this;
 
@@ -57964,6 +57980,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.products = [];
       axios.get(this.$root.url + '/api/get/products', {
         params: {
+          name: this.query.name,
           c: this.query.category,
           sub: this.query.subcategory,
           max: this.query.maxPrice,
@@ -57979,6 +57996,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$root.loading = false;
         toastr.error('เกิดข้อผิดพลาด');
       });
+    },
+    remove: function remove(index, uid) {
+      var _this2 = this;
+
+      if (confirm('คุณแน่ใจหรือไม่ว่าต้องการจะลบสินค้านี้?')) {
+        axios.delete(this.$root.url + '/admin/product/delete/' + uid).then(function (response) {
+          toastr.success('ลบสินค้าแล้ว');
+          _this2.products.splice(index, 1);
+        }, function (response) {
+          toastr.error('เกิดข้อผิดพลาด');
+        });
+      }
     }
   },
   created: function created() {
@@ -58082,6 +58111,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -58089,16 +58131,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       categories: [],
       subcategories: [],
       products: [],
+      name: null,
       min: null,
       max: null,
       formVisible: false,
       breadcrumb: {},
       selected: {
         discount: false
-      }
+      },
+      view: 'grid'
     };
   },
 
+  computed: {
+    activated: function activated() {
+      if (this.selected.c || this.min || this.max || this.selected.discount || this.name) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
   methods: {
     getCategory: function getCategory() {
       var _this = this;
@@ -58117,8 +58170,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         subcategory: this.selected.sub,
         discount: this.selected.discount,
         min: this.min,
-        max: this.max
+        max: this.max,
+        name: this.name
       });
+    },
+    clearFilter: function clearFilter() {
+      this.name = null;
+      this.min = null;
+      this.max = null;
+      this.selected.discount = false;
+      this.selected.c = null;
+      this.selected.sub = null;
     },
     selectCategory: function selectCategory(category) {
       this.subcategories = category.subcategory;
@@ -58169,7 +58231,29 @@ var render = function() {
             }
           },
           [_vm._v("ตัวกรอง "), _c("i", { staticClass: "fas fa-filter" })]
-        )
+        ),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "btn-icon float-right fas fa-th-list",
+          class: { active: _vm.view == "list" },
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              _vm.$emit("changeView", "list"), (_vm.view = "list")
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "btn-icon float-right fas fa-th-large",
+          class: { active: _vm.view == "grid" },
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              _vm.$emit("changeView", "grid"), (_vm.view = "grid")
+            }
+          }
+        })
       ]),
       _vm._v(" "),
       _c("transition", { attrs: { name: "fade" } }, [
@@ -58187,57 +58271,87 @@ var render = function() {
             staticClass: "filter toggle-form margin-15-top half-width-res"
           },
           [
-            _c(
-              "div",
-              { staticClass: "category" },
-              _vm._l(_vm.categories, function(category) {
-                return _c(
-                  "li",
-                  {
-                    class: { active: category.id == _vm.selected.c },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.selectCategory(category)
-                      }
-                    }
-                  },
-                  [_vm._v(_vm._s(category.name))]
-                )
-              })
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { staticClass: "full" }, [_vm._v("ชื่อสินค้า")]),
+              _vm._v(" "),
+              _c("input", {
                 directives: [
                   {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.selected.c && _vm.subcategories.length,
-                    expression: "selected.c && subcategories.length"
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
                   }
                 ],
-                staticClass: "category"
-              },
-              _vm._l(_vm.subcategories, function(subcategory) {
-                return _c(
-                  "li",
-                  {
-                    class: { active: subcategory.id == _vm.selected.sub },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.selectSubcategory(subcategory)
-                      }
+                staticClass: "half-width-res",
+                attrs: { type: "text" },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  },
-                  [_vm._v(_vm._s(subcategory.name))]
-                )
+                    _vm.name = $event.target.value
+                  }
+                }
               })
-            ),
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group margin-15-top" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { staticClass: "full" }, [_vm._v("หมวดหมู่")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "category" },
+                _vm._l(_vm.categories, function(category) {
+                  return _c(
+                    "li",
+                    {
+                      class: { active: category.id == _vm.selected.c },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.selectCategory(category)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(category.name))]
+                  )
+                })
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.selected.c && _vm.subcategories.length,
+                      expression: "selected.c && subcategories.length"
+                    }
+                  ],
+                  staticClass: "category"
+                },
+                _vm._l(_vm.subcategories, function(subcategory) {
+                  return _c(
+                    "li",
+                    {
+                      class: { active: subcategory.id == _vm.selected.sub },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.selectSubcategory(subcategory)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(subcategory.name))]
+                  )
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
               _c("label", { staticClass: "full" }, [_vm._v("ราคา")]),
               _vm._v(" "),
               _c("input", {
@@ -58266,7 +58380,7 @@ var render = function() {
                   }
                 }
               }),
-              _vm._v(" - \r\n      "),
+              _vm._v(" - \n        "),
               _c("input", {
                 directives: [
                   {
@@ -58348,126 +58462,153 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("transition", { attrs: { name: "fade" } }, [
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.selected.c ||
-                        _vm.min ||
-                        _vm.max ||
-                        _vm.selected.discount,
-                      expression:
-                        "selected.c || min || max || selected.discount"
-                    }
-                  ],
-                  staticClass: "breadcrumb"
-                },
-                [
-                  _c("p", { staticClass: "no-margin" }, [
-                    _vm._v("คุณกำลังค้นหา")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.selected.c,
-                          expression: "selected.c"
-                        }
-                      ]
-                    },
-                    [
-                      _c("font", { staticClass: "font-bold" }, [
-                        _vm._v("หมวดหมู่")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", [_vm._v(_vm._s(_vm.breadcrumb.category))]),
-                      _vm._v(" "),
-                      _c("span", [_vm._v(_vm._s(_vm.breadcrumb.subcategory))])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.min,
-                          expression: "min"
-                        }
-                      ]
-                    },
-                    [
-                      _vm._v(
-                        "ราคาต่ำสุด " +
-                          _vm._s(_vm.$number.currency(_vm.min)) +
-                          " "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.max,
-                          expression: "max"
-                        }
-                      ]
-                    },
-                    [
-                      _vm._v(
-                        "ราคาสูงสุด " + _vm._s(_vm.$number.currency(_vm.max))
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.selected.discount,
-                          expression: "selected.discount"
-                        }
-                      ],
-                      staticClass: "font-green"
-                    },
-                    [_vm._v("สินค้าลดราคาเท่านั้น")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-left-res margin-15-top" }, [
-                    _c(
-                      "button",
+              _c("div", { staticClass: "breadcrumb" }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
                       {
-                        staticClass: "btn blue form-submit",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            _vm.applyFilter()
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.activated,
+                        expression: "activated"
+                      }
+                    ],
+                    staticClass: "flex column"
+                  },
+                  [
+                    _c("p", { staticClass: "no-margin" }, [
+                      _vm._v("คุณกำลังค้นหา")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.name,
+                            expression: "name"
                           }
-                        }
+                        ]
                       },
-                      [_vm._v("ค้นหา")]
+                      [
+                        _c("strong", [_vm._v("ชื่อสินค้า")]),
+                        _vm._v(" " + _vm._s(_vm.name))
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.selected.c,
+                            expression: "selected.c"
+                          }
+                        ]
+                      },
+                      [
+                        _c("strong", [_vm._v("หมวดหมู่")]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.breadcrumb.category))]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(_vm.breadcrumb.subcategory))])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.min,
+                            expression: "min"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "ราคาต่ำสุด " +
+                            _vm._s(_vm.$number.currency(_vm.min)) +
+                            " "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.max,
+                            expression: "max"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "ราคาสูงสุด " + _vm._s(_vm.$number.currency(_vm.max))
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.selected.discount,
+                            expression: "selected.discount"
+                          }
+                        ],
+                        staticClass: "font-green"
+                      },
+                      [_vm._v("สินค้าลดราคาเท่านั้น")]
                     )
-                  ])
-                ]
-              )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-left-res margin-15-top" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn teal form-submit margin-15-bottom-res",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.clearFilter()
+                        }
+                      }
+                    },
+                    [_vm._v("ล้างการค้นหา")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn blue form-submit",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.applyFilter()
+                        }
+                      }
+                    },
+                    [_vm._v("ค้นหา")]
+                  )
+                ])
+              ])
             ])
           ],
           1
@@ -58604,18 +58745,7 @@ var render = function() {
   return _c("div", { staticClass: "pagination" }, [
     _c(
       "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.meta.last_page > 1,
-            expression: "meta.last_page > 1"
-          }
-        ],
-        staticClass: "first",
-        class: { hidden: _vm.meta.current_page === 1 }
-      },
+      { staticClass: "first", class: { hidden: _vm.meta.current_page === 1 } },
       [
         _c(
           "a",
@@ -58793,40 +58923,146 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("search-filter", { on: { search: _vm.addQueryParam } }),
+      _c("p", [
+        _vm._v(
+          "สินค้า " +
+            _vm._s(_vm.meta.total) +
+            " รายการ (" +
+            _vm._s(_vm.meta.last_page) +
+            " หน้า)"
+        )
+      ]),
+      _vm._v(" "),
+      _c("search-filter", {
+        on: { search: _vm.addQueryParam, changeView: _vm.changeView }
+      }),
       _vm._v(" "),
       _c("pagination", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.products.length,
+            expression: "products.length"
+          }
+        ],
         attrs: { meta: _vm.meta },
         on: { switched: _vm.changePage }
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "thumbnail-grid padding-15-v" },
-        _vm._l(_vm.products, function(item) {
-          return _c("div", { staticClass: "thumbnail-wrapper product" }, [
-            _c("div", { staticClass: "thumbnail-img-wrapper" }, [
-              _c("img", {
-                attrs: { src: _vm.imgUrl + item.thumbnail, alt: "" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "title" }, [_vm._v(_vm._s(item.name))]),
-            _vm._v(" "),
-            _c("p", { staticClass: "price" }, [
-              _vm._v(_vm._s(_vm.$number.currency(item.price)))
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "category" }, [
-              _vm._v(
-                _vm._s(item.category_id) + "," + _vm._s(item.subcategory_id)
+      _vm.products.length
+        ? _c(
+            "div",
+            {
+              staticClass: "padding-15-v",
+              class: {
+                "thumbnail-grid": _vm.view == "grid",
+                "thumbnail-row": _vm.view == "list"
+              }
+            },
+            _vm._l(_vm.products, function(item) {
+              return _c(
+                "div",
+                {
+                  staticClass: "thumbnail-wrapper",
+                  class: {
+                    product: _vm.$root.role == "guest",
+                    "admin-product": _vm.$root.role == "admin"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "thumbnail-img-wrapper" }, [
+                    _c("img", {
+                      attrs: {
+                        src: _vm.imgUrl + item.thumbnail,
+                        alt: item.thumbnail
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "details" }, [
+                    _c("p", { staticClass: "title" }, [
+                      _vm._v(_vm._s(item.name))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "price" }, [
+                      _vm._v(_vm._s(_vm.$number.currency(item.price)) + " บาท")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "category" }, [
+                      _vm._v(
+                        _vm._s(item.category.name) +
+                          " / " +
+                          _vm._s(item.subcategory.name)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.$root.role == "admin",
+                            expression: "$root.role == 'admin'"
+                          }
+                        ],
+                        class: {
+                          "text-right": _vm.view == "grid",
+                          "text-left": _vm.view == "list"
+                        }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn-flat blue margin-10-right",
+                            attrs: {
+                              href:
+                                _vm.$root.url +
+                                "/admin/product/edit/" +
+                                item.uid,
+                              type: "button"
+                            }
+                          },
+                          [_vm._v("แก้ไข")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn-flat red margin-10-right",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.remove(_vm.index, item.uid)
+                              }
+                            }
+                          },
+                          [_vm._v("ลบ")]
+                        )
+                      ]
+                    )
+                  ])
+                ]
               )
-            ])
-          ])
-        })
-      ),
+            })
+          )
+        : _c("div", { staticClass: "text-center padding-10-v" }, [
+            _c("h1", [_vm._v("ไม่มีสินค้า")])
+          ]),
       _vm._v(" "),
       _c("pagination", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.products.length,
+            expression: "products.length"
+          }
+        ],
         attrs: { meta: _vm.meta },
         on: { switched: _vm.changePage }
       })
