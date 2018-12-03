@@ -13,7 +13,7 @@
         <p class="price">{{ $number.currency(item.price) }}&nbsp;บาท</p>
         <p class="category">{{ item.category.name }}&nbsp;/&nbsp;{{ item.subcategory.name }}</p>
         <div :class="{'text-right' : view == 'grid', 'text-left' : view == 'list'}" v-show="$root.role == 'admin'">
-          <a :href="$root.url + '/admin/product/edit/' + item.uid" class="btn-flat blue margin-10-right" type="button">แก้ไข</a>
+          <a :href="$root.url + '/admin/product/' + item.uid + '/edit'" class="btn-flat blue margin-10-right" type="button">แก้ไข</a>
           <a @click.prevent="remove(index, item.uid)" class="btn-flat red margin-10-right" type="button">ลบ</a>
         </div>
       </div>

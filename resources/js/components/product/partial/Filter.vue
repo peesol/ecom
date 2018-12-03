@@ -44,7 +44,7 @@
           <span class="font-green" v-show="selected.discount">สินค้าลดราคาเท่านั้น</span>
         </div>
         <div class="text-left-res margin-15-top">
-          <button class="btn teal form-submit margin-15-bottom-res" type="button" @click.prevent="clearFilter()">ล้างการค้นหา</button>
+          <button class="btn teal form-submit margin-15-bottom-mobile" type="button" @click.prevent="clearFilter()">ล้างการค้นหา</button>
           <button class="btn blue form-submit" type="button" @click="applyFilter()">ค้นหา</button>
         </div>
       </div>

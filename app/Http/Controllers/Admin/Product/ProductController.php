@@ -22,11 +22,6 @@ class ProductController extends Controller
     return view('admin.product.upload');
   }
 
-  public function editPage(Product $product)
-  {
-    return view('admin.product.edit', ['product' => $product]);
-  }
-
   public function create(Request $request)
   {
     $subcategory_id = $request->subcategory_id == 'null' ? '1' : $request->subcategory_id;
@@ -41,18 +36,36 @@ class ProductController extends Controller
       'description' => $request->description,
       'visibility' => 'public',
       'thumbnail' => $thumbnail . '.jpg',
+      'choice' => json_encode([
+        $request->choices
+      ])
     ]);
 
     $images =  $request->file('image');
     if ($images[0]) {
-      $img = Image::make($images[0])->fit(200)->encode('jpg');
-      Storage::disk('public')->put('/product/thumbnail/' . $thumbnail . '.jpg', $img->__toString());
+      $fileName = uniqid('p_thumb');
+      //Crop image
+      $background = Image::canvas(200, 200, '#ffffff');
+      $img = Image::make($images[0])->encode('jpg', 10)->resize(200, 200, function ($c) {
+          $c->upsize();
+          $c->aspectRatio();
+      });
+      $background->insert($img, 'center');
+      $img = $background->stream();
+      Storage::disk('public')->put('/product/thumbnail/' . $fileName . '.jpg', $img->__toString());
     }
 
     foreach ($images as $image) {
       $photo = uniqid('p_img_');
-      $img = Image::make($image)->fit(500)->encode('jpg');
-      Storage::disk('public')->put('product/photo/' . $photo . '.jpg', $img->__toString());
+      //Crop image
+      $background = Image::canvas(500, 500, '#ffffff');
+      $img = Image::make($image)->encode('jpg')->resize(500, 500, function ($c) {
+          $c->aspectRatio();
+          $c->upsize();
+      });
+      $background->insert($img, 'center');
+      $img = $background->stream();
+      Storage::disk('public')->put('/product/photo/' . $photo . '.jpg', $img->__toString());
       ProductImage::create([
         'product_id' => $created->id,
         'filename' => $photo . '.jpg',

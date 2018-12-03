@@ -53,7 +53,7 @@
         </div>
         <div class="full-width padding-10-v" v-show="choices.length">
           <p>ตัวเลือกของสินค้านี้</p>
-          <li class="number table-like" v-for="(choice, index) in choices">{{ choice }}&nbsp;<a class="float-right delete" @click.prevent="removeChoice(index)"><i class="fas fa-trash-alt font-large"></i></a></li>
+          <li class="number table-like" v-for="(choice, index) in choices">{{ choice.name }}&nbsp;<a class="float-right delete" @click.prevent="removeChoice(index)"><i class="fas fa-trash-alt font-large"></i></a></li>
         </div>
       </div>
 
@@ -100,13 +100,11 @@ export default {
       this.subcategory = []
     },
     addChoice() {
-      this.choices.push(this.choiceInput)
+      this.choices.push({name: this.choiceInput})
       this.choiceInput = null
     },
     removeChoice(index) {
-      if (confirm('คุณแน่ใจหรือไม่ว่าจะลบ?')) {
-        this.choices.splice(index, 1)
-      }
+      this.choices.splice(index, 1)
     },
     initDropzone: function() {
       self = this;
@@ -144,6 +142,7 @@ export default {
             formData.append("description", self.description);
             formData.append("category_id", self.category.id);
             formData.append("subcategory_id", self.subcategory.id);
+            formData.append("choices", self.choices);
           },
           processing: function() {
             self.$Progress.start();

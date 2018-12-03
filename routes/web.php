@@ -20,19 +20,47 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 
-//Products
+/*
+|--------------------------------------------------------------------------
+| Product
+|--------------------------------------------------------------------------
+*/
 Route::get('/admin/product', 'Admin\Product\ProductController@index')->name('adminProduct');
 Route::get('/admin/product/upload', 'Admin\Product\ProductController@uploadPage');
-Route::get('/admin/product/edit/{product}', 'Admin\Product\ProductController@editPage');
 Route::post('/admin/product/create', 'Admin\Product\ProductController@create');
 Route::delete('/admin/product/delete/{product}', 'Admin\Product\ProductController@delete');
-
+/*
+|--------------------------------------------------------------------------
+| Photo
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/product/{product}/edit', 'Admin\Product\EditController@index');
+Route::put('/admin/product/{product}/update', 'Admin\Product\EditController@update');
+Route::get('/admin/product/{product}/get_photo', 'Admin\Product\PhotoController@get');
+Route::post('/admin/product/{product}/upload_photo', 'Admin\Product\PhotoController@upload');
+Route::delete('/admin/product/delete_photo/{id}', 'Admin\Product\PhotoController@delete');
+/*
+|--------------------------------------------------------------------------
+| Product Choice
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/product/{product}/get_choice', 'Admin\Product\ChoiceController@get');
+Route::put('/admin/product/{product}/add_choice', 'Admin\Product\ChoiceController@create');
+Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceController@delete');
+/*
+|--------------------------------------------------------------------------
+| Category
+|--------------------------------------------------------------------------
+*/
 Route::get('/admin/category', 'Admin\Category\CategoryController@index');
 Route::post('/admin/category/add', 'Admin\Category\CategoryController@create');
 Route::put('/admin/category/update', 'Admin\Category\CategoryController@update');
 Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryController@delete');
 
-
-//Utility
+/*
+|--------------------------------------------------------------------------
+| Utilities
+|--------------------------------------------------------------------------
+*/
 Route::get('/api/get/category', 'Api\GetterController@getCategory');
 Route::get('/api/get/products', 'Api\GetterController@getProduct');

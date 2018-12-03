@@ -14,11 +14,17 @@ class Product extends Model
     'category_id',
     'subcategory_id',
     'price',
+    'choice',
     'discount_price',
     'description',
     'visibility',
     'thumbnail',
   ];
+
+  protected $casts = [
+    'choice' => 'array'
+  ];
+
   public function category()
   {
     return $this->belongsTo(Category::class);
@@ -33,7 +39,14 @@ class Product extends Model
   }
   public function getImage()
   {
-    return config('app.url') . 'app/public/product/photo/' . $this->Images->select('filename')->get();
+    $data = [];
+    foreach ($this->Images()->get() as $image) {
+      $data[] = [
+        'id' => $image->id,
+        'filename' => config('app.url') . '/file/product/photo/' . $image->filename
+      ];
+    }
+    return $data;
   }
   public function getThumbnail()
   {

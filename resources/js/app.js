@@ -41,6 +41,9 @@ Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
 Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
 Vue.component('product-show', require('./components/product/ProductShow.vue'));
+Vue.component('product-edit', require('./components/product/ProductEdit.vue'));
+Vue.component('product-photo', require('./components/product/ProductPhoto.vue'));
+Vue.component('product-choice', require('./components/product/ProductChoice.vue'));
 
 Vue.component('load-overlay', {
   props: ['bg','show', 'padding'],

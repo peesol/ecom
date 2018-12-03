@@ -1,4 +1,5 @@
-$m-width: 160px
+$m-width: 200px
+$m-height: 200px
 $width: 200px
 $height: 200px
 
@@ -7,7 +8,7 @@ $height: 200px
   width: 100%
   justify-items: center
   grid-gap: 10px
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
+  grid-template-columns: repeat(auto-fill, minmax($m-width, 1fr))
   .thumbnail-wrapper
     border: 1px solid #eee
     box-shadow: 1px 1px 3px 0 #f2f2f2
@@ -15,15 +16,18 @@ $height: 200px
     position: relative
     img
       width: 100%
+      min-height: $m-height
+      object-fit: contain
     &.fit
       width: $m-width
-      height: $height
     &.product
       width: $m-width
       height: 240px
     &.admin-product
       width: $m-width
       height: 265px
+      img
+        border-bottom: 1px solid #eee
     &.thumbnail-img-wrapper
       position: relative
       width: $m-width
@@ -61,7 +65,7 @@ $height: 200px
     display: grid
     width: 100%
     grid-gap: 10px
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax($width, 1fr))
     justify-items: center
     .thumbnail-wrapper
       &.fit
