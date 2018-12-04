@@ -49,6 +49,14 @@ Route::put('/admin/product/{product}/add_choice', 'Admin\Product\ChoiceControlle
 Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceController@delete');
 /*
 |--------------------------------------------------------------------------
+| Prommotions
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/promotions', 'Admin\Promotion\PromotionController@index');
+Route::put('/admin/promotions/discount/{product}/apply', 'Admin\Promotion\PromotionController@applyDiscount');
+Route::put('/admin/promotions/discount/{product}/cancle', 'Admin\Promotion\PromotionController@cancleDiscount');
+/*
+|--------------------------------------------------------------------------
 | Category
 |--------------------------------------------------------------------------
 */
@@ -63,4 +71,5 @@ Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryContr
 |--------------------------------------------------------------------------
 */
 Route::get('/api/get/category', 'Api\GetterController@getCategory');
-Route::get('/api/get/products', 'Api\GetterController@getProduct');
+Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
+Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');

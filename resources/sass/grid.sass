@@ -15,23 +15,24 @@ $height: 200px
     display: inline-block
     position: relative
     img
-      width: 100%
+      min-width: 100%
       min-height: $m-height
       object-fit: contain
     &.fit
-      width: $m-width
+      width: $width
+      height: $height
     &.product
-      width: $m-width
-      height: 240px
+      width: $width
+      height: 280px
     &.admin-product
-      width: $m-width
-      height: 265px
+      width: $width
+      height: 305px
       img
         border-bottom: 1px solid #eee
     &.thumbnail-img-wrapper
       position: relative
-      width: $m-width
-      height: 160px
+      width: $width
+      height: 200px
     p
       margin: 5px 5px 0
       &.title
@@ -52,11 +53,14 @@ $height: 200px
     img
       margin-right: 8px
       width: 50px
+      max-width: 50px
       height: 50px
+      max-height: 50px
     .details
       display: flex
       flex-direction: column
       p
+        word-break: break-all
         margin: 0
 
 
@@ -67,25 +71,14 @@ $height: 200px
     grid-gap: 10px
     grid-template-columns: repeat(auto-fill, minmax($width, 1fr))
     justify-items: center
-    .thumbnail-wrapper
-      &.fit
-        width: $width
-        height: $height
-      &.product
-        width: 200px
-        height: 280px
-      &.admin-product
-        width: 200px
-        height: 305px
-      &.thumbnail-img-wrapper
-        width: 200px
-        height: 200px
 
   .thumbnail-row
     .thumbnail-wrapper
       img
         width: 80px
+        max-width: 80px
         height: 80px
+        max-height: 80px
 
 span, i
   &.top-right, &.top-left, &.bottom-left, &.bottom-right

@@ -44,6 +44,8 @@ Vue.component('product-show', require('./components/product/ProductShow.vue'));
 Vue.component('product-edit', require('./components/product/ProductEdit.vue'));
 Vue.component('product-photo', require('./components/product/ProductPhoto.vue'));
 Vue.component('product-choice', require('./components/product/ProductChoice.vue'));
+Vue.component('product-discount', require('./components/promotion/ProductDiscount.vue'));
+Vue.component('modal', require('./components/Modal.vue'));
 
 Vue.component('load-overlay', {
   props: ['bg','show', 'padding'],

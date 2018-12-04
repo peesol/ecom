@@ -2,8 +2,8 @@
 <div>
   <div>
     <button class="btn blue" @click.prevent="formVisible = !formVisible">ตัวกรอง&nbsp;<i class="fas fa-filter"></i></button>
-    <button class="btn-icon float-right fas fa-th-list" :class="{'active' : view == 'list'}" type="button" @click="$emit('changeView', 'list'), view = 'list'"></button>
-    <button class="btn-icon float-right fas fa-th-large" :class="{'active' : view == 'grid'}" type="button" @click="$emit('changeView', 'grid'), view = 'grid'"></button>
+    <button v-show="canToggleView" class="btn-icon float-right fas fa-th-list" :class="{'active' : view == 'list'}" type="button" @click="$emit('changeView', 'list'), view = 'list'"></button>
+    <button v-show="canToggleView" class="btn-icon float-right fas fa-th-large" :class="{'active' : view == 'grid'}" type="button" @click="$emit('changeView', 'grid'), view = 'grid'"></button>
   </div>
   <transition name="fade">
     <div v-show="formVisible" class="filter toggle-form margin-15-top half-width-res">
@@ -24,7 +24,7 @@
         <label class="full">ราคา</label>
         <input type="number" min="0" max="9999999" v-model="min" autocomplete="off" placeholder="ต่ำสุด">&nbsp;-&nbsp;
         <input type="number" min="0" max="9999999" v-model="max" autocomplete="off" placeholder="สูงสุด">
-        <div class="flex padding-10-top">
+        <div class="flex padding-10-top" v-show="includeDiscount">
           <label class="margin-10-right">เฉพาะสินค้าลดราคา</label>
           <input class="regular" type="checkbox" name="discount" v-model="selected.discount">
         </div>
@@ -72,6 +72,7 @@ export default {
         view: 'grid'
       }
     },
+    props: ['canToggleView', 'includeDiscount'],
     computed: {
       activated() {
         if (this.selected.c || this.min || this.max || this.selected.discount || this.name) {

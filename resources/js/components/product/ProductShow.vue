@@ -1,7 +1,7 @@
 <template lang="html">
 <div>
   <p>สินค้า&nbsp;{{ meta.total }}&nbsp;รายการ&nbsp;({{ meta.last_page }}&nbsp;หน้า)</p>
-  <search-filter v-on:search="addQueryParam" v-on:changeView="changeView"></search-filter>
+  <search-filter :can-toggle-view="true" :include-discount="true" v-on:search="addQueryParam" v-on:changeView="changeView"></search-filter>
   <pagination :meta="meta" v-on:switched="changePage" v-show="products.length"></pagination>
   <div class="padding-15-v" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
     <div class="thumbnail-wrapper" :class="{'product' : $root.role == 'guest', 'admin-product' : $root.role == 'admin'}" v-for="item in products">
@@ -72,7 +72,7 @@ export default {
     getProduct() {
       this.$root.loading = true
       this.products = []
-      axios.get(this.$root.url + '/api/get/products', {
+      axios.get(this.$root.url + '/api/get/products_paginate', {
         params: {
           name: this.query.name,
           c: this.query.category,

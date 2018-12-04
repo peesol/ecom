@@ -7,7 +7,7 @@
 <div class="panel large border-bottom">
   <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">เพิ่มสินค้า&nbsp;<i class="fas fa-plus"></i></button>
   <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">สต๊อก</button>
-  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">โปรโมชั่น</button>
+  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/promotions') }}'">โปรโมชั่น</button>
 </div>
 <div class="panel large round relative">
   <load-overlay bg="white-bg" :show="$root.loading"></load-overlay>

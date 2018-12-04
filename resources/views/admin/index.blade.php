@@ -16,6 +16,10 @@
       </sub>
     </li>
     <li class="padding-10-v no-style font-large">
+      <a href="{{ url('/admin/promotions') }}">โปรโมชั่น&nbsp;<i class="fas fa-angle-right"></i></a><br>
+      <sub>จัดการลดราคาสินค้า</sub>
+    </li>
+    <li class="padding-10-v no-style font-large">
       <a href="{{ url('') }}">แบนเนอร์&nbsp;<i class="fas fa-angle-right"></i></a><br>
       <sub>จัดการป้ายโฆษณาบนหน้าแรก</sub>
     </li>

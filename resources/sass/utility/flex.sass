@@ -15,6 +15,10 @@
 .col-3-flex-res,
 .col-4-flex-res,
   display: flex
+  .text-nowrap
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
 
 .col-2-flex > div
   width: 50%
@@ -38,6 +42,8 @@
   .col-3-flex-res,
   .col-4-flex-res
     flex-direction: row
+    .text-row
+      line-height: 40px
 
   .col-2-flex-res > div.form-group:last-child
     padding-left: 10px
