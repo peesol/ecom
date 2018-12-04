@@ -56739,7 +56739,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             formData.append("description", self.description);
             formData.append("category_id", self.category.id);
             formData.append("subcategory_id", self.subcategory.id);
-            formData.append("choices", self.choices);
+            formData.append("choices", JSON.stringify(self.choices));
           },
           processing: function processing() {
             self.$Progress.start();
@@ -56748,7 +56748,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             toastr.success('อัพโหลดเรียบร้อย');
             this.removeFile(this.files[0]);
             self.$Progress.finish();
-            document.location.href = self.$root.url + 'admin/product';
+            document.location.href = self.$root.url + '/admin/product';
           },
           error: function error() {
             self.$Progress.fail();

@@ -36,14 +36,11 @@ class ProductController extends Controller
       'description' => $request->description,
       'visibility' => 'public',
       'thumbnail' => $thumbnail . '.jpg',
-      'choice' => json_encode([
-        $request->choices
-      ])
+      'choice' => json_decode($request->choices)
     ]);
 
     $images =  $request->file('image');
     if ($images[0]) {
-      $fileName = uniqid('p_thumb');
       //Crop image
       $background = Image::canvas(200, 200, '#ffffff');
       $img = Image::make($images[0])->encode('jpg', 10)->resize(200, 200, function ($c) {
@@ -52,7 +49,7 @@ class ProductController extends Controller
       });
       $background->insert($img, 'center');
       $img = $background->stream();
-      Storage::disk('public')->put('/product/thumbnail/' . $fileName . '.jpg', $img->__toString());
+      Storage::disk('public')->put('/product/thumbnail/' . $thumbnail . '.jpg', $img->__toString());
     }
 
     foreach ($images as $image) {
@@ -77,8 +74,11 @@ class ProductController extends Controller
 
   public function delete(Request $request, Product $product)
   {
+    Storage::disk('public')->delete('/product/thumbnail/' . $product->thumbnail);
+    foreach ($product->getImage() as $photo) {
+      Storage::disk('public')->delete('/product/photo/' . $photo['']);
+    }
     $product->delete();
-
     return ;
   }
 }

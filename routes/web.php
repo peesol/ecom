@@ -52,9 +52,9 @@ Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceContro
 | Prommotions
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/promotions', 'Admin\Promotion\PromotionController@index');
-Route::put('/admin/promotions/discount/{product}/apply', 'Admin\Promotion\PromotionController@applyDiscount');
-Route::put('/admin/promotions/discount/{product}/cancle', 'Admin\Promotion\PromotionController@cancleDiscount');
+Route::get('/admin/promotions', 'Admin\Promotion\DiscountController@index');
+Route::put('/admin/promotions/discount/{product}/apply', 'Admin\Promotion\DiscountController@applyDiscount');
+Route::put('/admin/promotions/discount/{product}/cancle', 'Admin\Promotion\DiscountController@cancleDiscount');
 /*
 |--------------------------------------------------------------------------
 | Category

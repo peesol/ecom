@@ -142,7 +142,7 @@ export default {
             formData.append("description", self.description);
             formData.append("category_id", self.category.id);
             formData.append("subcategory_id", self.subcategory.id);
-            formData.append("choices", self.choices);
+            formData.append("choices", JSON.stringify(self.choices));
           },
           processing: function() {
             self.$Progress.start();
@@ -151,7 +151,7 @@ export default {
             toastr.success('อัพโหลดเรียบร้อย');
             this.removeFile(this.files[0]);
             self.$Progress.finish();
-            document.location.href = self.$root.url + 'admin/product';
+            document.location.href = self.$root.url + '/admin/product';
           },
           error: function() {
             self.$Progress.fail();

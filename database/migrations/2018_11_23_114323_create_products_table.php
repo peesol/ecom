@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
           $table->text('choice')->nullable();
           $table->integer('view_count')->default(0);
           $table->enum('visibility', ['public', 'unlisted']);
+          $table->boolean('available')->default(true);
           $table->integer('stock')->default(1);
           $table->timestamps();
 
