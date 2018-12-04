@@ -45,6 +45,7 @@ Vue.component('product-edit', require('./components/product/ProductEdit.vue'));
 Vue.component('product-photo', require('./components/product/ProductPhoto.vue'));
 Vue.component('product-choice', require('./components/product/ProductChoice.vue'));
 Vue.component('product-discount', require('./components/promotion/ProductDiscount.vue'));
+Vue.component('product-stock', require('./components/product/ProductStock.vue'));
 Vue.component('modal', require('./components/Modal.vue'));
 
 Vue.component('load-overlay', {

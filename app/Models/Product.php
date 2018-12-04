@@ -19,6 +19,8 @@ class Product extends Model
     'description',
     'visibility',
     'thumbnail',
+    'stock',
+    'available',
   ];
 
   protected $casts = [

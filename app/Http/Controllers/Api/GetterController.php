@@ -15,6 +15,12 @@ class GetterController extends Controller
 
     return response()->json($data);
   }
+  public function getProduct(Request $request)
+  {
+    $data = Product::filter($request)->get();
+
+    return response()->json($data);
+  }
   public function getProductDiscount(Request $request)
   {
     $products = Product::filter($request)->whereNull('discount_price')->get();

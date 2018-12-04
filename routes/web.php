@@ -31,6 +31,13 @@ Route::post('/admin/product/create', 'Admin\Product\ProductController@create');
 Route::delete('/admin/product/delete/{product}', 'Admin\Product\ProductController@delete');
 /*
 |--------------------------------------------------------------------------
+| Stock
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/stock', 'Admin\Product\StockController@index');
+Route::put('/admin/stock/{product}', 'Admin\Product\StockController@update');
+/*
+|--------------------------------------------------------------------------
 | Photo
 |--------------------------------------------------------------------------
 */
@@ -71,5 +78,6 @@ Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryContr
 |--------------------------------------------------------------------------
 */
 Route::get('/api/get/category', 'Api\GetterController@getCategory');
+Route::get('/api/get/products', 'Api\GetterController@getProduct');
 Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
