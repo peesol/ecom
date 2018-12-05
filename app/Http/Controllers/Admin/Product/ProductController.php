@@ -75,8 +75,8 @@ class ProductController extends Controller
   public function delete(Request $request, Product $product)
   {
     Storage::disk('public')->delete('/product/thumbnail/' . $product->thumbnail);
-    foreach ($product->getImage() as $photo) {
-      Storage::disk('public')->delete('/product/photo/' . $photo['']);
+    foreach ($product->images as $photo) {
+      Storage::disk('public')->delete('/product/photo/' . $photo['filename']);
     }
     $product->delete();
     return ;

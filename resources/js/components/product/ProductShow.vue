@@ -4,7 +4,7 @@
   <search-filter :can-toggle-view="true" :include-discount="true" v-on:search="addQueryParam" v-on:changeView="changeView"></search-filter>
   <pagination :meta="meta" v-on:switched="changePage" v-show="products.length"></pagination>
   <div class="padding-15-v" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
-    <div class="thumbnail-wrapper" :class="{'product' : $root.role == 'guest', 'admin-product' : $root.role == 'admin'}" v-for="item in products">
+    <div class="thumbnail-wrapper" :class="{'product' : $root.role == 'guest', 'admin-product' : $root.role == 'admin'}" v-for="(item, index) in products">
       <div class="thumbnail-img-wrapper">
         <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
       </div>

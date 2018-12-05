@@ -10,9 +10,9 @@ class DiscountController extends Controller
 {
   public function index()
   {
-    return view('admin.promotion.index');
+    return view('admin.promotion.discount');
   }
-
+  
   public function applyDiscount(Product $product, Request $request)
   {
     $product->update([

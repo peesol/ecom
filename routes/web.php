@@ -59,9 +59,14 @@ Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceContro
 | Prommotions
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/promotions', 'Admin\Promotion\DiscountController@index');
+Route::get('/admin/promotions', 'Admin\Promotion\PromotionController@index');
+Route::get('/admin/promotions/discount', 'Admin\Promotion\DiscountController@index');
 Route::put('/admin/promotions/discount/{product}/apply', 'Admin\Promotion\DiscountController@applyDiscount');
 Route::put('/admin/promotions/discount/{product}/cancle', 'Admin\Promotion\DiscountController@cancleDiscount');
+
+Route::get('/admin/promotions/code', 'Admin\Promotion\CodeController@index');
+Route::post('/admin/promotions/code/create', 'Admin\Promotion\CodeController@create');
+Route::delete('/admin/promotions/code/delete/{id}', 'Admin\Promotion\CodeController@delete');
 /*
 |--------------------------------------------------------------------------
 | Category
@@ -81,3 +86,4 @@ Route::get('/api/get/category', 'Api\GetterController@getCategory');
 Route::get('/api/get/products', 'Api\GetterController@getProduct');
 Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
+Route::get('/api/get/code', 'Api\GetterController@getCode');

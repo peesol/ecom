@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\{Category, Product};
 use App\Http\Controllers\Controller;
@@ -35,5 +36,11 @@ class GetterController extends Controller
   {
     $data = Product::filter($request)->with('category', 'subcategory')->paginate(30);
     return new ProductResource($data);
+  }
+
+  public function getCode()
+  {
+    $data = DB::table('codes')->get();
+    return response()->json($data);
   }
 }
