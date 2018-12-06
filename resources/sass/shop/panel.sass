@@ -1,4 +1,4 @@
-@import "_variables"
+@import "_shop_variables"
 $tablet-width: 750px
 $desktop-width: 970px
 $xl-width: 1170px
@@ -7,20 +7,18 @@ $xl-width: 1170px
   width: 100%
   min-height: 100%
   box-sizing: border-box
-  padding-top: 70px
+  padding-top: 50px
   padding-bottom: 100px
 
 .panel-head, .panel
   position: relative
   width: 100%
   margin: 0 auto
-  padding: 15px
   background: #fff
   h1,h2,h3,h4,h5
-  cursor: default
-  margin: 0
-  &.border-bottom
-    border-bottom: 3px solid $idle-blue
+    cursor: default
+    margin: 0
+
 .panel-head
   padding: 10px
   .btn
@@ -29,10 +27,26 @@ $xl-width: 1170px
     right: 10px
     min-width: 80px
 
+section
+  padding: 15px 10px
+  h1,h2,h3,h4,h5,p
+    margin: 0
+  h1,h2,h3,h4,h5
+    font-size: 2em
+    color: #333
+    &.main-color
+      color: $main-color
+  &.grey, &.grey > div
+    background: #fbfbfb !important
+  &.text
+    padding: 30px 10px
+
 @media (min-width: 768px)
+  .container
+    padding-top: 70px
   .panel-head, .panel
     &.small
-        width: 650px
+      width: 650px
     &.medium
       width: 768px
     &.large
@@ -60,5 +74,17 @@ $xl-width: 1170px
     &.large
       width: $xl-width
 
-.border-bottom-grey
-  border-bottom: 1px solid #c2c2c2
+footer
+  background: $main-color !important
+  padding: 30px 15px
+  color: #fff
+  .panel
+    background: transparent !important
+  > div > div > .content
+    display: table
+    margin: 0 auto
+    width: 210px
+    max-width: 210px
+    word-break: break-all
+  h1,h2,h3,h4,h5
+    font-weight: 400

@@ -42,8 +42,8 @@ class ProductController extends Controller
     $images =  $request->file('image');
     if ($images[0]) {
       //Crop image
-      $background = Image::canvas(200, 200, '#ffffff');
-      $img = Image::make($images[0])->encode('jpg', 10)->resize(200, 200, function ($c) {
+      $background = Image::canvas(300, 300, '#ffffff');
+      $img = Image::make($images[0])->encode('jpg')->resize(300, 300, function ($c) {
           $c->upsize();
           $c->aspectRatio();
       });

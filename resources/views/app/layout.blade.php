@@ -9,18 +9,32 @@
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     {{-- JS --}}
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+    window.Data = {
+      url: '{{ config('app.url') }}',
+      locale: '{{ App::getLocale() }}',
+      user: {
+        authenticated: {{ Auth::check() ? 'true' : 'false' }},
+        role: 'guest',
+      }
+    };
+    </script>
   </head>
   <body>
     <div id="app">
       @include('app._navigation')
+      <vue-progress-bar></vue-progress-bar>
       <div class="container">
         @yield('content')
       </div>
+      @include('app._footer')
     </div>
   </body>
 </html>

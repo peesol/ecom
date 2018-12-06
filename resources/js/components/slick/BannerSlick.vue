@@ -1,8 +1,10 @@
 <template>
-<div>
+<div class="home-banner">
   <slick ref="slick" :options="slickOptions">
-  <a><img :src="banners" alt="" style="width:100%"></a>
-</slick>
+    <a v-for="banner in banners">
+      <img :src="banner" alt="">
+    </a>
+  </slick>
 </div>
 </template>
 
@@ -16,11 +18,11 @@ export default {
     return {
       slickOptions: {
           slidesToShow: 1,
-          dots: true
+          dots: this.enableDots
       }
     }
   },
 
-  props: ['banners']
+  props: ['banners', 'enableDots']
 }
 </script>

@@ -18,8 +18,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 
+Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 /*
 |--------------------------------------------------------------------------
 | Product

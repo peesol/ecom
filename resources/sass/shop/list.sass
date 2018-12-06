@@ -1,0 +1,39 @@
+ul
+  &.no-style
+    list-style-type: none
+    padding: 0
+  &.link a
+    color: #fff
+    &:hover
+      text-decoration: underline
+      color: #f5c69d
+
+li::before
+  display: inline-block
+  width: 25px
+  font-family: "Font Awesome 5 Free"
+  padding-right: 10px
+  font-weight: 600
+  font-size: 1.2em
+
+li.social::before
+  font-family: "Font Awesome 5 Brands"
+  font-weight: 400
+
+li.phone::before
+  content: '\f095'
+
+li.email::before
+  content: '\f0e0'
+
+li.address::before
+  content: '\f3c5'
+
+li.fb::before
+  content: '\f082'
+
+li.ig::before
+  content: '\f16d'
+
+li.yt::before
+  content: '\f167'

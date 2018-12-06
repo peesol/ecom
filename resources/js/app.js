@@ -38,6 +38,7 @@ Vue.use(VeeValidate, {
 
 
 Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
+Vue.component('product-slick', require('./components/slick/ProductSlick.vue'));
 Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
 Vue.component('product-show', require('./components/product/ProductShow.vue'));

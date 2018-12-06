@@ -12,7 +12,7 @@
     <div>
       <div class="form-group">
         <label class="full">ชื่อสินค้า</label>
-        <input v-validate="'required|min:6'" type="text" class="form-input full-width" name="product_name" v-model="name">
+        <input v-validate="'required'" type="text" class="form-input full-width" name="product_name" v-model="name">
         <span v-show="errors.has('product_name')" class="error">{{ errors.first('product_name') }}</span>
       </div>
       <div class="form-group half-width-res">
