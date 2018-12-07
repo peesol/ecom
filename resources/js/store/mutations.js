@@ -6,7 +6,7 @@ export const removeCount = (state) => {
 }
 export const appendToCart = (state, { product, choice }) => {
   const existing = state.cart.find((item) => {
-    return item.id === product.id && item.choice == choice
+    return item.id == product.id && item.choice == choice
   })
   const id = product.id
   if (existing) {
@@ -16,31 +16,4 @@ export const appendToCart = (state, { product, choice }) => {
       id, choice
     })
   }
-}
-
-export const setNotificationCount = (state, items) => {
-  state.notification = items
-  var read = [];
-  state.notification.forEach(function (item) {
-    read.push(item.read)
-  });
-  if (read.every( (val, i, arr) => val === true )) {
-    state.all_read = true
-  } else {
-    state.all_read = false
-  }
-}
-
-export const markAllAsRead = (state) => {
-  if (!state.all_read) {
-    state.notification.forEach(function (item) {
-      item.read = true
-    });
-    state.all_read = true
-  }
-}
-
-export const clearNotifications = (state) => {
-  state.all_read = true
-  state.notification = []
 }

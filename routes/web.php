@@ -21,6 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
 
+Route::get('/cart/get', 'Cart\CartController@get');
+Route::get('/cart/clear', 'Cart\CartController@clear');
+Route::put('/cart/add/{product}', 'Cart\CartController@addToCart');
+
 
 /*
 |--------------------------------------------------------------------------

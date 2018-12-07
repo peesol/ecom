@@ -1,18 +1,16 @@
-import Vue from 'vue'
+export const addToCart = ({ commit }, { product, choice }) => {
 
-export const addToCart = ({ commit }, { product, choice, stock }) => {
+  commit('appendToCart', { product, choice } )
 
-  commit('appendToCart', { product, choice, stock } )
-
-  return Vue.http.post(window.Closet.url + '/cart/add/' + product.name, {
-    product, choice, stock
+  return axios.put(window.Data.url + '/cart/add/' + product.uid, {
+    product, choice
   })
 
 }
 
 export const getCartCount = ({ commit }) => {
 
-  return Vue.http.get(window.Closet.url + '/cart/get').then((response) => {
+  return axios.get(window.Data.url + '/cart/get').then(response => {
 
     commit('setCount', response.data)
 
@@ -22,28 +20,4 @@ export const getCartCount = ({ commit }) => {
 
 export const removeFromCart = ({ commit }) => {
   commit('removeCount')
-}
-
-export const getNotification = ({ commit }) => {
-
-  return Vue.http.get(window.Closet.url + '/notification/get').then((response) => {
-
-    commit('setNotificationCount', response.data)
-
-    return Promise.resolve()
-  })
-}
-
-export const markAllAsRead = ({ commit }) => {
-
-  return Vue.http.put(window.Closet.url + '/notification/read_all').then((response) => {
-
-    commit('markAllAsRead')
-
-    return Promise.resolve()
-  })
-}
-
-export const clearNotifications = ({ commit }) => {
-  commit('clearNotifications')
 }
