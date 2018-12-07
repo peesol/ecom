@@ -1,12 +1,15 @@
 <template>
 <div class="product-slick">
   <slick ref="slick" :options="slickOptions">
-    <div class="thumbnail-wrapper product" v-for="item in products">
+    <div class="thumbnail-wrapper product" v-for="item in productsData">
       <div class="thumbnail-img-wrapper">
-        <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+        <a :href="$root.url + '/product/' + item.uid">
+          <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+        </a>
+        <span v-if="item.discount_price" class="top-right sale">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
       </div>
       <div class="details">
-        <a class="title">{{ item.name }}</a>
+        <a class="title" :href="$root.url + '/product/' + item.uid">{{ item.name }}</a>
         <p class="price" v-if="!item.discount_price">{{ $number.currency(item.price) }}&nbsp;THB</p>
         <p class="price" v-else>
           <s>{{ $number.currency(item.price) }}</s>
@@ -27,11 +30,21 @@ export default {
 
   data() {
     return {
+      productsData: this.products,
       slickOptions: options({view: 'shop'}),
       imgUrl: this.$root.url + '/file/product/thumbnail/',
     }
   },
-
-  props: ['products']
+  props: ['products'],
+  methods: {
+    saleCalc(price, discount) {
+      var val = (price - discount) / ((price + discount) / 2)
+      var result = val * 100
+      return  Math.round(result);
+    }
+  },
+  created() {
+    this.saleCalc()
+  }
 }
 </script>

@@ -56710,6 +56710,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -56719,13 +56722,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      productsData: this.products,
       slickOptions: Object(__WEBPACK_IMPORTED_MODULE_1__slick_options__["a" /* options */])({ view: 'shop' }),
       imgUrl: this.$root.url + '/file/product/thumbnail/'
     };
   },
 
-
-  props: ['products']
+  props: ['products'],
+  methods: {
+    saleCalc: function saleCalc(price, discount) {
+      var val = (price - discount) / ((price + discount) / 2);
+      var result = val * 100;
+      return Math.round(result);
+    }
+  },
+  created: function created() {
+    this.saleCalc();
+  }
 });
 
 /***/ }),
@@ -56812,16 +56825,42 @@ var render = function() {
       _c(
         "slick",
         { ref: "slick", attrs: { options: _vm.slickOptions } },
-        _vm._l(_vm.products, function(item) {
+        _vm._l(_vm.productsData, function(item) {
           return _c("div", { staticClass: "thumbnail-wrapper product" }, [
             _c("div", { staticClass: "thumbnail-img-wrapper" }, [
-              _c("img", {
-                attrs: { src: _vm.imgUrl + item.thumbnail, alt: item.thumbnail }
-              })
+              _c(
+                "a",
+                { attrs: { href: _vm.$root.url + "/product/" + item.uid } },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: _vm.imgUrl + item.thumbnail,
+                      alt: item.thumbnail
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              item.discount_price
+                ? _c("span", { staticClass: "top-right sale" }, [
+                    _vm._v(
+                      "- " +
+                        _vm._s(_vm.saleCalc(item.price, item.discount_price)) +
+                        "%"
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "details" }, [
-              _c("a", { staticClass: "title" }, [_vm._v(_vm._s(item.name))]),
+              _c(
+                "a",
+                {
+                  staticClass: "title",
+                  attrs: { href: _vm.$root.url + "/product/" + item.uid }
+                },
+                [_vm._v(_vm._s(item.name))]
+              ),
               _vm._v(" "),
               !item.discount_price
                 ? _c("p", { staticClass: "price" }, [
