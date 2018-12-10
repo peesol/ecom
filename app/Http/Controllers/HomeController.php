@@ -46,4 +46,9 @@ class HomeController extends Controller
     {
       return view('shop');
     }
+
+    public function contact()
+    {
+      return view('contact');
+    }
 }

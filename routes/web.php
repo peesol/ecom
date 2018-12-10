@@ -93,6 +93,15 @@ Route::get('/admin/category', 'Admin\Category\CategoryController@index');
 Route::post('/admin/category/add', 'Admin\Category\CategoryController@create');
 Route::put('/admin/category/update', 'Admin\Category\CategoryController@update');
 Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryController@delete');
+/*
+|--------------------------------------------------------------------------
+| Contact
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/contact', 'Admin\Contact\ContactController@index');
+Route::post('/admin/contact/add', 'Admin\Contact\ContactController@create');
+Route::put('/admin/contact/update/{contact}', 'Admin\Contact\ContactController@update');
+Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactController@delete');
 
 /*
 |--------------------------------------------------------------------------
@@ -104,3 +113,4 @@ Route::get('/api/get/products', 'Api\GetterController@getProduct');
 Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
 Route::get('/api/get/code', 'Api\GetterController@getCode');
+Route::get('/api/get/contact', 'Api\GetterController@getContact');

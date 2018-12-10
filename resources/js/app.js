@@ -44,6 +44,7 @@ Vue.component('add-to-cart', require('./components/cart/AddToCart.vue'));
 Vue.component('cart-icon', require('./components/cart/CartIcon.vue'));
 Vue.component('cart', require('./components/cart/Cart.vue'));
 Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
+Vue.component('contact-edit', require('./components/admin/Contact.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
 Vue.component('product-show', require('./components/product/ProductShow.vue'));
 Vue.component('product-edit', require('./components/product/ProductEdit.vue'));

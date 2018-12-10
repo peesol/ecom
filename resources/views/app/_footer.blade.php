@@ -13,20 +13,36 @@
     <div id="col-wrapper">
       <div class="content">
         <h2>Social network</h2>
-        <ul class="no-style link">
-          <li class="fb social"><a href="#">Facebook</a></li>
-          <li class="ig social"><a href="#">Instagram</a></li>
-          <li class="yt social"><a href="#">Youtube</a></li>
+        <ul class="no-style contact">
+          @foreach ($contacts as $contact)
+            @if ($contact->type == 'social')
+              <li class="{{ $contact->type . ' ' . $contact->sub }}">
+                @if ($contact->link)
+                  <a href="{{$contact->link}}">{{$contact->body}}</a>
+                @else
+                  <font>{{$contact->body}}</font>
+                @endif
+              </li>
+            @endif
+          @endforeach
         </ul>
       </div>
     </div>
     <div id="col-wrapper">
       <div class="content">
         <h2>Contact us</h2>
-        <ul class="no-style">
-          <li class="phone">+2 392 3929 210</li>
-          <li class="address">address</li>
-          <li class="email">emailaddress@domain.com</li>
+        <ul class="no-style contact">
+          @foreach ($contacts as $contact)
+            @if ($contact->type == 'contact')
+              <li class="{{ $contact->type . ' ' . $contact->sub }}">
+                @if ($contact->link)
+                  <a href="{{$contact->link}}">{{$contact->body}}</a>
+                @else
+                  <font>{{$contact->body}}</font>
+                @endif
+              </li>
+            @endif
+          @endforeach
         </ul>
       </div>
     </div>

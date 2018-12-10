@@ -43,4 +43,10 @@ class GetterController extends Controller
     $data = DB::table('codes')->get();
     return response()->json($data);
   }
+
+  public function getContact()
+  {
+    $data = DB::table('contacts')->get();
+    return response()->json($data);
+  }
 }
