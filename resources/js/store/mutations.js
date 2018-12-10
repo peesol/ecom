@@ -1,19 +1,24 @@
 export const setCount = (state, items) => {
   state.cart = items
 }
-export const removeCount = (state) => {
-  state.cart.splice(0, 1)
+
+export const removeCount = (state, index) => {
+  state.cart.splice(index, 1)
 }
+
 export const appendToCart = (state, { product, choice }) => {
   const existing = state.cart.find((item) => {
-    return item.id == product.id && item.choice == choice
+    return item.id === product.id && item.options.choice == choice
   })
   const id = product.id
   if (existing) {
 
   } else {
     state.cart.push({
-      id, choice
+      id,
+      options: {
+        choice: choice
+      }
     })
   }
 }

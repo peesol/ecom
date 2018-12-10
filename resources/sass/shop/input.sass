@@ -25,6 +25,12 @@ input[type=text], input[type=number], select
   padding: 5px
   height: 35px
 
+input[type=number]
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
+  -moz-appearance: textfield
+
 input[type=text], input[type=number], textarea, select
   font-family: 'Arial', sans-serif !important
   border-radius: $border-radius

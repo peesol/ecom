@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use DB;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function home()
     {
       $banners = [
         asset('file/banner/1.jpeg'),
@@ -39,5 +40,10 @@ class HomeController extends Controller
         'products' => $products,
         'promotion' => $promotion,
       ]);
+    }
+
+    public function shop()
+    {
+      return view('shop');
     }
 }

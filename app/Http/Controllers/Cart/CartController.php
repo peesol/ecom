@@ -11,35 +11,25 @@ class CartController extends Controller
 {
   public function get(Request $request)
   {
-    $items = Cart::getContent();
-    $data = [];
-    foreach ($items as $item) {
-      $data[] = $item;
-    }
+    $items = Cart::content()->toArray();
 
-    return response()->json($data);
+    return response()->json(array_values($items));
   }
 
   public function index()
   {
-    return;
+    return view('cart.cart');
   }
 
   public function addToCart(Product $product, Request $request)
   {
-    // $data = array_merge($request->product, [
-    //   'attributes' =>  [
-    //     'choice' => $request->choice ? $request->choice : null
-    //   ],
-    //   'quantity' =>  1,
-    // ]);
     $price = $request->input('product.discount_price') ? $request->input('product.discount_price') : $request->input('product.price');
     Cart::add([
       'id' => $request->input('product.id'),
       'name' => $request->input('product.name'),
       'price' => $price,
-      'quantity' => 1,
-      'attributes' => [
+      'qty' => 1,
+      'options' => [
         'choice' => $request->input('choice'),
         'thumbnail' => $request->input('product.thumbnail'),
       ]
@@ -48,9 +38,25 @@ class CartController extends Controller
     return;
   }
 
+  public function updateQty(Request $request)
+  {
+    Cart::update($request->rowId, [
+      'qty' => (int) $request->qty
+    ]);
+
+    return response(Cart::content());
+  }
+
+  public function removeFromCart(Request $request)
+  {
+    Cart::remove($request->rowId);
+
+    return;
+  }
+
   public function clear()
   {
-    Cart::clear();
+    Cart::destroy();
     return;
   }
 }

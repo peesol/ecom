@@ -31,6 +31,7 @@
     <div id="app">
       @include('app._navigation')
       <vue-progress-bar></vue-progress-bar>
+      <load-overlay :show="$root.loading"></load-overlay>
       <div class="container">
         @yield('content')
       </div>

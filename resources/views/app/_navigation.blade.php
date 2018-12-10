@@ -4,10 +4,10 @@
       <img src="{{ asset('/file/logo/logo.jpg') }}" alt="">
     </div>
     <div class="links-wrapper">
-      <button type="button">HOME</button>
-      <button type="button">SHOP</button>
-      <button type="button">FAQ</button>
-      <button type="button">CONTACT US</button>
+      <a href="{{ route('home') }}">HOME</a>
+      <a href="{{ route('shop') }}">SHOP</a>
+      <a href="{{ route('home') }}">FAQ*</a>
+      <a href="{{ route('contact') }}">CONTACT US</a>
     </div>
     <div class="menu">
       <button class="fas fa-bars" type="button" name="button"></button>

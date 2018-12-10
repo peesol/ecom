@@ -17,13 +17,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@home')->name('home');
+Route::get('/shop', 'HomeController@shop')->name('shop');
+Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
 
+Route::get('/cart', 'Cart\CartController@index');
 Route::get('/cart/get', 'Cart\CartController@get');
 Route::get('/cart/clear', 'Cart\CartController@clear');
 Route::put('/cart/add/{product}', 'Cart\CartController@addToCart');
+Route::put('/cart/update/qty', 'Cart\CartController@updateQty');
+Route::put('/cart/update/remove', 'Cart\CartController@removeFromCart');
 
 
 /*

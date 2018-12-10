@@ -18,6 +18,10 @@ export const getCartCount = ({ commit }) => {
   })
 }
 
-export const removeFromCart = ({ commit }) => {
-  commit('removeCount')
+export const removeFromCart = ({ commit }, { rowId, index }) => {
+  return axios.put(window.Data.url + '/cart/update/remove', {
+    rowId: rowId
+  }).then(response => {
+    commit('removeCount', index)
+  })
 }
