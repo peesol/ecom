@@ -7,9 +7,18 @@
   </div>
   <transition name="fade">
     <div v-show="formVisible" class="filter toggle-form margin-15-top half-width-res">
-      <div class="form-group">
-        <label class="full">ชื่อสินค้า</label>
-        <input class="half-width-res" type="text" v-model="name">
+      <div class="col-2-flex-res">
+        <div class="form-group">
+          <label class="full">ชื่อสินค้า</label>
+          <input class="full-width" type="text" v-model="name">
+        </div>
+        <div class="form-group">
+          <label class="full">เรียงตาม</label>
+          <select class="select-input full-width" v-model="orderBy">
+            <option value="min">ราคาต่ำสุดก่อน</option>
+            <option value="max">ราคาสูงสุดก่อน</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label class="full">หมวดหมู่</label>
@@ -39,6 +48,7 @@
             <span>{{ breadcrumb.category }}</span>
             <span>{{ breadcrumb.subcategory }}</span>
           </div>
+          <span v-show="orderBy">{{ orderBy == 'min' ? 'ราคาต่ำสุดก่อน' : 'ราคาสูงสุดก่อน' }}</span>
           <span v-show="min">ราคาต่ำสุด&nbsp;{{ $number.currency(min) }}&nbsp;</span>
           <span v-show="max">ราคาสูงสุด&nbsp;{{ $number.currency(max) }}</span>
           <span class="font-green" v-show="selected.discount">สินค้าลดราคาเท่านั้น</span>
@@ -62,6 +72,7 @@ export default {
         subcategories: [],
         products : [],
         name : null,
+        orderBy : null,
         min : null,
         max : null,
         formVisible: false,
@@ -100,10 +111,12 @@ export default {
           min: this.min,
           max: this.max,
           name: this.name,
+          order: this.orderBy,
         })
       },
       clearFilter() {
         this.name = null
+        this.orderBy = null
         this.min = null
         this.max = null
         this.selected.discount = false

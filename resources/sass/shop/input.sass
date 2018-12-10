@@ -33,13 +33,14 @@ input[type=number]
 
 input[type=text], input[type=number], textarea, select
   font-family: 'Arial', sans-serif !important
+  font-size: medium
   border-radius: $border-radius
   border: $border-style
   transition: all ease 0.2s
   resize: none
   &:focus
-    border-color: $active-blue
-    box-shadow: 0 0 5px rgba(81, 203, 238, 1)
+    border-color: $main-color
+    box-shadow: 0 0 5px $main-color
   &.error
     border-color: $red
     &:focus
@@ -60,7 +61,7 @@ span
 .toggle-form
   border-radius: $border-radius
   padding: 10px
-  border: 1px solid $active-blue
+  border: $border-style
 
 input[type=checkbox]
   cursor: pointer

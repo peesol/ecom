@@ -9,40 +9,72 @@ $height: 250px
   justify-items: center
   grid-gap: 10px
   grid-template-columns: repeat(auto-fill, minmax($m-width, 1fr))
+  .thumbnail-wrapper
+    border: 1px solid #eee
+    box-shadow: 1px 1px 3px 0 #f2f2f2
+    display: inline-block
+    position: relative
+    background: #fff
+    img
+      width: 100%
+      min-height: $m-height
+      object-fit: contain
+      border-bottom: 1px solid #eee
+    &.fit
+      width: $width
+      height: $height
+    &.product
+      width: $width
+      height: auto
+    &.thumbnail-img-wrapper
+      position: relative
+      width: $width
+      height: 200px
+    > .details
+      text-align: center
+      padding: 8px 5px
+    p
+      margin: 0
+    a.title
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
 
 .thumbnail-wrapper
-  border: 1px solid #eee
-  box-shadow: 1px 1px 3px 0 #f2f2f2
-  display: inline-block
-  position: relative
-  background: #fff
-  img
-    width: 100%
-    min-height: $m-height
-    object-fit: contain
-    border-bottom: 1px solid #eee
-  &.fit
-    width: $width
-    height: $height
-  &.product
-    width: $width
-    height: auto
-  &.thumbnail-img-wrapper
-    position: relative
-    width: $width
-    height: 200px
-  > .details
-    text-align: center
-    padding: 8px 5px
-  p
-    margin: 0
   a.title
     color: #bd926d
-    text-overflow: ellipsis
-    overflow: hidden
-    white-space: nowrap
     &:hover
       color: #f5c69d
+  .price.sale
+    color: #29ad2c
+    s
+      color: #777
+
+.thumbnail-row
+  display: flex
+  flex-direction: column
+  .thumbnail-wrapper
+    display: flex
+    width: 100%
+    padding: 8px 0
+    border-bottom: 1px solid #eee
+    &:first-child
+      border-top: 1px solid #eee
+    img
+      margin-right: 8px
+      width: 50px
+      max-width: 50px
+      height: 50px
+      max-height: 50px
+    .details
+      display: flex
+      flex-direction: column
+      p
+        word-break: break-all
+        margin: 0
+    span, i
+      &.sale
+        display: none
 
 @media (min-width: 768px)
   .thumbnail-grid
@@ -51,6 +83,14 @@ $height: 250px
     grid-gap: 10px
     grid-template-columns: repeat(auto-fill, minmax($width, 1fr))
     justify-items: center
+
+  .thumbnail-row
+    .thumbnail-wrapper
+      img
+        width: 80px
+        max-width: 80px
+        height: 80px
+        max-height: 80px
 
 span, i
   &.top-right, &.top-left, &.bottom-left, &.bottom-right

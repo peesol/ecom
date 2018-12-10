@@ -20,6 +20,7 @@ class ProductFilters extends FiltersAbstract
      */
     protected $filters = [
       'name' => NameFilter::class,
+      'order' => OrderByFilter::class,
       'c' => CategoryFilter::class,
       'sub' => SubcategoryFilter::class,
       'type' => TypeFilter::class,

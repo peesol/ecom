@@ -11,7 +11,7 @@
       <div class="details">
         <a class="title" :href="$root.url + '/product/' + item.uid">{{ item.name }}</a>
         <p class="price" v-if="!item.discount_price">{{ $number.currency(item.price) }}&nbsp;THB</p>
-        <p class="price" v-else>
+        <p class="price sale" v-else>
           <s>{{ $number.currency(item.price) }}</s>
           {{ $number.currency(item.discount_price) }}&nbsp;THB
         </p>

@@ -6,12 +6,16 @@
   <div class="padding-15-v" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
     <div class="thumbnail-wrapper" :class="{'product' : $root.role == 'guest', 'admin-product' : $root.role == 'admin'}" v-for="(item, index) in products">
       <div class="thumbnail-img-wrapper">
-        <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+        <a :href="$root.url + '/product/' + item.uid">
+          <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+        </a>
+        <span class="top-right sale" v-show="item.discount_price">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
       </div>
       <div class="details">
-        <p class="title">{{ item.name }}</p>
-        <p class="price">{{ $number.currency(item.price) }}&nbsp;บาท</p>
-        <p class="category">{{ item.category.name }}&nbsp;/&nbsp;{{ item.subcategory.name }}</p>
+        <a class="title" :href="$root.url + '/product/' + item.uid">{{ item.name }}</a>
+        <p class="price" v-show="!item.discount_price">{{ $number.currency(item.price) }}&nbsp;บาท</p>
+        <p class="price sale" v-show="item.discount_price"><s>{{ $number.currency(item.price) }}</s>&nbsp;{{ $number.currency(item.discount_price) }}&nbsp;บาท</p>
+        <p class="category" v-show="$root.role !== 'guest'">{{ item.category.name }}&nbsp;/&nbsp;{{ item.subcategory.name }}</p>
         <div :class="{'text-right' : view == 'grid', 'text-left' : view == 'list'}" v-show="$root.role == 'admin'">
           <a :href="$root.url + '/admin/product/' + item.uid + '/edit'" class="btn-flat blue margin-10-right" type="button">แก้ไข</a>
           <a @click.prevent="remove(index, item.uid)" class="btn-flat red margin-10-right" type="button">ลบ</a>
@@ -40,6 +44,7 @@ export default {
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       query: {
         name: null,
+        orderBy: null,
         category: null,
         subcategory: null,
         maxPrice: null,
@@ -54,11 +59,12 @@ export default {
     addQueryParam(params) {
       _.mapValues(this.query, (val) => {val = null})
       this.query.name = params.name
+      this.query.orderBy = params.order
       this.query.category = params.category
       this.query.subcategory = params.subcategory
       this.query.maxPrice = params.max
       this.query.minPrice = params.min
-      this.query.discount = params.discount
+      this.query.discount = params.discount ? true : null
       this.query.page = null
       this.getProduct()
     },
@@ -75,6 +81,7 @@ export default {
       axios.get(this.$root.url + '/api/get/products_paginate', {
         params: {
           name: this.query.name,
+          order: this.query.orderBy,
           c: this.query.category,
           sub: this.query.subcategory,
           max: this.query.maxPrice,
@@ -100,6 +107,11 @@ export default {
           toastr.error('เกิดข้อผิดพลาด')
         })
       }
+    },
+    saleCalc(price, discount) {
+      var val = (price - discount) / ((price + discount) / 2)
+      var result = val * 100
+      return  Math.round(result);
     }
   },
   created() {

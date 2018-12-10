@@ -10,6 +10,6 @@ class ProductController extends Controller
 {
   public function index(Product $product)
   {
-    return view('product.show');
+    return view('product.show', ['product' => $product]);
   }
 }

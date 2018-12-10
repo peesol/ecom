@@ -80,7 +80,8 @@ Vue.component('load-overlay', {
         url: window.Data.url,
         authenticated: window.Data.user.authenticated,
         role: window.Data.user.role,
-        loading: false
+        locale: window.Data.locale,
+        loading: false,
       },
       store,
       router,
