@@ -1,7 +1,7 @@
 <template>
-<div class="cart">
-  <button class="fas fa-shopping-cart" @click="goToCart()">{{count}}</button>
-</div>
+  <button class="fas fa-shopping-cart icon-nav" @click="goToCart()">
+    <span class="cart-count" v-show="count > 0">{{count}}</span>
+  </button>
 </template>
 
 <script>

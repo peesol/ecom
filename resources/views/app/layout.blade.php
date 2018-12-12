@@ -20,6 +20,7 @@
     window.Data = {
       url: '{{ config('app.url') }}',
       locale: '{{ App::getLocale() }}',
+      csrf: '{{ csrf_token() }}',
       user: {
         authenticated: {{ Auth::check() ? 'true' : 'false' }},
         role: 'guest',
@@ -36,6 +37,9 @@
         @yield('content')
       </div>
       @include('app._footer')
+      @if (Auth::id() === 1)
+        <button class="admin-btn fas fa-home" onclick="window.location.href='{{ route('adminIndex') }}'">&nbsp;หลังร้าน</button>
+      @endif
     </div>
   </body>
 </html>

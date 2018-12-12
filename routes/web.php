@@ -11,15 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@home')->name('home');
+Route::get('/', 'HomeController@home')->name('home');
 Route::get('/shop', 'HomeController@shop')->name('shop');
 Route::get('/contact', 'HomeController@contact')->name('contact');
+
+Route::get('/oauth/{provider}/redirect', 'Auth\LoginController@redirectToProvider');
+Route::get('/oauth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
 
@@ -114,3 +113,4 @@ Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
 Route::get('/api/get/code', 'Api\GetterController@getCode');
 Route::get('/api/get/contact', 'Api\GetterController@getContact');
+Route::get('/api/get/check_email/{email}', 'Api\GetterController@checkEmail');

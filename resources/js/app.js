@@ -41,8 +41,8 @@ Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
 Vue.component('product-slick', require('./components/slick/ProductSlick.vue'));
 Vue.component('img-slick', require('./components/slick/ImageSlick.vue'));
 Vue.component('add-to-cart', require('./components/cart/AddToCart.vue'));
-Vue.component('cart-icon', require('./components/cart/CartIcon.vue'));
 Vue.component('cart', require('./components/cart/Cart.vue'));
+Vue.component('navigation', require('./components/Navigation/Navigation.vue'));
 Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
 Vue.component('contact-edit', require('./components/admin/Contact.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
@@ -83,6 +83,7 @@ Vue.component('load-overlay', {
         role: window.Data.user.role,
         locale: window.Data.locale,
         loading: false,
+        showModal: false
       },
       store,
       router,

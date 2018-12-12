@@ -21,7 +21,11 @@ label
     &:nth-child(2n+1)
       margin-right: 10px
 
-input[type=text], input[type=number], select
+input[type=text],
+input[type=number],
+input[type=password],
+input[type=email],
+select
   padding: 5px
   height: 35px
 
@@ -31,7 +35,12 @@ input[type=number]
     margin: 0
   -moz-appearance: textfield
 
-input[type=text], input[type=number], textarea, select
+input[type=text],
+input[type=number],
+input[type=password],
+input[type=email],
+textarea,
+select
   font-family: 'Arial', sans-serif !important
   font-size: medium
   border-radius: $border-radius
@@ -39,8 +48,8 @@ input[type=text], input[type=number], textarea, select
   transition: all ease 0.2s
   resize: none
   &:focus
-    border-color: $main-color
-    box-shadow: 0 0 5px $main-color
+    border-color: #9fcef6
+    box-shadow: 0 0 5px #5ca0db
   &.error
     border-color: $red
     &:focus

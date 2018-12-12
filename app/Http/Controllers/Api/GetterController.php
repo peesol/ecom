@@ -49,4 +49,11 @@ class GetterController extends Controller
     $data = DB::table('contacts')->get();
     return response()->json($data);
   }
+
+  public function checkEmail($email)
+  {
+    (bool) $check = DB::table('users')->where('email',  $email)->count();
+
+    return response($check);
+  }
 }

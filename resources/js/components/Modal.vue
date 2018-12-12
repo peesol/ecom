@@ -1,11 +1,14 @@
 <template>
-  <div v-show="$root.showModal" class="modal-backdrop">
-    <div class="modal relative">
-      <load-overlay bg="white-bg" :show="$root.loading" padding="0"></load-overlay>
-      <slot name="body"></slot>
-      <slot name="footer"></slot>
+  <transition name="fade">
+    <div v-show="$root.showModal" class="modal-backdrop">
+      <div class="modal relative" :class="size">
+        <load-overlay bg="white-bg" :show="$root.loading" padding="0"></load-overlay>
+        <slot name="heading"></slot>
+        <slot name="body"></slot>
+        <slot name="footer"></slot>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -16,6 +19,7 @@
         this.$emit('close')
       },
     },
+    props: ['size'],
     watch: {
       '$root.showModal' : {
         handler() {
