@@ -42,7 +42,7 @@ export default {
         if (this.selectedChoice) {
           this.addToCart({
             product: this.product,
-            choice: this.selectedChoice,
+            choice: this.selectedChoice.name,
           });
           toastr.success('เพิ่มลงในตระกร้าแล้ว');
         } else {

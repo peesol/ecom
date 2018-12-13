@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use DB;
 use Illuminate\Http\Request;
-use App\Models\{Category, Product};
+use App\Models\{Category, Product, Shipping};
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 
@@ -50,10 +50,27 @@ class GetterController extends Controller
     return response()->json($data);
   }
 
+  public function getShipping()
+  {
+    $data = Shipping::all();
+    return response()->json($data);
+  }
+
   public function checkEmail($email)
   {
     (bool) $check = DB::table('users')->where('email',  $email)->count();
 
     return response($check);
+  }
+
+  public function redeemCode($code)
+  {
+    $result = DB::table('codes')->where('code', $code)->get();
+    if ($result->count()) {
+      return $result;
+    } else {
+      return response()->json(null, 404);
+    }
+
   }
 }

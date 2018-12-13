@@ -101,6 +101,14 @@ Route::get('/admin/contact', 'Admin\Contact\ContactController@index');
 Route::post('/admin/contact/add', 'Admin\Contact\ContactController@create');
 Route::put('/admin/contact/update/{contact}', 'Admin\Contact\ContactController@update');
 Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactController@delete');
+/*
+|--------------------------------------------------------------------------
+| Shipping
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/shipping', 'Admin\Shipping\ShippingController@index');
+Route::post('/admin/shipping/add', 'Admin\Shipping\ShippingController@create');
+Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingController@delete');
 
 /*
 |--------------------------------------------------------------------------
@@ -113,4 +121,6 @@ Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
 Route::get('/api/get/code', 'Api\GetterController@getCode');
 Route::get('/api/get/contact', 'Api\GetterController@getContact');
+Route::get('/api/get/shipping', 'Api\GetterController@getShipping');
 Route::get('/api/get/check_email/{email}', 'Api\GetterController@checkEmail');
+Route::get('/api/get/redeem/{code}', 'Api\GetterController@redeemCode');

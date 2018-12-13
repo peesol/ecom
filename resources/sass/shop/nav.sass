@@ -69,9 +69,16 @@ nav
 
 .cart-count
   font-family: 'Prompt'
-  padding-left: 5px
-  color: $main-color
-  font-size: large
+  color: #fff
+  font-size: 1rem
+  position: absolute
+  bottom: 5px
+  right: 0px
+  display: block
+  line-height: 20px
+  background-color: #e3342f
+  padding: 0 8px
+  border-radius: 100%
 
 @media(min-width: 768px)
   nav
@@ -106,13 +113,15 @@ nav
 
   .dropdown-menu
     top: $height
+  .cart-count
+    display: none
 
 /* ADMIN BTN */
 .admin-btn
   position: fixed
   bottom: 10px
   left: 10px
-  z-index: 9998
+  z-index: 2
   color: #fff
   background-color: $idle-blue
   border: none

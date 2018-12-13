@@ -28,6 +28,10 @@
       <sub>จัดการช่องทางชำระเงินของร้าน</sub>
     </li>
     <li class="padding-10-v no-style font-large">
+      <a href="{{ url('/admin/shipping') }}">การจัดส่ง&nbsp;<i class="fas fa-angle-right"></i></a><br>
+      <sub>จัดการช่องทางการจัดส่งและโปรโมชั่นการส่งสินค้า</sub>
+    </li>
+    <li class="padding-10-v no-style font-large">
       <a href="{{ url('/admin/contact') }}">ข้อมูลของร้าน&nbsp;<i class="fas fa-angle-right"></i></a><br>
       <sub>จัดการข้อมูลของร้าน ที่อยู่ หรือ โซเชียลต่างๆ</sub>
     </li>

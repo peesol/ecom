@@ -32,7 +32,7 @@ class HomeController extends Controller
       ];
 
       //$products = DB::table('products')->get();
-      $products = Product::whereNull('discount_price')->get();
+      $products = Product::whereNull('discount_price')->take(10)->get();
       $promotion = Product::whereNotNull('discount_price')->get();
 
       return view('home', [

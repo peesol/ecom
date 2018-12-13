@@ -7,7 +7,7 @@
     <div class="full-width flex">
       <input required type="number" class="margin-10-right" v-model="form.value" placeholder="ส่วนลด">
       <select required class="select-input" v-model="form.type">
-        <option value="%">%</option>
+        <option value="percent">%</option>
         <option value="cash">บาท</option>
       </select>
     </div>

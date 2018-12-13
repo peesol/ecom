@@ -58,6 +58,10 @@ select
 .description-input
   min-height: 170px
 
+.address-input
+  height: 120px
+  width: 100%
+
 span
   &.error
     display: block
@@ -129,7 +133,13 @@ input[type=checkbox]
     background: #29ad2c
   input[type=radio]:checked ~ label
     color: #29ad2c
+  small
+    display: block
+    width: 100%
 
 @media(min-width: 768px)
   .radio-input
     margin: 0 15px 0 0
+
+  .address-input
+    height: 80px

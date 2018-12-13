@@ -6,7 +6,7 @@
         <h1>Featured products</h1>
       </div>
       <div class="panel large padding-15-v">
-        <product-slick :products="{{$products}}"></product-slick>
+        <product-slick :products="{{ $products }}"></product-slick>
       </div>
     </section>
     <section class="grey text">

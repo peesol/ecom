@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Cart;
 
+use Auth;
 use Cart;
-use App\Models\Product;
+use App\Models\{Product, Shipping};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +19,13 @@ class CartController extends Controller
 
   public function index()
   {
-    return view('cart.cart');
+    $user = Auth::user();
+    $shippings = Shipping::all();
+
+    return view('cart.cart', [
+      'user' => $user,
+      'shippings' => $shippings
+    ]);
   }
 
   public function addToCart(Product $product, Request $request)

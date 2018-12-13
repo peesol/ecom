@@ -4,6 +4,6 @@
     <h1><i class="fas fa-shopping-cart"></i>&nbsp;Cart</h1>
   </div>
   <div class="panel medium">
-    <cart></cart>
+    <cart :user-data="{{ $user }}" :shippings="{{ $shippings }}"></cart>
   </div>
 @endsection

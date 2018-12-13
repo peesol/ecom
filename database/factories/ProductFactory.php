@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Models\Product::class, function (Faker $faker) {
     return [
       'category_id' => $faker->numberBetween($min = 1, $max = 4),
-      'subcategory_id' => $faker->numberBetween($min = 1, $max = 9),
+      'subcategory_id' => $faker->numberBetween($min = 1, $max = 1),
       'uid' => uniqid('p_'),
       'name' => $faker->company,
       'price' => $faker->numberBetween($min = 500, $max = 10000),

@@ -3,8 +3,8 @@
   <a href="/" class="fas fa-home icon-nav"><font>HOME</font></a>
   <a href="/shop" class="fas fa-shopping-basket icon-nav"><font>SHOP</font></a>
   <a href="/contact" class="fas fa-phone icon-nav"><font>CONTACT US</font></a>
-  <a v-show="$root.authenticated" href="/cart" class="fas fa-shopping-cart icon-nav" @click="goToCart()">
-    <font>CART</font>
+  <a v-show="$root.authenticated" href="/cart" class="fas fa-shopping-cart icon-nav relative" @click="goToCart()">
+    <font>CART&nbsp;({{count}})</font>
     <span class="cart-count" v-show="count > 0">{{count}}</span>
   </a>
   <a v-show="$root.authenticated" class="fas fa-user icon-nav" @click="dropdown = !dropdown"><font>ACCOUNT&nbsp;<i class="fas fa-caret-down"></i></font></a>
