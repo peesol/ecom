@@ -65,9 +65,9 @@ class GetterController extends Controller
 
   public function redeemCode($code)
   {
-    $result = DB::table('codes')->where('code', $code)->get();
+    $result = DB::table('codes')->where('code', $code)->where('enabled', true)->get();
     if ($result->count()) {
-      return $result;
+      return response()->json($result[0]);
     } else {
       return response()->json(null, 404);
     }

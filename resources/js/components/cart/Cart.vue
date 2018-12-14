@@ -31,9 +31,11 @@
         </div>
       </div>
       <div>
-        <h2>{{ total }}&nbsp;THB</h2>
+        <h2 class="padding-10-top" v-show="!discountCalc">{{ $number.currency(priceCalc) }}&nbsp;THB</h2>
+        <h2 class="padding-10-top font-green" v-show="discountCalc">{{ $number.currency(discountCalc) }}&nbsp;THB</h2>
         <h4 v-show="confirm.fee">Shipping fee: {{ confirm.fee }}</h4>
         <h4 v-show="confirm.promotion">Promotion</h4>
+        <p class="font-green" v-show="Object.keys(discount).length">Discount&nbsp;-&nbsp;{{ discount.value }}{{ discount.type == 'percent' ? '%' : ' THB'}}</p>
         <div class="flex padding-15-v">
           <label class="padding-10-right" style="line-height:35px">CODE</label>
           <input class="half-width-res" type="text" v-model="code" placeholder="CODE">
@@ -82,11 +84,10 @@ export default {
       user: this.userData,
       confirm: {
         shipping: null,
-        total: null,
         fee: null,
         promotion: null
       },
-      discount: null
+      discount: {}
     }
   },
   props: ['userData', 'shippings'],
@@ -94,7 +95,7 @@ export default {
     ...mapGetters([
       'cartContent'
     ]),
-    total: function() {
+    priceCalc: function() {
       let totalPrice = [];
       let totalQty = [];
       Object.entries(this.cartContent).forEach(([key, val]) => {
@@ -118,25 +119,25 @@ export default {
                 // check if qty is more than promotion amount
                 if (qty >= this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE'
-                  return this.$number.currency(multiplied - this.confirm.shipping.fee);
+                  return multiplied - this.confirm.shipping.fee
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee
-                  return this.$number.currency(multiplied);
+                  return multiplied
                 }
               } else {
                 // multiply and COST promo
                 // check if total cost is more than promotion amount
                 if (total > this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE'
-                  return this.$number.currency(multiplied - this.confirm.shipping.fee);
+                  return multiplied - this.confirm.shipping.fee
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee
-                  return this.$number.currency(multiplied);
+                  return multiplied
                 }
               }
             } else {
               // if multiply bot no promo
-              return this.$number.currency(multiplied);
+              return multiplied
             }
           } else {
             // if not multiply
@@ -147,36 +148,45 @@ export default {
                 // check if qty is more than promotion amount
                 if (qty >= this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE'
-                  return this.$number.currency(includeFee - this.confirm.shipping.fee);
+                  return includeFee - this.confirm.shipping.fee
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee
-                  return this.$number.currency(includeFee);
+                  return includeFee
                 }
               } else {
                 // NO multiply BUT COST promo
                 // check if COST is more than promotion amount
                 if (total > this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE'
-                  return this.$number.currency(includeFee - this.confirm.shipping.fee);
+                  return includeFee - this.confirm.shipping.fee
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee
-                  return this.$number.currency(includeFee);
+                  return includeFee
                 }
               }
             } else {
               //not multiply no promotion
-              return this.$number.currency(includeFee);
+              return includeFee
             }
           }
         } else {
           // If shipping is free
-          return this.$number.currency(total);
+          return total
         }
       } else {
         // not select shipping yet
-        return this.$number.currency(total)
+        return total
       }
     },
+
+    discountCalc: function () {
+      if (this.discount.type == 'percent') {
+        var val = (this.discount.value / 100) * this.priceCalc
+        return this.priceCalc - val
+      } else {
+        return this.priceCalc -  this.discount.value
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -210,6 +220,7 @@ export default {
     redeemCode() {
       axios.get(this.$root.url + '/api/get/redeem/' + this.code).then(response => {
         this.discount = response.data
+        this.code = null
         toastr.success('Discount applied.')
       }, response => {
         alert('Code is not valid.')

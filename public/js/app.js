@@ -58330,6 +58330,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58340,17 +58342,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       user: this.userData,
       confirm: {
         shipping: null,
-        total: null,
         fee: null,
         promotion: null
       },
-      discount: null
+      discount: {}
     };
   },
 
   props: ['userData', 'shippings'],
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['cartContent']), {
-    total: function total() {
+    priceCalc: function priceCalc() {
       var totalPrice = [];
       var totalQty = [];
       Object.entries(this.cartContent).forEach(function (_ref) {
@@ -58382,25 +58383,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 // check if qty is more than promotion amount
                 if (qty >= this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE';
-                  return this.$number.currency(multiplied - this.confirm.shipping.fee);
+                  return multiplied - this.confirm.shipping.fee;
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee;
-                  return this.$number.currency(multiplied);
+                  return multiplied;
                 }
               } else {
                 // multiply and COST promo
                 // check if total cost is more than promotion amount
                 if (total > this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE';
-                  return this.$number.currency(multiplied - this.confirm.shipping.fee);
+                  return multiplied - this.confirm.shipping.fee;
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee;
-                  return this.$number.currency(multiplied);
+                  return multiplied;
                 }
               }
             } else {
               // if multiply bot no promo
-              return this.$number.currency(multiplied);
+              return multiplied;
             }
           } else {
             // if not multiply
@@ -58411,34 +58412,43 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 // check if qty is more than promotion amount
                 if (qty >= this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE';
-                  return this.$number.currency(includeFee - this.confirm.shipping.fee);
+                  return includeFee - this.confirm.shipping.fee;
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee;
-                  return this.$number.currency(includeFee);
+                  return includeFee;
                 }
               } else {
                 // NO multiply BUT COST promo
                 // check if COST is more than promotion amount
                 if (total > this.confirm.shipping.promotion.amount) {
                   this.confirm.fee = 'FREE';
-                  return this.$number.currency(includeFee - this.confirm.shipping.fee);
+                  return includeFee - this.confirm.shipping.fee;
                 } else {
                   this.confirm.fee = this.confirm.shipping.fee;
-                  return this.$number.currency(includeFee);
+                  return includeFee;
                 }
               }
             } else {
               //not multiply no promotion
-              return this.$number.currency(includeFee);
+              return includeFee;
             }
           }
         } else {
           // If shipping is free
-          return this.$number.currency(total);
+          return total;
         }
       } else {
         // not select shipping yet
-        return this.$number.currency(total);
+        return total;
+      }
+    },
+
+    discountCalc: function discountCalc() {
+      if (this.discount.type == 'percent') {
+        var val = this.discount.value / 100 * this.priceCalc;
+        return this.priceCalc - val;
+      } else {
+        return this.priceCalc - this.discount.value;
       }
     }
   }),
@@ -58470,6 +58480,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
       axios.get(this.$root.url + '/api/get/redeem/' + this.code).then(function (response) {
         _this.discount = response.data;
+        _this.code = null;
         toastr.success('Discount applied.');
       }, function (response) {
         alert('Code is not valid.');
@@ -58703,7 +58714,41 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", [
-              _c("h2", [_vm._v(_vm._s(_vm.total) + " THB")]),
+              _c(
+                "h2",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.discountCalc,
+                      expression: "!discountCalc"
+                    }
+                  ],
+                  staticClass: "padding-10-top"
+                },
+                [_vm._v(_vm._s(_vm.$number.currency(_vm.priceCalc)) + " THB")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h2",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.discountCalc,
+                      expression: "discountCalc"
+                    }
+                  ],
+                  staticClass: "padding-10-top font-green"
+                },
+                [
+                  _vm._v(
+                    _vm._s(_vm.$number.currency(_vm.discountCalc)) + " THB"
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "h4",
@@ -58733,6 +58778,28 @@ var render = function() {
                   ]
                 },
                 [_vm._v("Promotion")]
+              ),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: Object.keys(_vm.discount).length,
+                      expression: "Object.keys(discount).length"
+                    }
+                  ],
+                  staticClass: "font-green"
+                },
+                [
+                  _vm._v(
+                    "Discount - " +
+                      _vm._s(_vm.discount.value) +
+                      _vm._s(_vm.discount.type == "percent" ? "%" : " THB")
+                  )
+                ]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "flex padding-15-v" }, [
