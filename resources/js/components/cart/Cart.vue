@@ -33,7 +33,7 @@
       <div>
         <h2 class="padding-10-top" v-show="!discountCalc">{{ $number.currency(priceCalc) }}&nbsp;THB</h2>
         <h2 class="padding-10-top font-green" v-show="discountCalc">{{ $number.currency(discountCalc) }}&nbsp;THB</h2>
-        <h4 v-show="confirm.fee">Shipping fee: {{ confirm.fee }}</h4>
+        <h4 v-show="confirm.fee">Shipping fee: {{ confirm.fee }}&nbsp;THB</h4>
         <h4 v-show="confirm.promotion">Promotion</h4>
         <p class="font-green" v-show="Object.keys(discount).length">Discount&nbsp;-&nbsp;{{ discount.value }}{{ discount.type == 'percent' ? '%' : ' THB'}}</p>
         <div class="flex padding-15-v">
@@ -47,23 +47,25 @@
     <transition name="fade">
     <div class="padding-10" v-show="confirm.shipping">
       <h2 class="padding-10-bottom">Delivery address</h2>
-      <div class="col-2-flex-res">
-        <div class="form-group">
-          <label class="full">Name</label>
-          <input class="full-width" type="text" v-model="user.name">
+      <form @submit.prevent="confirmOrder()" method="post">
+        <div class="col-2-flex-res">
+          <div class="form-group">
+            <label class="full">Name</label>
+            <input required class="full-width" type="text" v-model="user.name">
+          </div>
+          <div class="form-group">
+            <label class="full">Phone</label>
+            <input required class="full-width" type="text" v-model="user.phone">
+          </div>
         </div>
         <div class="form-group">
-          <label class="full">Phone</label>
-          <input class="full-width" type="text" v-model="user.phone">
+          <label class="full">Address</label>
+          <textarea required class="address-input" rows="8" cols="50" v-model="user.address"></textarea>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="full">Address</label>
-        <textarea class="address-input" rows="8" cols="50" v-model="user.address"></textarea>
-      </div>
-      <div class="text-right">
-        <button class="btn half-width-res" type="button" name="button">Confirm</button>
-      </div>
+        <div class="text-right">
+          <button class="btn half-width-res" type="submit">Confirm</button>
+        </div>
+      </form>
     </div>
   </transition>
   </section>
@@ -225,6 +227,22 @@ export default {
       }, response => {
         alert('Code is not valid.')
       })
+    },
+
+    confirmOrder() {
+      if (confirm('Confirm?')) {
+        axios.post(this.$root.url + '/cart/confirm', {
+          name: this.user.name,
+          address: this.user.address,
+          phone: this.user.phone,
+          body: this.cartContent,
+          total: this.priceCalc,
+          discount: this.discountCalc,
+          shipping: this.confirm.shipping,
+        }).then(response => {
+          document.location.href = this.$root.url + '/order/' + response.data
+        })
+      }
     }
   }
 }

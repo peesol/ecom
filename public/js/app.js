@@ -58332,6 +58332,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58485,6 +58487,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       }, function (response) {
         alert('Code is not valid.');
       });
+    },
+    confirmOrder: function confirmOrder() {
+      var _this2 = this;
+
+      if (confirm('Confirm?')) {
+        axios.post(this.$root.url + '/cart/confirm', {
+          name: this.user.name,
+          address: this.user.address,
+          phone: this.user.phone,
+          body: this.cartContent,
+          total: this.priceCalc,
+          discount: this.discountCalc,
+          shipping: this.confirm.shipping
+        }).then(function (response) {
+          document.location.href = _this2.$root.url + '/order/' + response.data;
+        });
+      }
     }
   })
 });
@@ -58872,96 +58891,110 @@ var render = function() {
                   _vm._v("Delivery address")
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-2-flex-res" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "full" }, [_vm._v("Name")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.user.name,
-                          expression: "user.name"
-                        }
-                      ],
-                      staticClass: "full-width",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.user.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.user, "name", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "full" }, [_vm._v("Phone")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.user.phone,
-                          expression: "user.phone"
-                        }
-                      ],
-                      staticClass: "full-width",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.user.phone },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.user, "phone", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { staticClass: "full" }, [_vm._v("Address")]),
-                  _vm._v(" "),
-                  _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.user.address,
-                        expression: "user.address"
-                      }
-                    ],
-                    staticClass: "address-input",
-                    attrs: { rows: "8", cols: "50" },
-                    domProps: { value: _vm.user.address },
+                _c(
+                  "form",
+                  {
+                    attrs: { method: "post" },
                     on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.user, "address", $event.target.value)
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.confirmOrder()
                       }
                     }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-right" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn half-width-res",
-                      attrs: { type: "button", name: "button" }
-                    },
-                    [_vm._v("Confirm")]
-                  )
-                ])
+                  },
+                  [
+                    _c("div", { staticClass: "col-2-flex-res" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "full" }, [_vm._v("Name")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.user.name,
+                              expression: "user.name"
+                            }
+                          ],
+                          staticClass: "full-width",
+                          attrs: { required: "", type: "text" },
+                          domProps: { value: _vm.user.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.user, "name", $event.target.value)
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "full" }, [_vm._v("Phone")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.user.phone,
+                              expression: "user.phone"
+                            }
+                          ],
+                          staticClass: "full-width",
+                          attrs: { required: "", type: "text" },
+                          domProps: { value: _vm.user.phone },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.user, "phone", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { staticClass: "full" }, [_vm._v("Address")]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.user.address,
+                            expression: "user.address"
+                          }
+                        ],
+                        staticClass: "address-input",
+                        attrs: { required: "", rows: "8", cols: "50" },
+                        domProps: { value: _vm.user.address },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.user, "address", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn half-width-res",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Confirm")]
+                      )
+                    ])
+                  ]
+                )
               ]
             )
           ])

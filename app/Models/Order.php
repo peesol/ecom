@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-  protected $fillabel = [
+  protected $fillable = [
+    'user_id',
     'title',
     'uid',
     'body',
@@ -22,4 +23,15 @@ class Order extends Model
     'status',
     'cancle',
   ];
+
+  protected $casts = [
+    'body' => 'array',
+    'shipping' => 'array',
+    'status' => 'array',
+  ];
+
+  public function getRouteKeyName()
+  {
+    return 'uid';
+  }
 }

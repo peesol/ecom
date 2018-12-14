@@ -29,6 +29,8 @@ Route::put('/cart/add/{product}', 'Cart\CartController@addToCart');
 Route::put('/cart/update/qty', 'Cart\CartController@updateQty');
 Route::put('/cart/update/remove', 'Cart\CartController@removeFromCart');
 
+Route::post('/cart/confirm', 'Order\OrderController@create');
+Route::get('/order/{order}', 'Order\OrderController@index');
 
 /*
 |--------------------------------------------------------------------------

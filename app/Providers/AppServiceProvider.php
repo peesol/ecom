@@ -17,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
       View::composer(
           ['app._footer', 'contact'], 'App\Http\View\Composers\ContactComposer'
       );
+
+      date_default_timezone_set('Asia/Bangkok');
     }
 
     /**
