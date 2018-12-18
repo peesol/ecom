@@ -1,8 +1,8 @@
 <template>
 <div class="home-banner">
   <slick ref="slick" :options="slickOptions">
-    <a v-for="banner in banners">
-      <img :src="banner" alt="">
+    <a :href="banner.link" v-for="banner in banners">
+      <img :src="bannerUrl + banner.type + '/' +  banner.filename" alt="banner">
     </a>
   </slick>
 </div>
@@ -19,7 +19,8 @@ export default {
       slickOptions: {
           slidesToShow: 1,
           dots: this.enableDots
-      }
+      },
+      bannerUrl: this.$root.url + '/file/banner/'
     }
   },
 

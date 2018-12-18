@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\{Product, Banner};
 
 class HomeController extends Controller
 {
@@ -25,18 +25,12 @@ class HomeController extends Controller
      */
     public function home()
     {
-      $banners = [
-        asset('file/banner/1.jpeg'),
-        asset('file/banner/2.jpeg'),
-        asset('file/banner/3.jpeg'),
-      ];
-
-      //$products = DB::table('products')->get();
+      $banners = Banner::all();
       $products = Product::whereNull('discount_price')->take(10)->get();
-      $promotion = Product::whereNotNull('discount_price')->get();
+      $promotion = Product::whereNotNull('discount_price')->take(10)->get();
 
       return view('home', [
-        'banners' => json_encode($banners),
+        'banners' => $banners,
         'products' => $products,
         'promotion' => $promotion,
       ]);

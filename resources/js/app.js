@@ -48,6 +48,7 @@ Vue.component('product-upload', require('./components/admin/UploadProduct.vue'))
 Vue.component('contact-edit', require('./components/admin/Contact.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
 Vue.component('shipping', require('./components/admin/Shipping.vue'));
+Vue.component('banner-edit', require('./components/admin/Banner.vue'));
 
 Vue.component('product-show', require('./components/product/ProductShow.vue'));
 Vue.component('product-edit', require('./components/product/ProductEdit.vue'));

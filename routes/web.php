@@ -111,6 +111,14 @@ Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactControlle
 Route::get('/admin/shipping', 'Admin\Shipping\ShippingController@index');
 Route::post('/admin/shipping/add', 'Admin\Shipping\ShippingController@create');
 Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingController@delete');
+/*
+|--------------------------------------------------------------------------
+| Banner
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/banner', 'Admin\Banner\BannerController@index');
+Route::post('/admin/banner/create', 'Admin\Banner\BannerController@create');
+Route::delete('/admin/banner/delete/{banner}', 'Admin\Banner\BannerController@delete');
 
 /*
 |--------------------------------------------------------------------------
