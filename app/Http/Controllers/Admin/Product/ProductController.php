@@ -81,4 +81,12 @@ class ProductController extends Controller
     $product->delete();
     return ;
   }
+
+  public function addToHome(Product $product)
+  {
+    $product->featured = true;
+    $product->save();
+
+    return;
+  }
 }

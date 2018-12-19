@@ -1,7 +1,8 @@
 @extends('app.layout')
 @section('content')
   <banner-slick :banners="{{ $banners }}" :enable-dots="false"></banner-slick>
-    <section class="">
+  @if ($products)
+    <section>
       <div class="panel large">
         <h1>Featured products</h1>
       </div>
@@ -9,6 +10,7 @@
         <product-slick :products="{{ $products }}"></product-slick>
       </div>
     </section>
+  @endif
     <section class="grey text">
       <div class="panel large col-2-flex-res">
         <div class="half-width-res">
@@ -23,12 +25,14 @@
         </div>
       </div>
     </section>
-    <section>
-      <div class="panel large">
-        <h1>Promotions</h1>
-      </div>
-      <div class="panel large padding-15-v">
-        <product-slick :products="{{$promotion}}"></product-slick>
-      </div>
-    </section>
+    @if ($promotion)
+      <section>
+        <div class="panel large">
+          <h1>Promotions</h1>
+        </div>
+        <div class="panel large padding-15-v">
+          <product-slick :products="{{$promotion}}"></product-slick>
+        </div>
+      </section>
+    @endif
 @endsection

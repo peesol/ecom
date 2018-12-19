@@ -12,11 +12,11 @@ class DiscountController extends Controller
   {
     return view('admin.promotion.discount');
   }
-  
+
   public function applyDiscount(Product $product, Request $request)
   {
     $product->update([
-      'discount_price' => $request->discount
+      'discount_price' => $product->price - $request->discount
     ]);
     $product->save();
 

@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
           $table->enum('visibility', ['public', 'unlisted']);
           $table->boolean('available')->default(true);
           $table->integer('stock')->default(1);
+          $table->boolean('featured')->default(false);
           $table->timestamps();
 
           $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

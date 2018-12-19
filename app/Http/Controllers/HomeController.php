@@ -26,8 +26,8 @@ class HomeController extends Controller
     public function home()
     {
       $banners = Banner::all();
-      $products = Product::whereNull('discount_price')->take(10)->get();
-      $promotion = Product::whereNotNull('discount_price')->take(10)->get();
+      $products = Product::whereNull('discount_price')->where('featured', true)->get();
+      $promotion = Product::whereNotNull('discount_price')->where('featured', true)->get();
 
       return view('home', [
         'banners' => $banners,

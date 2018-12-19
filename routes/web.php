@@ -21,6 +21,7 @@ Route::get('/oauth/{provider}/redirect', 'Auth\LoginController@redirectToProvide
 Route::get('/oauth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
+Route::get('/product/{product}/{choice}/buy', 'Shop\ProductController@buyNow');
 
 Route::get('/cart', 'Cart\CartController@index');
 Route::get('/cart/get', 'Cart\CartController@get');
@@ -47,6 +48,7 @@ Route::get('/admin/product', 'Admin\Product\ProductController@index')->name('adm
 Route::get('/admin/product/upload', 'Admin\Product\ProductController@uploadPage');
 Route::post('/admin/product/create', 'Admin\Product\ProductController@create');
 Route::delete('/admin/product/delete/{product}', 'Admin\Product\ProductController@delete');
+Route::put('/admin/product/feature/{product}', 'Admin\Product\ProductController@addToHome');
 /*
 |--------------------------------------------------------------------------
 | Stock

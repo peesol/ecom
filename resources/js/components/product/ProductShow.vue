@@ -17,6 +17,7 @@
         <p class="price sale" v-show="item.discount_price"><s>{{ $number.currency(item.price) }}</s>&nbsp;{{ $number.currency(item.discount_price) }}&nbsp;บาท</p>
         <p class="category" v-show="$root.role !== 'guest'">{{ item.category.name }}&nbsp;/&nbsp;{{ item.subcategory.name }}</p>
         <div :class="{'text-right' : view == 'grid', 'text-left' : view == 'list'}" v-show="$root.role == 'admin'">
+          <a @click.prevent="addToHome(item.uid, index)" class="fas float-left" :class="{'fa-check font-green' : item.featured, 'fa-times font-red' : !item.featured}">&nbsp;หน้าแรก</a>
           <a :href="$root.url + '/admin/product/' + item.uid + '/edit'" class="btn-flat blue margin-10-right" type="button">แก้ไข</a>
           <a @click.prevent="remove(index, item.uid)" class="btn-flat red margin-10-right" type="button">ลบ</a>
         </div>
@@ -112,6 +113,14 @@ export default {
       var val = (price - discount) / ((price + discount) / 2)
       var result = val * 100
       return  Math.round(result);
+    },
+    addToHome(uid, index) {
+      axios.put(this.$root.url + '/admin/product/feature/' + uid).then(response => {
+        toastr.success('เพิ่มในหน้าแรกแล้ว')
+        this.products[index].featured = true
+      }, response => {
+        toastr.error('เกิดข้อผิดพลาด')
+      })
     }
   },
   created() {

@@ -40,24 +40,48 @@ export default {
     add() {
       if (this.product.choice) {
         if (this.selectedChoice) {
-          this.addToCart({
-            product: this.product,
-            choice: this.selectedChoice.name,
-          });
-          toastr.success('เพิ่มลงในตระกร้าแล้ว');
+          if (this.$root.authenticated) {
+            this.addToCart({
+              product: this.product,
+              choice: this.selectedChoice.name,
+            });
+            toastr.success('เพิ่มลงในตระกร้าแล้ว');
+          } else {
+            this.$root.showModal = true
+          }
         } else {
           alert('โปรดเลือกตัวเลือกสินค้า')
         }
       } else {
-        this.addToCart({
-          product: this.product,
-          choice: this.selectedChoice,
-        });
-        toastr.success('เพิ่มลงในตระกร้าแล้ว');
+        if (this.$root.authenticated) {
+          this.addToCart({
+            product: this.product,
+            choice: this.selectedChoice,
+          });
+          toastr.success('เพิ่มลงในตระกร้าแล้ว');
+        } else {
+          this.$root.showModal = true
+        }
       }
     },
     buyNow() {
-      document.location.href = this.$root.url + '/product/' + this.product.uid + '/buy'
+      if (this.product.choice) {
+        if (this.selectedChoice) {
+          if (this.$root.authenticated) {
+            document.location.href = this.$root.url + '/product/' + this.product.uid + '/' + this.selectedChoice + '/buy'
+          } else {
+            this.$root.showModal = true
+          }
+        } else {
+          alert('โปรดเลือกตัวเลือกสินค้า')
+        }
+      } else {
+        if (this.$root.authenticated) {
+          document.location.href = this.$root.url + '/product/' + this.product.uid + '/empty/buy'
+        } else {
+          this.$root.showModal = true
+        }
+      }
     }
   }
 }

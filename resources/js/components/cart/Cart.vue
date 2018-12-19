@@ -1,6 +1,6 @@
 <template>
 <div class="cart">
-  <div class="product" v-for="item in cartContent" v-show="cartContent.length">
+  <div class="product" v-for="item in cartItems" v-show="cartItems.length">
     <div class="thumbnail">
       <img :src="imgUrl + item.options.thumbnail" alt="img">
     </div>
@@ -13,7 +13,7 @@
         <input :min="1" type="number" name="qty" v-model="item.qty" @input.prevent="changeQty(item)">
         <button class="fas fa-plus" type="button" @click="addQty(2, item)"></button>
       </div>
-      <div class="actions">
+      <div class="actions" v-show="view == 'cart'">
         <button class="fas fa-trash-alt" @click="remove(item.rowId)"></button>
       </div>
     </div>
@@ -70,7 +70,7 @@
   </transition>
   </section>
 
-  <div class="text-center" v-show="!cartContent.length">
+  <div class="text-center" v-show="!cartItems.length">
     <h2>Your cart is empty.</h2>
   </div>
 </div>
@@ -81,6 +81,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      cartItems: [],
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       code: null,
       user: this.userData,
@@ -92,7 +93,7 @@ export default {
       discount: {}
     }
   },
-  props: ['userData', 'shippings'],
+  props: ['userData', 'shippings', 'view', 'productProp'],
   computed: {
     ...mapGetters([
       'cartContent'
@@ -100,7 +101,7 @@ export default {
     priceCalc: function() {
       let totalPrice = [];
       let totalQty = [];
-      Object.entries(this.cartContent).forEach(([key, val]) => {
+      Object.entries(this.cartItems).forEach(([key, val]) => {
           var subTotal = val.price * val.qty
           totalPrice.push(subTotal)
           totalQty.push(val.qty)
@@ -235,7 +236,7 @@ export default {
           name: this.user.name,
           address: this.user.address,
           phone: this.user.phone,
-          body: this.cartContent,
+          body: this.cartItems,
           total: this.priceCalc,
           discount: this.discountCalc,
           shipping: this.confirm.shipping,
@@ -243,6 +244,13 @@ export default {
           document.location.href = this.$root.url + '/order/' + response.data
         })
       }
+    }
+  },
+  created() {
+    if (this.view == 'cart') {
+      this.cartItems = this.cartContent
+    } else {
+      this.cartItems = this.productProp
     }
   }
 }

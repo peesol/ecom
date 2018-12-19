@@ -58231,24 +58231,48 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     add: function add() {
       if (this.product.choice) {
         if (this.selectedChoice) {
-          this.addToCart({
-            product: this.product,
-            choice: this.selectedChoice.name
-          });
-          toastr.success('เพิ่มลงในตระกร้าแล้ว');
+          if (this.$root.authenticated) {
+            this.addToCart({
+              product: this.product,
+              choice: this.selectedChoice.name
+            });
+            toastr.success('เพิ่มลงในตระกร้าแล้ว');
+          } else {
+            this.$root.showModal = true;
+          }
         } else {
           alert('โปรดเลือกตัวเลือกสินค้า');
         }
       } else {
-        this.addToCart({
-          product: this.product,
-          choice: this.selectedChoice
-        });
-        toastr.success('เพิ่มลงในตระกร้าแล้ว');
+        if (this.$root.authenticated) {
+          this.addToCart({
+            product: this.product,
+            choice: this.selectedChoice
+          });
+          toastr.success('เพิ่มลงในตระกร้าแล้ว');
+        } else {
+          this.$root.showModal = true;
+        }
       }
     },
     buyNow: function buyNow() {
-      document.location.href = this.$root.url + '/product/' + this.product.uid + '/buy';
+      if (this.product.choice) {
+        if (this.selectedChoice) {
+          if (this.$root.authenticated) {
+            document.location.href = this.$root.url + '/product/' + this.product.uid + '/' + this.selectedChoice + '/buy';
+          } else {
+            this.$root.showModal = true;
+          }
+        } else {
+          alert('โปรดเลือกตัวเลือกสินค้า');
+        }
+      } else {
+        if (this.$root.authenticated) {
+          document.location.href = this.$root.url + '/product/' + this.product.uid + '/empty/buy';
+        } else {
+          this.$root.showModal = true;
+        }
+      }
     }
   })
 });
@@ -58518,6 +58542,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      cartItems: [],
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       code: null,
       user: this.userData,
@@ -58530,12 +58555,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
   },
 
-  props: ['userData', 'shippings'],
+  props: ['userData', 'shippings', 'view', 'productProp'],
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['cartContent']), {
     priceCalc: function priceCalc() {
       var totalPrice = [];
       var totalQty = [];
-      Object.entries(this.cartContent).forEach(function (_ref) {
+      Object.entries(this.cartItems).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             val = _ref2[1];
@@ -58675,7 +58700,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           name: this.user.name,
           address: this.user.address,
           phone: this.user.phone,
-          body: this.cartContent,
+          body: this.cartItems,
           total: this.priceCalc,
           discount: this.discountCalc,
           shipping: this.confirm.shipping
@@ -58684,7 +58709,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         });
       }
     }
-  })
+  }),
+  created: function created() {
+    if (this.view == 'cart') {
+      this.cartItems = this.cartContent;
+    } else {
+      this.cartItems = this.productProp;
+    }
+  }
 });
 
 /***/ }),
@@ -58699,7 +58731,7 @@ var render = function() {
     "div",
     { staticClass: "cart" },
     [
-      _vm._l(_vm.cartContent, function(item) {
+      _vm._l(_vm.cartItems, function(item) {
         return _c(
           "div",
           {
@@ -58707,8 +58739,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.cartContent.length,
-                expression: "cartContent.length"
+                value: _vm.cartItems.length,
+                expression: "cartItems.length"
               }
             ],
             staticClass: "product"
@@ -58780,16 +58812,30 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "actions" }, [
-                _c("button", {
-                  staticClass: "fas fa-trash-alt",
-                  on: {
-                    click: function($event) {
-                      _vm.remove(item.rowId)
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.view == "cart",
+                      expression: "view == 'cart'"
                     }
-                  }
-                })
-              ])
+                  ],
+                  staticClass: "actions"
+                },
+                [
+                  _c("button", {
+                    staticClass: "fas fa-trash-alt",
+                    on: {
+                      click: function($event) {
+                        _vm.remove(item.rowId)
+                      }
+                    }
+                  })
+                ]
+              )
             ])
           ]
         )
@@ -59188,8 +59234,8 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: !_vm.cartContent.length,
-              expression: "!cartContent.length"
+              value: !_vm.cartItems.length,
+              expression: "!cartItems.length"
             }
           ],
           staticClass: "text-center"
@@ -63278,6 +63324,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -63368,6 +63415,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var val = (price - discount) / ((price + discount) / 2);
       var result = val * 100;
       return Math.round(result);
+    },
+    addToHome: function addToHome(uid, index) {
+      var _this3 = this;
+
+      axios.put(this.$root.url + '/admin/product/feature/' + uid).then(function (response) {
+        toastr.success('เพิ่มในหน้าแรกแล้ว');
+        _this3.products[index].featured = true;
+      }, function (response) {
+        toastr.error('เกิดข้อผิดพลาด');
+      });
     }
   },
   created: function created() {
@@ -64535,6 +64592,24 @@ var render = function() {
                         }
                       },
                       [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "fas float-left",
+                            class: {
+                              "fa-check font-green": item.featured,
+                              "fa-times font-red": !item.featured
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.addToHome(item.uid, index)
+                              }
+                            }
+                          },
+                          [_vm._v(" หน้าแรก")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "a",
                           {
