@@ -1,55 +1,59 @@
 <template>
-  <form class="relative" v-on:submit.prevent="submit">
-    <load-overlay bg="white-bg" :show="$root.loading"></load-overlay>
-    <div class="padding-15-top">
-      อัพโหลดได้ 6 รูป ขนาดรูปละไม่เกิน 2 mb
-    </div>
+  <form class="relative grid-container" v-on:submit.prevent="submit">
+    <h2 class="page-title">
+      เพิ่มสินค้า
+      <back></back>
+    </h2>
+    <h3>รูปภาพสินค้า</h3>
     <div class="dropzone margin-15-v" id="image">
       <div class="dz-message" data-dz-message>
+        <span>อัพโหลดได้ไม่เกิน 6 รูป ไม่เกิน รูปละ 1.5 MB</span><br>
         <span>คลิกเพื่อเลือกรูปที่จะอัพโหลด</span>
       </div>
     </div>
-    <div>
-      <div class="form-group">
+    <div class="grid-x grid-padding-x medium-up-2">
+      <div class="cell form-group">
         <label class="full">ชื่อสินค้า</label>
         <input v-validate="'required'" type="text" class="form-input full-width" name="product_name" v-model="name">
         <span v-show="errors.has('product_name')" class="error">{{ errors.first('product_name') }}</span>
       </div>
-      <div class="form-group half-width-res">
+      <div class="cell form-group">
         <label class="full">ราคา</label>
         <input v-validate="'required|numeric'" type="text" class="form-input full-width" name="price" v-model="price">
         <span v-show="errors.has('price')" class="error">{{ errors.first('price') }}</span>
       </div>
-      <div class="col-2-flex-res">
-        <div class="form-group">
-          <label class="full" for="category">หมวดหมู่</label>
-          <select required class="full-width" v-model="category" @change.prevent="selectCategory(category)">
-            <option v-for="category in categories" :value="category">{{category.name}}</option>
-          </select>
-          <span class="error" v-show="!categories.length">คุณไม่มีหมวดหมู่</span>
-        </div>
-        <transition name="fade">
-          <div class="form-group" v-show="subcategories.length">
-            <label class="full" for="subcategory">หมวดหมู่ย่อย</label>
-            <select required class="full-width" v-model="subcategory">
-              <option v-for="(subcategory, index) in subcategories" :value="subcategory">{{subcategory.name}}</option>
-            </select>
-          </div>
-        </transition>
-      </div>
     </div>
+    <div class="grid-x grid-padding-x medium-up-2">
+      <div class="cell form-group">
+        <label class="full" for="category">หมวดหมู่</label>
+        <select required class="full-width" v-model="category" @change.prevent="selectCategory(category)">
+          <option v-for="category in categories" :value="category">{{category.name}}</option>
+        </select>
+        <span class="error" v-show="!categories.length">คุณไม่มีหมวดหมู่</span>
+      </div>
+      <transition name="fade">
+        <div class="cell form-group" v-show="subcategories.length">
+          <label class="full" for="subcategory">หมวดหมู่ย่อย</label>
+          <select required class="full-width" v-model="subcategory">
+            <option v-for="(subcategory, index) in subcategories" :value="subcategory">{{subcategory.name}}</option>
+          </select>
+        </div>
+      </transition>
+    </div>
+
     <div class="form-group">
       <label class="full">คำอธิบายสินค้า</label>
       <textarea required v-validate="'required'" class="description-input full-width" name="description" v-model="description"></textarea>
       <span v-show="errors.has('description')" class="error">{{ errors.first('description') }}</span>
     </div>
 
-      <div class="form-group">
-        <label class="full">ตัวเลือกสินค้า (ไม่มีก็ได้)</label>
+
+      <div class="cell form-group">
+        <label class="lead">ตัวเลือกสินค้า (ไม่มีก็ได้)</label>
         <div class="padding-10-bottom">เช่น สี ไซส์ สามารถเพิ่มเท่าไหร่ก็ได้</div>
-        <div class="flex">
-          <input type="text" class="form-input margin-10-right" name="choices" v-model="choiceInput">
-          <button :disabled="!choiceInput" type="button" class="btn blue" @click.prevent="addChoice()">เพิ่ม&nbsp;<small class="fas fa-plus"></small></button>
+        <div class="grid-x">
+          <input type="text" class="form-input medium-3 no-margin small-8" name="choices" v-model="choiceInput">
+          <button :disabled="!choiceInput" type="button" class="btn primary medium-1 small-4" @click.prevent="addChoice()">เพิ่ม&nbsp;<small class="fas fa-plus"></small></button>
         </div>
         <div class="full-width padding-10-v" v-show="choices.length">
           <p>ตัวเลือกของสินค้านี้</p>
@@ -57,8 +61,8 @@
         </div>
       </div>
 
-    <div class="text-right full-width padding-15-top">
-      <button :disabled="$root.loading || errors.any()" type="submit" id="submit-all" class="btn green form-submit">ยืนยัน</button>
+    <div class="align-right grid-x margin-15-top">
+      <button :disabled="$root.loading || errors.any()" type="submit" id="submit-all" class="btn success small-12 medium-2">อัพโหลดสินค้า</button>
     </div>
   </form>
 </template>

@@ -1,53 +1,59 @@
 <template>
-<div class="padding-15-horizontal">
-  <div class="padding-30-bottom" v-show="discount_products.length">
-    <h2>สินค้าลดราคา</h2>
-    <div class="padding-15-v thumbnail-row" v-show="products.length">
-      <div class="thumbnail-wrapper" v-for="(item, index) in discount_products">
-        <div class="thumbnail-img-wrapper">
+<div class="grid-container">
+  <h2 class="page-title">
+    ลดราคาสินค้า
+    <back></back>
+  </h2>
+  <h3>สินค้าลดราคา</h3>
+  <div class="thumbnail-row" v-show="discount_products.length">
+      <div class="card product" v-for="(item, index) in discount_products">
+        <div class="card-section">
           <img :src="$root.url + '/file/product/thumbnail/' + item.thumbnail" alt="img">
         </div>
-        <div class="details">
+        <div class="card-section details">
           <p class="title">{{ item.name }}</p>
           <p class="price">
             <s>{{$number.currency(item.price)}}&nbsp;฿</s>&nbsp;
             <font class="font-green">{{$number.currency(item.discount_price)}}&nbsp;฿</font>
           </p>
-          <div class="text-left padding-5-top">
-            <button @click.prevent="remove(item.uid, index)" class="btn red">เลิกโปรโมชั่น</button>
+          <div class="action-wrapper">
+            <button @click.prevent="remove(item.uid, index)" class="btn-flat error">เลิกโปรโมชั่น</button>
           </div>
         </div>
       </div>
-    </div>
   </div>
 
-  <h2>สินค้าภายในร้าน</h2>
+  <h3>สินค้าภายในร้าน</h3>
   <search-filter :can-toggle-view="false" :include-discount="false" v-on:search="addQueryParam"></search-filter>
-  <div class="padding-15-v thumbnail-row" v-show="products.length">
-    <div class="thumbnail-wrapper" v-for="(item, index) in products">
-      <div class="thumbnail-img-wrapper">
-        <img :src="$root.url + '/file/product/thumbnail/' + item.thumbnail" alt="img">
-      </div>
-      <div class="details">
-        <p class="title">{{ item.name }}</p>
-        <p class="price">{{ $number.currency(item.price) }}&nbsp;฿</p>
-        <div class="text-left padding-5-top">
-          <button @click.prevent="open(item, index)" class="btn teal">จัดโปรโมชั่น</button>
+  <div class="margin-15-bottom" v-show="products.length"></div>
+  <div class="thumbnail-row" v-show="products.length">
+      <div class="card product" v-for="(item, index) in products">
+        <div class="card-section">
+          <img :src="$root.url + '/file/product/thumbnail/' + item.thumbnail" alt="img">
+        </div>
+        <div class="card-section details">
+          <p class="title">{{ item.name }}</p>
+          <p class="price">{{ $number.currency(item.price) }}&nbsp;฿</p>
+          <div class="action-wrapper">
+            <button @click.prevent="open(item, index)" class="btn-flat primary">จัดโปรโมชั่น</button>
+          </div>
         </div>
       </div>
-    </div>
   </div>
 
   <modal>
     <form slot="body" @submit.prevent="apply(data.uid, index)">
-      <p class="padding-15-h">สินค้า&nbsp;:&nbsp;{{ data.name }}</p>
-      <div class="padding-15-h padding-15-bottom text-center">
-        <p>ราคา&nbsp;:{{ $number.currency(data.price) }}&nbsp;฿
+
+      <div class="grid-container padding-15-bottom">
+        <p class="lead padding-15-top">สินค้า&nbsp;:&nbsp;{{ data.name }}</p>
+        <p class="text-center">ราคา&nbsp;:{{ $number.currency(data.price) }}&nbsp;฿
           <font class="font-green" v-show="discount">&nbsp;<i class="fas fa-caret-right"></i>&nbsp;{{ discounted(data.price) }}</font>
         </p>
-        <span>ส่วนลด</span>
-        <input required type="number" v-model="discount" placeholder="ส่วนลด" min="1" :max="data.price - 1">
-        <span>บาท</span>
+        <div class="grid-padding-x grid-x align-center-middle padding-15-bottom">
+          <span class="cell auto shrink">ส่วนลด</span>
+          <input class="cell small-4 no-margin" required type="number" v-model="discount" placeholder="ส่วนลด" min="1" :max="data.price - 1">
+          <span class="cell auto shrink">บาท</span>
+        </div>
       </div>
       <div class="modal-btn half">
         <button :disabled="$root.loading" :class="{'green' : discount}" type="submit">ยืนยัน</button>

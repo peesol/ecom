@@ -45,7 +45,7 @@ Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
 |--------------------------------------------------------------------------
 */
 Route::get('/admin/product', 'Admin\Product\ProductController@index')->name('adminProduct');
-Route::get('/admin/product/upload', 'Admin\Product\ProductController@uploadPage');
+Route::get('/admin/product/upload', 'Admin\Product\ProductController@index');
 Route::post('/admin/product/create', 'Admin\Product\ProductController@create');
 Route::delete('/admin/product/delete/{product}', 'Admin\Product\ProductController@delete');
 Route::put('/admin/product/feature/{product}', 'Admin\Product\ProductController@addToHome');
@@ -54,14 +54,14 @@ Route::put('/admin/product/feature/{product}', 'Admin\Product\ProductController@
 | Stock
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/stock', 'Admin\Product\StockController@index');
-Route::put('/admin/stock/{product}', 'Admin\Product\StockController@update');
+Route::get('/admin/product/stock', 'Admin\Product\ProductController@index');
+Route::put('/admin/product/stock/{product}', 'Admin\Product\StockController@update');
 /*
 |--------------------------------------------------------------------------
 | Photo
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/product/{product}/edit', 'Admin\Product\EditController@index');
+Route::get('/admin/product/{product}/edit', 'Admin\Product\ProductController@index');
 Route::put('/admin/product/{product}/update', 'Admin\Product\EditController@update');
 Route::get('/admin/product/{product}/get_photo', 'Admin\Product\PhotoController@get');
 Route::post('/admin/product/{product}/upload_photo', 'Admin\Product\PhotoController@upload');
@@ -79,12 +79,11 @@ Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceContro
 | Prommotions
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/promotions', 'Admin\Promotion\PromotionController@index');
-Route::get('/admin/promotions/discount', 'Admin\Promotion\DiscountController@index');
+Route::get('/admin/promotions/discount', 'Admin\Product\ProductController@index');
 Route::put('/admin/promotions/discount/{product}/apply', 'Admin\Promotion\DiscountController@applyDiscount');
 Route::put('/admin/promotions/discount/{product}/cancle', 'Admin\Promotion\DiscountController@cancleDiscount');
 
-Route::get('/admin/promotions/code', 'Admin\Promotion\CodeController@index');
+Route::get('/admin/promotions/code', 'Admin\Product\ProductController@index');
 Route::post('/admin/promotions/code/create', 'Admin\Promotion\CodeController@create');
 Route::delete('/admin/promotions/code/delete/{id}', 'Admin\Promotion\CodeController@delete');
 /*
@@ -131,6 +130,7 @@ Route::get('/api/get/category', 'Api\GetterController@getCategory');
 Route::get('/api/get/products', 'Api\GetterController@getProduct');
 Route::get('/api/get/products_dc', 'Api\GetterController@getProductDiscount');
 Route::get('/api/get/products_paginate', 'Api\GetterController@getProductPagination');
+Route::get('/api/get/products/{product}', 'Api\GetterController@getProductData');
 Route::get('/api/get/code', 'Api\GetterController@getCode');
 Route::get('/api/get/contact', 'Api\GetterController@getContact');
 Route::get('/api/get/shipping', 'Api\GetterController@getShipping');

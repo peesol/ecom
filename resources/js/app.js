@@ -44,20 +44,16 @@ Vue.component('add-to-cart', require('./components/cart/AddToCart.vue'));
 Vue.component('cart', require('./components/cart/Cart.vue'));
 Vue.component('navigation', require('./components/Navigation/Navigation.vue'));
 
-Vue.component('product-upload', require('./components/admin/UploadProduct.vue'));
+
 Vue.component('contact-edit', require('./components/admin/Contact.vue'));
 Vue.component('category', require('./components/admin/Category.vue'));
 Vue.component('shipping', require('./components/admin/Shipping.vue'));
 Vue.component('banner-edit', require('./components/admin/Banner.vue'));
 
-Vue.component('product-show', require('./components/product/ProductShow.vue'));
-Vue.component('product-edit', require('./components/product/ProductEdit.vue'));
-Vue.component('product-photo', require('./components/product/ProductPhoto.vue'));
-Vue.component('product-choice', require('./components/product/ProductChoice.vue'));
-Vue.component('product-discount', require('./components/promotion/ProductDiscount.vue'));
-Vue.component('product-discount', require('./components/promotion/Code.vue'));
-Vue.component('product-stock', require('./components/product/ProductStock.vue'));
 Vue.component('modal', require('./components/Modal.vue'));
+Vue.component('back', {
+  template: '<a class="btn primary float-right hide-for-small-only" @click.prevent="$router.go(-1)"><i class="fas fa-angle-left"></i>&nbsp;ย้อนกลับ</a>'
+});
 
 Vue.component('load-overlay', {
   props: ['bg','show', 'padding'],
@@ -87,7 +83,8 @@ Vue.component('load-overlay', {
         role: window.Data.user.role,
         locale: window.Data.locale,
         loading: false,
-        showModal: false
+        showModal: false,
+        menu: false
       },
       store,
       router,

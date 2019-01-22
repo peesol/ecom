@@ -1,12 +1,20 @@
-%display-flex
-  display: flex
-
 .flex
   display: flex
   &.column
     flex-direction: column
   &.row
     flex-direction: row
+  &.row-mobile
+    flex-direction: row
+  &.column-mobile
+    flex-direction: column
+
+@media(min-width: 768px)
+  .flex
+    &.row-mobile
+      flex-direction: column
+    &.column-mobile
+      flex-direction: row
 
 .col-2-flex,
 .col-3-flex,

@@ -32,10 +32,16 @@ class GetterController extends Controller
     ];
     return response()->json($data);
   }
+
   public function getProductPagination(Request $request)
   {
     $data = Product::filter($request)->with('category', 'subcategory')->paginate(30);
     return new ProductResource($data);
+  }
+
+  public function getProductData(Product $product)
+  {
+    return response()->json($product);
   }
 
   public function getCode()

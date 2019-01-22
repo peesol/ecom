@@ -1,30 +1,41 @@
 <template>
-<div>
-  <form @submit.prevent="create" class="half-width-res form-group toggle-form">
-    <label class="full">เพิ่มโค๊ดส่วนลด</label>
-    <input required type="text" v-model="form.code" placeholder="CODE">
-    <label class="full padding-10-top">มูลค่าส่วนลด</label>
-    <div class="full-width flex">
-      <input required type="number" class="margin-10-right" v-model="form.value" placeholder="ส่วนลด">
-      <select required class="select-input" v-model="form.type">
-        <option value="percent">%</option>
-        <option value="cash">บาท</option>
-      </select>
+<div class="grid-container">
+  <h2 class="page-title">
+    โค๊ดส่วนลด
+    <back></back>
+  </h2>
+  <form @submit.prevent="create">
+    <div class="grid-x">
+      <div class="form-group cell medium-4">
+        <label class="lead">เพิ่มโค๊ดส่วนลด</label>
+        <input required type="text" v-model="form.code" placeholder="CODE">
+      </div>
     </div>
-    <div class="text-right padding-15-top">
-      <button class="btn blue" type="submit">ตกลง</button>
+    <div class="grid-x">
+      <div class="form-group cell medium-4">
+        <label class="lead">มูลค่าส่วนลด</label>
+        <div class="flex">
+          <input required :max="maxValue" type="number" class="no-margin" v-model="form.value" placeholder="ส่วนลด">
+          <select required class="select-input no-margin" v-model="form.type">
+            <option value="percent">%</option>
+            <option value="cash">บาท</option>
+          </select>
+          <button class="btn success" type="submit">สร้าง</button>
+        </div>
+      </div>
     </div>
   </form>
   <div class="padding-15-v" v-show="codes.length">
+    <h3>ส่วนลดของร้าน</h3>
     <div class="list">
       <li class="no-style table-like" v-for="(code, index) in codes">
-        <a class="delete" @click.prevent="remove(code.id, index)">ลบ</a>&nbsp;
+        <a class="btn-flat error" @click.prevent="remove(code.id, index)">ลบ</a>&nbsp;
         {{ code.code }}&nbsp;ลด&nbsp;{{ code.value }}{{ code.type == 'cash' ? ' บาท' : '%' }}
       </li>
     </div>
   </div>
-  <div class="text-center padding-15-v" v-show="!codes.length">
-    <h2>ไม่มีโค๊ด</h2>
+  <div class="text-center padding-15-v margin-15-top" v-show="!codes.length">
+    <h3>ร้านของคุณไม่มีส่วนลด</h3>
   </div>
 </div>
 </template>
@@ -41,6 +52,15 @@ export default {
       codes: []
     }
   },
+  computed: {
+    maxValue() {
+      if (this.form.type == 'percent') {
+        return 99;
+      } else {
+        return ;
+      }
+    }
+  },
   methods: {
     getCode() {
       this.$root.loading = true
@@ -50,6 +70,7 @@ export default {
       })
     },
     create() {
+
       this.$root.loading = true
       axios.post(this.$root.url + '/admin/promotions/code/create', {
         form: this.form

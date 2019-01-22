@@ -1,0 +1,82 @@
+.mobile-menu
+  display: flex
+  justify-content: space-between
+  position: fixed
+  top: 0
+  width: 100%
+  height: 50px
+  background: #37394c
+  border: 1px solid #9ba1cc
+  z-index: 2
+  button
+    color: #9ba1cc
+    height: 50px
+    padding: 0 10px
+  .fa-bars
+    font-size: 1.5rem
+
+.menu
+  position: fixed
+  top: 50px
+  height: 100vh
+  width: 100%
+  z-index: 9999
+  background: #37394c
+  padding: 10px 0
+
+.menu.active
+  display: block !important
+
+.menu
+  li, a
+    display: block
+    color: #9ba1cc
+    list-style-type: none
+    cursor: pointer
+    padding: 15px 30px
+    width: 100%
+    margin: 2px 0
+    a
+      font-size: medium
+    &.active, &.router-link-active, &:hover
+      color: #fff
+      background: rgba(35,37,51,0.6)
+    &::before
+      display: inline-block
+      width: 30px
+
+.menu-title
+  color: #fff
+  font-size: 1.5rem
+  text-align: center
+  margin: 10px 0
+
+.dashboard
+  position: absolute
+  top: 50px
+  background: #fff
+  padding: 20px 10px
+  width: 100%
+
+@media (min-width: 992px)
+  .mobile-menu
+    display: none
+  .menu
+    top: 0
+    left: 0
+    height: 100vh
+    width: 220px
+    li
+      padding: 10px 20px
+      font-size: medium
+  .dashboard
+    width: auto
+    position: relative
+    top: 0
+    margin-left: 220px !important
+
+.page-title
+  border-bottom: 3px solid #0099ff
+
+label.lead
+  margin-bottom: 5px

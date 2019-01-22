@@ -1,29 +1,35 @@
 <template lang="html">
 <div>
+  <h2 class="page-title">
+    สินค้า
+    <back></back>
+  </h2>
   <p>สินค้า&nbsp;{{ meta.total }}&nbsp;รายการ&nbsp;({{ meta.last_page }}&nbsp;หน้า)</p>
   <search-filter :can-toggle-view="true" :include-discount="true" v-on:search="addQueryParam" v-on:changeView="changeView"></search-filter>
   <pagination :meta="meta" v-on:switched="changePage" v-show="products.length"></pagination>
-  <div class="padding-15-v" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
-    <div class="thumbnail-wrapper" :class="{'product' : $root.role == 'guest', 'admin-product' : $root.role == 'admin'}" v-for="(item, index) in products">
-      <div class="thumbnail-img-wrapper">
+
+  <div class="" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
+    <div class="card product" v-for="(item, index) in products">
+      <div class="card-section">
         <a :href="$root.url + '/product/' + item.uid">
-          <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+          <img src="http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg" :alt="item.thumbnail">
         </a>
         <span class="top-right sale" v-show="item.discount_price">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
       </div>
-      <div class="details">
+      <div class="card-section details">
         <a class="title" :href="$root.url + '/product/' + item.uid">{{ item.name }}</a>
         <p class="price" v-show="!item.discount_price">{{ $number.currency(item.price) }}&nbsp;บาท</p>
         <p class="price sale" v-show="item.discount_price"><s>{{ $number.currency(item.price) }}</s>&nbsp;{{ $number.currency(item.discount_price) }}&nbsp;บาท</p>
         <p class="category" v-show="$root.role !== 'guest'">{{ item.category.name }}&nbsp;/&nbsp;{{ item.subcategory.name }}</p>
-        <div :class="{'text-right' : view == 'grid', 'text-left' : view == 'list'}" v-show="$root.role == 'admin'">
+        <div class="action-wrapper" :class="{'text-right' : view == 'grid', 'text-left' : view == 'list'}" v-show="$root.role == 'admin'">
           <a @click.prevent="addToHome(item.uid, index)" class="fas float-left" :class="{'fa-check font-green' : item.featured, 'fa-times font-red' : !item.featured}">&nbsp;หน้าแรก</a>
-          <a :href="$root.url + '/admin/product/' + item.uid + '/edit'" class="btn-flat blue margin-10-right" type="button">แก้ไข</a>
-          <a @click.prevent="remove(index, item.uid)" class="btn-flat red margin-10-right" type="button">ลบ</a>
+          <router-link :to="{ path: '/admin/product/'+ item.uid +'/edit', params: { uid: item.uid }}" class="btn-flat primary">แก้ไข</router-link>
+          <a @click.prevent="remove(index, item.uid)" class="btn-flat error">ลบ</a>
         </div>
       </div>
     </div>
   </div>
+
   <div class="text-center padding-10-v" v-else>
     <h1>ไม่มีสินค้า</h1>
   </div>
@@ -116,8 +122,13 @@ export default {
     },
     addToHome(uid, index) {
       axios.put(this.$root.url + '/admin/product/feature/' + uid).then(response => {
-        toastr.success('เพิ่มในหน้าแรกแล้ว')
-        this.products[index].featured = true
+        if (this.products[index].featured == true) {
+          this.products[index].featured = false
+          toastr.success('ลบออกจากหน้าแรกแล้ว')
+        } else {
+          this.products[index].featured = true
+          toastr.success('เพิ่มในหน้าแรกแล้ว')
+        }
       }, response => {
         toastr.error('เกิดข้อผิดพลาด')
       })

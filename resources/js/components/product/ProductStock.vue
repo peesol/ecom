@@ -1,5 +1,8 @@
 <template>
 <div>
+  <h2 class="page-title">สต๊อกสินค้า
+    <back></back>
+  </h2>
   <div class="padding-10-v">
     <i class="fas fa-circle font-green"></i>&nbsp;มีสินค้า<br>
     <i class="fas fa-circle font-red"></i>&nbsp;สินค้าหมด<br>
@@ -15,11 +18,13 @@
 
   <modal>
     <form slot="body" @submit.prevent="changeStock(data.uid, data.index)">
-      <p class="padding-15-h">สินค้า&nbsp;:&nbsp;{{ data.name }}</p>
-      <div class="padding-15-h padding-15-bottom">
-        <span>จำนวน</span>
-        <input required type="number" v-model="stock" :min="0">
-        <span>ชิ้น</span>
+      <div class="grid-container padding-15-bottom">
+        <p class="lead padding-15-top">สินค้า&nbsp;:&nbsp;{{ data.name }}</p>
+        <div class="grid-padding-x grid-x align-center-middle padding-15-bottom">
+          <span class="cell auto shrink">จำนวน</span>
+          <input class="cell small-4 no-margin" required type="number" v-model="stock" :min="0">
+          <span class="cell auto shrink">ชิ้น</span>
+        </div>
       </div>
       <div class="modal-btn half">
         <button :disabled="$root.loading" type="submit">ยืนยัน</button>
@@ -87,7 +92,7 @@ export default {
     },
     changeStock(uid) {
       this.$root.loading = true
-      axios.put(this.$root.url + '/admin/stock/' + uid ,{
+      axios.put(this.$root.url + '/admin/product/stock/' + uid ,{
         stock: this.stock
       }).then(response => {
         toastr.success('อัพเดทสต๊อกสินค้าแล้ว')

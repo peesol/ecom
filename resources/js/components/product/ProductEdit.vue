@@ -1,80 +1,94 @@
 <template>
-  <form v-on:submit.prevent="edit" enctype="multipart/form-data" class="padding-15-top full-width border-bottom-grey">
-    <div class="col-2-flex-res">
-
-      <div class="col-2-flex-res padding-10-right-screen">
-        <div class="padding-15-bottom-mobile">
-          <div class="image-preview margin-center">
-            <span class="fas fa-images"></span>
-            <img :src="image_filename">
+  <div class="grid-container">
+    <form v-on:submit.prevent="edit" enctype="multipart/form-data">
+      <h2 class="page-title text-justify">แก้ไขสินค้า
+      <back></back>
+      </h2>
+        <div class="grid-x grid-margin-x padding-10-top">
+          <div class="cell medium-3">
+            <p class="lead no-margin text-center">รูปตัวอย่าง</p>
+            <div class="image-preview">
+              <span class="fas fa-images"></span>
+              <img :src="image_filename">
+            </div>
+          </div>
+          <div class="cell medium-3 grid-y padding-15-v">
+            <label class="btn primary margin-15-v text-center">
+              <input class="hide" id="image-input" @change="previewThumbnail" type="file" :name="image_filename" accept="image/*">เลือกไฟล์&nbsp;+
+            </label>
+            <button class="btn primary margin-15-bottom" v-if="image_filename !== null" @click.prevent="removeFile">ลบ</button>
+          </div>
+          <div class="cell medium-6">
+            <div class="form-group half-width-res">
+              <label class="lead" for="name">ชื่อสินค้า</label>
+              <input class="full-width"t v-validate="'required|min:6'" type="text" v-model="name" name="product_name">
+              <span v-show="errors.has('product_name')" class="error">{{ errors.first('product_name') }}</span>
+            </div>
+            <div class="form-group half-width-res">
+              <label class="lead" for="price">ราคา</label>
+              <input class="full-width" v-validate="'required|numeric'" type="text" v-model="price" name="price">
+              <span v-show="errors.has('price')" class="error">{{ errors.first('price') }}</span>
+            </div>
+            <div class="form-group half-width-res">
+              <label class="lead" for="visibility">ใครดูได้</label>
+              <select required class="select-input full-width" :name="visibility" v-model="visibility" @change="getSubCategory(category)">
+                <option value="public">ทุกคน</option>
+                <option value="unlisted">เฉพาะผู้ที่มีลิ้งค์</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="padding-15-bottom-mobile">
-          <label class="file-input-btn full-width btn blue">
-            <input id="image-input" @change="previewThumbnail" type="file" :name="image_filename" accept="image/*">
-            เลือกไฟล์&nbsp;+
-          </label>
-          <button class="file-input-btn full-width btn teal" v-if="image_filename !== null" @click.prevent="removeFile">ลบ</button>
-        </div>
-      </div>
 
-      <div class="half-width-res padding-10-left-screen">
-        <div class="form-group half-width-res">
-          <label class="full" for="name">ชื่อสินค้า</label>
-          <input class="full-width"t v-validate="'required|min:6'" type="text" v-model="name" name="product_name">
-          <span v-show="errors.has('product_name')" class="error">{{ errors.first('product_name') }}</span>
+      <div class="full-width">
+        <div class="form-group">
+          <label class="lead" for="description">คำอธิบายสินค้า</label>
+          <textarea v-validate="'required'" class="description-input full-width" type="text" v-model="description" name="description"></textarea>
+          <span v-show="errors.has('description')" class="error">{{ errors.first('description') }}</span>
         </div>
-        <div class="form-group half-width-res">
-          <label class="full" for="price">ราคา</label>
-          <input class="full-width" v-validate="'required|numeric'" type="text" v-model="price" name="price">
-          <span v-show="errors.has('price')" class="error">{{ errors.first('price') }}</span>
-        </div>
-        <div class="form-group half-width-res">
-          <label class="full" for="visibility">ใครดูได้</label>
-          <select required class="select-input full-width" :name="visibility" v-model="visibility" @change="getSubCategory(category)">
-            <option value="public">ทุกคน</option>
-            <option value="unlisted">เฉพาะผู้ที่มีลิ้งค์</option>
-          </select>
+        <div class="grid-x align-right">
+          <button :disabled="$root.loading || errors.any()" class="btn success medium-2 small-12" type="submit">บันทึก</button>
         </div>
       </div>
-    </div>
-
-    <div class="full-width">
-      <div class="form-group">
-        <label class="full" for="description">คำอธิบายสินค้า</label>
-        <textarea v-validate="'required'" class="description-input full-width" type="text" v-model="description" name="description"></textarea>
-        <span v-show="errors.has('description')" class="error">{{ errors.first('description') }}</span>
-      </div>
-      <div class="text-right full-width padding-15-bottom">
-        <button :disabled="$root.loading || errors.any()" class="btn blue form-submit" type="submit">บันทึก</button>
-      </div>
-    </div>
-
-  </form>
+    </form>
+    <hr>
+    <dropzone :product-slug="uid"></dropzone>
+    <hr>
+    <product-choice :product-slug="uid"></product-choice>
+  </div>
 </template>
 
 <script>
+import Choice from './ProductChoice'
+import Photos from './ProductPhoto'
 export default {
+  components: {
+    'product-choice': Choice,
+    'dropzone': Photos
+  },
   data() {
     return {
-      image_filename: this.imageSrc,
-      name: this.productName,
-      price: this.productPrice,
-      description: this.productDescription,
-      visibility: this.productVisibility,
+      image_filename: null,
+      name: null,
+      price: null,
+      description: null,
+      visibility: null,
+      uid: null,
       formVisible: false,
     }
   },
-  props: {
-    productSlug: null,
-    productName: null,
-    productPrice: null,
-    productDescription: null,
-    productVisibility: null,
-    imageSrc: null,
-  },
-
   methods: {
+    getProduct() {
+      this.$root.loading = true
+      axios.get(this.$root.url + '/api/get/products/' + this.$route.params.uid).then(response => {
+        this.image_filename = this.$root.url + '/file/product/thumbnail/' + response.data.thumbnail
+        this.name = response.data.name
+        this.price = response.data.price
+        this.description = response.data.description
+        this.visibility = response.data.visibility
+        this.uid = response.data.uid
+        this.$root.loading = false
+      })
+    },
     previewThumbnail(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -101,7 +115,7 @@ export default {
       if (document.getElementById("image-input").files.length == 0) {
         this.$Progress.start();
         toastr.info('โปรดรอ...')
-        axios.put(this.$root.url + '/admin/product/' + this.productSlug + '/update', {
+        axios.put(this.$root.url + '/admin/product/' + this.$route.params.uid + '/update', {
           name: this.name,
           description: this.description,
           price: this.price,
@@ -118,7 +132,7 @@ export default {
       } else if (document.getElementById("image-input").files.length > 0) {
         this.$Progress.start();
         toastr.info('โปรดรอ...')
-        axios.put(this.$root.url + '/admin/product/' + this.productSlug + '/update', {
+        axios.put(this.$root.url + '/admin/product/' + this.$route.params.uid + '/update', {
           name: this.name,
           description: this.description,
           price: this.price,
@@ -136,5 +150,8 @@ export default {
       }
     }
   },
+  created() {
+    this.getProduct()
+  }
 }
 </script>

@@ -1,16 +1,24 @@
 @extends('admin._admin_layout')
 @section('content')
-<div class="panel-head large border-bottom">
-  <h1>จัดการสินค้า</h1>
-  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ route('adminIndex') }}'"><i class="fas fa-angle-left"></i>&nbsp;กลับ</button>
-</div>
-<div class="panel large border-bottom">
-  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/product/upload') }}'">เพิ่มสินค้า&nbsp;<i class="fas fa-plus"></i></button>
-  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/stock') }}'">สต๊อก</button>
-  <button type="button" name="button" class="btn blue" onclick="document.location.href='{{ url('/admin/promotions') }}'">โปรโมชั่น</button>
-</div>
-<div class="panel large round relative">
-  <load-overlay bg="white-bg" :show="$root.loading"></load-overlay>
-  <product-show></product-show>
-</div>
+  <div class="mobile-menu">
+    <button class="fas fa-angle-left" @click.prevent="$router.go(-1)">&nbsp;ย้อนกลับ</button>
+    <button class="fas fa-bars" @click.prevent="$root.menu = !$root.menu"></button>
+  </div>
+  <transition name="width">
+    <div class="menu hide-for-small-only" :class="{'active' : $root.menu}">
+      <p class="menu-title">จัดการสินค้า</p>
+      <router-link class="fas fa-warehouse" to="/admin/product" exact>สินค้าในร้าน</router-link>
+      <router-link class="fas fa-plus" to="/admin/product/upload">เพิ่มสินค้า</router-link>
+      <router-link class="fas fa-box" to="/admin/product/stock">สต๊อก</router-link>
+      <router-link class="fas fa-tag" to="/admin/promotions/discount">ลดราคาสินค้า</router-link>
+      <router-link class="fas fa-receipt" to="/admin/promotions/code">โค๊ดลดราคา</router-link>
+      <a class="fas fa-home" href="{{ route('adminIndex') }}">กลับหน้าแรก</a>
+    </div>
+  </transition>
+  <div class="dashboard">
+    <div class="grid-container grid-padding-y">
+      <load-overlay bg="white-bg" :show="$root.loading"></load-overlay>
+      <router-view></router-view>
+    </div>
+  </div>
 @endsection

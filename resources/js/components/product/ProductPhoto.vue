@@ -1,32 +1,38 @@
 <template>
-<div class="border-bottom-grey">
-  <h2>รูปภาพสินค้า&nbsp;<small>ขนาด 500px*500px</small></h2>
-  <div v-show="images.length" class="padding-15-v thumbnail-grid">
-    <div v-for="(image, index) in images" class="thumbnail-wrapper fit">
-      <img alt="currently uploading..." :src="image.filename">
-      <button v-show="image.id && images.length > 1" @click.prevent="remove(image.id, index)" class="top-right btn red"><i class="fas fa-trash-alt"></i></button>
+<div>
+  <div class="grid-x align-justify">
+    <h3 class="cell medium-6 no-margin">รูปภาพสินค้า&nbsp;<small>ขนาด 500px*500px</small></h3>
+    <div class="cell align-right medium-2">
+      <button class="cell btn primary" @click.prevent="formVisible = !formVisible">
+        อัพโหลดรูปสินค้า&nbsp;<i class="fas" :class="{'fa-angle-down' : !formVisible, 'fa-angle-up' : formVisible}"></i>
+      </button>
     </div>
   </div>
 
-  <div class="padding-15-v">
-    <button class="btn blue form-submit" @click.prevent="formVisible = !formVisible">
-      อัพโหลดรูปสินค้า&nbsp;<i class="fas" :class="{'fa-angle-down' : !formVisible, 'fa-angle-up' : formVisible}"></i>
-    </button>
-  </div>
-
   <transition name="fade">
-    <div v-show="formVisible" class="padding-15-bottom">
+    <div class="margin-15-top" v-show="formVisible">
       <div class="dropzone" id="image">
         <div class="dz-message" data-dz-message>
           <span>อัพโหลดได้ไม่เกิน 6 รูป ไม่เกิน รูปละ 1.5 MB</span><br>
           <span>คลิกเพื่อเลือกรูปที่จะอัพโหลด</span>
         </div>
       </div>
-      <div class="text-right padding-15-top">
-        <button class="btn blue form-submit" @click.prevent="submit" id="photo-submit">อัพโหลด</button>
+      <div class="grid-x align-right padding-15-top">
+        <button class="cell btn success medium-2" @click.prevent="submit" id="photo-submit">อัพโหลด</button>
       </div>
+      <hr>
     </div>
   </transition>
+
+  <div v-if="images.length" class="padding-15-v thumbnail-grid">
+    <div v-for="(image, index) in images" class="image-preview">
+      <img alt="currently uploading..." :src="image.filename">
+      <button v-show="image.id && images.length > 1" @click.prevent="remove(image.id, index)" class="top-right btn error"><i class="fas fa-trash-alt"></i></button>
+    </div>
+  </div>
+  <div v-else>
+    <p class="lead margin-15 text-center">สินค้านี้ไม่มีรูปภาพ</p>
+  </div>
 </div>
 </template>
 
@@ -38,14 +44,14 @@ export default {
     return {
       images: [],
       formVisible: false,
-      dropzoneUrl: this.$root.url + '/admin/product/' + this.productSlug + '/upload_photo',
+      dropzoneUrl: this.$root.url + '/admin/product/' + this.$route.params.uid + '/upload_photo',
     }
   },
   props: ['productSlug'],
 
   methods: {
     getPhoto() {
-      axios.get(this.$root.url + '/admin/product/' + this.productSlug + '/get_photo')
+      axios.get(this.$root.url + '/admin/product/' + this.$route.params.uid + '/get_photo')
         .then(response => {
           this.images = response.data;
         });
