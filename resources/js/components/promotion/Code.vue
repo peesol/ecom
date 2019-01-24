@@ -1,5 +1,5 @@
 <template>
-<div class="grid-container">
+<div>
   <h2 class="page-title">
     โค๊ดส่วนลด
     <back></back>

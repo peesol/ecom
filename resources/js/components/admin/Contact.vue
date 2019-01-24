@@ -1,49 +1,56 @@
 <template>
 <div>
-  <div class="text-left">
-    <button class="btn blue" type="button" @click="formVisible = !formVisible">เพิ่มข้อมูล&nbsp;+</button>
+  <h2 class="page-title">ข้อมูลร้าน
+    <back></back>
+  </h2>
+  <div class="margin-15-v">
+    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มข้อมูล&nbsp;+</button>
   </div>
   <transition name="fade">
-    <form class="toggle-form margin-15-top" v-show="formVisible" @submit.prevent="create()">
-      <div class="form-group">
-        <label class="full">ประเภท</label>
-        <select required class="select-input half-width-res" v-model="sub" @change.prevent="selectType()">
-          <option value="phone">โทรศัพท์</option>
-          <option value="address">ที่อยู่</option>
-          <option value="email">อีเมล</option>
-          <option value="facebook">Facebook</option>
-          <option value="instagram">Instagram</option>
-          <option value="twitter">Twitter</option>
-          <option value="line">Line</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="full">ชื่อ ที่อยู่ หรือ ข้อมูลอื่น</label>
-        <input required class="half-width-res" type="text" v-model="body">
-      </div>
-      <div class="form-group">
-        <label class="full">ลิ้งค์(ไม่มีก็ได้)</label>
-        <input data-vv-as="*" v-validate="'url:require_protocol'" class="half-width-res" type="text" name="link" v-model="link" :class="{'error': errors.has('link')}" placeholder="http://www.example.com">
-        <span v-show="errors.has('link')" class="error">{{ errors.first('link') }}</span>
-      </div>
-      <div class="text-right padding-15-top-mobile">
-        <button :disabled="errors.any()" type="submit" class="btn blue form-submit">ยืนยัน</button>
-      </div>
-    </form>
-  </transition>
-  <div class="padding-15-v contact" v-show="contacts.length">
-    <div v-for="(contact, index) in contacts">
-      <div class="info">
-        <i :class="[contact.sub, contact.type]"></i>
-        <p class="body">{{ contact.body }}</p>
-      </div>
-      <p v-show="contact.link" class="link"><a :href="contact.link">{{ contact.link }}</a></p>
-      <div class="actions text-right">
-        <button class="btn-flat red fas fa-trash-alt font-large" type="button" @click="remove(contact.id, index)"></button>
-      </div>
+    <div class="grid-x">
+      <form class="filter cell medium-6 grid-y" v-show="formVisible" @submit.prevent="create()">
+        <div class="form-group">
+          <label>ประเภท</label>
+          <select required v-model="sub" @change.prevent="selectType()">
+            <option value="phone">โทรศัพท์</option>
+            <option value="address">ที่อยู่</option>
+            <option value="email">อีเมล</option>
+            <option value="facebook">Facebook</option>
+            <option value="instagram">Instagram</option>
+            <option value="twitter">Twitter</option>
+            <option value="line">Line</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ชื่อ ที่อยู่ หรือ ข้อมูลอื่น</label>
+          <input required class="half-width-res" type="text" v-model="body">
+        </div>
+        <div class="form-group">
+          <label>ลิ้งค์(ไม่มีก็ได้)</label>
+          <input data-vv-as="*" v-validate="'url:require_protocol'" class="half-width-res" type="text" name="link" v-model="link" :class="{'error': errors.has('link')}" placeholder="http://www.example.com">
+          <span v-show="errors.has('link')" class="error">{{ errors.first('link') }}</span>
+        </div>
+        <div class="grid-x padding-15-top-mobile align-right">
+          <button :disabled="errors.any()" type="submit" class="btn success cell medium-4">ยืนยัน</button>
+        </div>
+      </form>
     </div>
-  </div>
-  <div v-show="!contacts.length" class="text-center">
+  </transition>
+  <h3 class="margin-15-v">ข้อมูลติดต่อของร้าน</h3>
+  <table class="stack unstriped hover" v-show="contacts.length">
+    <tbody>
+      <tr v-for="(contact, index) in contacts">
+        <td width="50"><i class="contact" :class="[contact.sub, contact.type]"></i></td>
+        <td>{{ contact.body }}</td>
+        <td v-show="contact.link"><a :href="contact.link">{{ contact.link }}</a></td>
+        <td v-show="!contact.link">ไม่มีลิ้งค์</td>
+        <td class="text-right">
+          <button class="btn-flat error lead padding-15-h" type="button" @click="remove(contact.id, index)">ลบ</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div v-show="!contacts.length" class="text-center margin-15-v">
     <h2>ไม่มีข้อมูลของร้าน</h2>
   </div>
 </div>

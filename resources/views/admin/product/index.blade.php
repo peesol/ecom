@@ -9,6 +9,7 @@
       <p class="menu-title">จัดการสินค้า</p>
       <router-link class="fas fa-warehouse" to="/admin/product" exact>สินค้าในร้าน</router-link>
       <router-link class="fas fa-plus" to="/admin/product/upload">เพิ่มสินค้า</router-link>
+      <router-link class="fas fa-list" to="/admin/category">หมวดหมู่</router-link>
       <router-link class="fas fa-box" to="/admin/product/stock">สต๊อก</router-link>
       <router-link class="fas fa-tag" to="/admin/promotions/discount">ลดราคาสินค้า</router-link>
       <router-link class="fas fa-receipt" to="/admin/promotions/code">โค๊ดลดราคา</router-link>

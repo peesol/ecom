@@ -1,5 +1,5 @@
 <template>
-  <form class="relative grid-container" v-on:submit.prevent="submit">
+  <form class="relative" v-on:submit.prevent="submit">
     <h2 class="page-title">
       เพิ่มสินค้า
       <back></back>
@@ -11,19 +11,19 @@
         <span>คลิกเพื่อเลือกรูปที่จะอัพโหลด</span>
       </div>
     </div>
-    <div class="grid-x grid-padding-x medium-up-2">
+    <div class="grid-x grid-margin-x medium-up-2">
       <div class="cell form-group">
         <label class="full">ชื่อสินค้า</label>
-        <input v-validate="'required'" type="text" class="form-input full-width" name="product_name" v-model="name">
+        <input required v-validate="'required'" type="text" class="form-input full-width" name="product_name" v-model="name">
         <span v-show="errors.has('product_name')" class="error">{{ errors.first('product_name') }}</span>
       </div>
       <div class="cell form-group">
         <label class="full">ราคา</label>
-        <input v-validate="'required|numeric'" type="text" class="form-input full-width" name="price" v-model="price">
+        <input required v-validate="'required|numeric'" type="text" class="form-input full-width" name="price" v-model="price">
         <span v-show="errors.has('price')" class="error">{{ errors.first('price') }}</span>
       </div>
     </div>
-    <div class="grid-x grid-padding-x medium-up-2">
+    <div class="grid-x grid-margin-x medium-up-2">
       <div class="cell form-group">
         <label class="full" for="category">หมวดหมู่</label>
         <select required class="full-width" v-model="category" @change.prevent="selectCategory(category)">

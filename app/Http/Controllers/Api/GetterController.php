@@ -79,4 +79,11 @@ class GetterController extends Controller
     }
 
   }
+
+  public function getBanner()
+  {
+    $data = DB::table('banners')->get();
+
+    return response()->json($data);
+  }
 }

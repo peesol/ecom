@@ -1,74 +1,89 @@
 <template>
 <div>
-  <div class="text-left">
-    <button class="btn blue" type="button" @click="formVisible = !formVisible">เพิ่มการช่องทางส่งสินค้า&nbsp;+</button>
+  <h2 class="page-title">การส่งสินค้า
+    <back></back>
+  </h2>
+  <div class="margin-15-v">
+    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มการช่องทางส่งสินค้า&nbsp;+</button>
   </div>
   <transition name="fade">
-    <form class="toggle-form margin-15-top" v-show="formVisible" @submit.prevent="create()">
-      <div class="form-group">
-        <label class="full">คำอธิบาย เช่น ส่งด่วน EMS</label>
-        <input required type="text" v-model="form.method">
-      </div>
-      <div class="flex padding-10-v">
-        <label class="margin-10-right">ส่งสินค้าฟรี่?</label>
-        <input class="regular" type="checkbox" name="free" v-model="free">
-      </div>
-      <transition name="fade">
-        <div class="input-group padding-10-v" v-show="!free">
-          <label class="">ค่าส่งสินค้า</label>
-          <input :required="!free" class="half-width-res" type="number" v-model="form.fee">
-          <label class="">บาท</label>
+    <div class="grid-x">
+      <form class="grid-y cell medium-6 filter" v-show="formVisible" @submit.prevent="create()">
+        <div class="form-group">
+          <label>ชื่อการจัดส่ง</label>
+          <input required type="text" v-model="form.method" placeholder="EMS Kerry อื่นๆ">
         </div>
-      </transition>
-      <transition name="fade">
-        <div class="flex padding-10-v" v-show="!free">
-          <label class="margin-10-right">คิดค่าขนส่งต่อชิ้นเมื่อซื้อชิ้นที่สองขึ้นไป?</label>
-          <input class="regular" type="checkbox" name="free" v-model="multiply">
+        <label class="checkbox lead" :class="{'active' : free }">
+          ส่งสินค้าฟรี?
+          <input type="checkbox" name="free" v-model="free">
+        </label>
+        <transition name="fade">
+          <div class="grid-x form-group padding-10-v grid-margin-x" v-show="!free">
+            <label class="cell align-self-middle auto shrink">ค่าส่งสินค้า</label>
+            <input :required="!free" class="cell no-margin medium-2 small-4" type="number" v-model="form.fee">
+            <label class="cell align-self-middle auto shrink">บาท</label>
+          </div>
+        </transition>
+        <transition name="fade">
+          <div class="flex padding-10-v" v-show="!free">
+            <label class="checkbox lead" :class="{'active' : multiply }">
+              คิดค่าขนส่งต่อชิ้นเมื่อซื้อชิ้นที่สองขึ้นไป?
+              <input type="checkbox" name="free" v-model="multiply">
+            </label>
+          </div>
+        </transition>
+        <transition name="fade">
+          <div class="grid-x form-group padding-10-v grid-margin-x" v-show="multiply && !free">
+            <label class="cell align-self-middle auto shrink">ค่าส่งเพิ่ม</label>
+            <input :required="multiply && !free" class="cell no-margin medium-2 small-4" type="number" v-model="form.multiply">
+            <label class="cell align-self-middle auto shrink">ต่อชิ้น</label>
+          </div>
+        </transition>
+        <transition name="fade">
+          <div class="flex padding-10-v" v-show="!free">
+            <label class="checkbox lead" :class="{'active' : promotion }">
+              ส่งฟรีเมื่อซื้อถึงขั้นต่ำ?
+              <input type="checkbox" name="free" v-model="promotion">
+            </label>
+          </div>
+        </transition>
+        <transition name="fade">
+          <div class="grid-x form-group" v-show="promotion && !free">
+            <label class="cell small-12">ส่งฟรีเมื่อซื้อ</label>
+            <input class="cell small-6 medium-4" :required="promotion && !free" type="number" v-model="form.promotion.amount" placeholder="จำนวน">
+            <select class="cell small-6 medium-4" :required="promotion && !free" v-model="form.promotion.type">
+              <option value="qty">ชิ้น</option>
+              <option value="cost">บาท</option>
+            </select>
+          </div>
+        </transition>
+        <div class="grid-x padding-15-top-mobile align-right">
+          <button :disabled="errors.any()" type="submit" class="btn success cell medium-4">ยืนยัน</button>
         </div>
-      </transition>
-      <transition name="fade">
-        <div class="input-group padding-10-v" v-show="multiply && !free">
-          <label class="">ค่าส่งเพิ่ม</label>
-          <input :required="multiply && !free" class="half-width-res" type="number" v-model="form.multiply">
-          <label class="">ต่อชิ้น</label>
-        </div>
-      </transition>
-      <transition name="fade">
-        <div class="flex padding-10-v" v-show="!free">
-          <label class="margin-10-right">ส่งฟรีเมื่อซื้อถึงขั้นต่ำ?</label>
-          <input class="regular" type="checkbox" name="free" v-model="promotion">
-        </div>
-      </transition>
-      <transition name="fade">
-        <div class="input-group padding-10-v" v-show="promotion && !free">
-          <label class="">ส่งฟรีเมื่อซื้อ</label>
-          <input :required="promotion && !free" class="half-width-res" type="number" v-model="form.promotion.amount" placeholder="จำนวน">
-          <select :required="promotion && !free" class="select-input" v-model="form.promotion.type">
-            <option value="qty">ชิ้น</option>
-            <option value="cost">บาท</option>
-          </select>
-        </div>
-      </transition>
-      <div class="text-right padding-15-top-mobile">
-        <button :disabled="errors.any()" type="submit" class="btn blue form-submit">ยืนยัน</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </transition>
   <div v-show="shippings.length">
-    <h2>ช่องทางจัดส่งของร้าน</h2>
-    <div class="col-2-flex-res border-bottom-grey padding-10" v-for="(shipping, index) in shippings">
-      <div class="list">
-        <h4>{{ index + 1 }}.&nbsp;{{ shipping.method }}</h4>
-        <li class="dash">ค่าส่ง&nbsp;{{ shipping.fee ? shipping.fee + ' บาท' : 'FREE' }}</li>
-        <li class="dash" v-show="shipping.multiply">เพิ่มค่าส่ง&nbsp;{{ shipping.multiply }}&nbsp;บาท/ชิ้น</li>
-        <li class="dash" v-show="shipping.promotion.type">ส่งฟรีเมื่อซื้อครบ&nbsp;{{ shipping.promotion.amount }}&nbsp;{{ shipping.promotion.type == 'qty' ? 'ชิ้น' : 'บาท' }}</li>
-      </div>
-      <div class="text-right">
-        <button @click.prevent="remove(shipping.id, index)" class="btn-flat red" type="button">ลบ</button>
-      </div>
-    </div>
+    <h3 class="margin-15-v">ช่องทางจัดส่งของร้าน</h3>
+    <table class="stack hover unstriped">
+      <tbody>
+        <tr v-for="(shipping, index) in shippings">
+          <td>
+            <div class="list">
+              <h4>{{ index + 1 }}.&nbsp;{{ shipping.method }}</h4>
+              <li class="dash">ค่าส่ง&nbsp;{{ shipping.fee ? shipping.fee + ' บาท' : 'FREE' }}</li>
+              <li class="dash" v-show="shipping.multiply">เพิ่มค่าส่ง&nbsp;{{ shipping.multiply }}&nbsp;บาท/ชิ้น</li>
+              <li class="dash" v-show="shipping.promotion.type">ส่งฟรีเมื่อซื้อครบ&nbsp;{{ shipping.promotion.amount }}&nbsp;{{ shipping.promotion.type == 'qty' ? 'ชิ้น' : 'บาท' }}</li>
+            </div>
+          </td>
+          <td class="text-right">
+            <button class="btn-flat error lead padding-15-h" type="button" @click="remove(shipping.id, index)">ลบ</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="text-center" v-show="!shippings.length">
+  <div class="text-center margin-15-v" v-show="!shippings.length">
     <h2>คุณไม่มีช่องทางส่งสินค้า</h2>
   </div>
 </div>

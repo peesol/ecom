@@ -2,14 +2,22 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+const Category = require('../components/product/Category.vue');
 const ProductShow = require('../components/product/ProductShow.vue');
 const ProductEdit = require('../components/product/ProductEdit.vue');
 const ProductStock = require('../components/product/ProductStock.vue');
 const ProductUpload = require('../components/product/ProductUpload.vue');
 const ProductDiscount = require('../components/promotion/ProductDiscount.vue');
 const Code = require('../components/promotion/Code.vue');
+const Banner = require('../components/admin/Banner.vue');
+const Contact = require('../components/admin/Contact.vue');
+const Shipping = require('../components/admin/Shipping.vue');
 
 const routes = [
+  {
+    path: '/admin/category',
+    component: Category
+  },
   {
     path: '/admin/product/upload',
     component: ProductUpload
@@ -33,6 +41,18 @@ const routes = [
   {
     path: '/admin/promotions/code',
     component: Code
+  },
+  {
+    path: '/admin/banner',
+    component: Banner
+  },
+  {
+    path: '/admin/contact',
+    component: Contact
+  },
+  {
+    path: '/admin/shipping',
+    component: Shipping
   }
 ];
 

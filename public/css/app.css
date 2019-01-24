@@ -2404,31 +2404,11 @@ li.dash::before {
   border-top: 1px solid #c2c2c2;
 }
 
-.contact > div {
-  border-bottom: 1px solid #ddd;
-  padding: 5px 0 8px 0;
-}
-
-.contact > div:first-child {
-  border-top: 1px solid #ddd;
-}
-
-.contact p.link {
-  margin: 0;
-  padding-left: 30px;
-}
-
-.contact .info {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.contact .info i.contact::before {
+i.contact::before {
   font-size: 1.8em;
 }
 
-.contact .info i::before {
+i::before {
   display: inline-block;
   width: 30px;
   font-family: "Font Awesome 5 Free";
@@ -2436,44 +2416,49 @@ li.dash::before {
   padding-right: 10px;
   font-weight: 600;
   font-size: 2em;
-  color: #c2c2c2;
+  color: #999;
 }
 
-.contact .info i.social::before {
+i.social::before {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
 }
 
-.contact .info i.phone::before {
+i.phone::before {
   content: '\F095';
 }
 
-.contact .info i.email::before {
+i.email::before {
   content: '\F0E0';
 }
 
-.contact .info i.address::before {
+i.address::before {
   content: '\F3C5';
 }
 
-.contact .info i.facebook::before {
+i.facebook::before {
   content: '\F082';
 }
 
-.contact .info i.instagram::before {
+i.instagram::before {
   content: '\F16D';
 }
 
-.contact .info i.youtube::before {
+i.youtube::before {
   content: '\F167';
 }
 
-.contact .info i.line::before {
+i.line::before {
   content: '\F3C0';
 }
 
-.contact .info i.twitter::before {
+i.twitter::before {
   content: '\F099';
+}
+
+tbody {
+  border-left: none !important;
+  border-right: none !important;
 }
 
 .font-small {

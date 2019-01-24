@@ -1,31 +1,40 @@
 <template>
 <div>
-	<button class="btn blue form-submit" type="button" @click.prevent="formVisible = !formVisible">อัพโหลดแบนเนอร์&nbsp;<i class="fas fa-plus"></i></button>
+	<h2 class="page-title">แบนเนอร์
+		<back></back>
+	</h2>
+	<button class="btn primary margin-10-top" type="button" @click.prevent="formVisible = !formVisible">อัพโหลดแบนเนอร์&nbsp;<i class="fas fa-plus"></i></button>
 	<transition name="fade">
-		<form @submit.prevent="upload" method="post" class="relative margin-15-top toggle-form padding-10" v-show="formVisible">
-			<div class="col-2-flex-res">
-				<div class="padding-15-bottom-mobile padding-15-v-screen">
-					<div class="image-preview margin-center">
-						<span class="fas fa-images"></span>
-						<img :src="image_filename">
+		<div class="grid-x" v-show="formVisible">
+			<form @submit.prevent="upload" method="post" class="margin-15-top filter medium-6 cell">
+				<div class="grid-x medium-up-2">
+					<div class="cell">
+						<p class="lead no-margin text-center">รูปตัวอย่าง</p>
+						<div class="image-preview">
+							<span class="fas fa-images"></span>
+							<img :src="image_filename">
+						</div>
 					</div>
-          <div class="form-group">
-            <label class="full">ลิ้งค์&nbsp;(ไม่มีก็ได้)</label>
-            <input v-model="form.link" data-vv-as="*" v-validate="'url'" class="full-width" type="text" name="link" placeholder="https://www.example.com">
-            <span class="error" v-show="errors.first('link')">{{ errors.first('link') }}</span>
-          </div>
+					<div class="cell grid-y padding-15-v">
+						<label class="btn primary margin-15-v text-center">
+							<input class="hide" id="image-input" @change="preview" type="file" :name="image_filename" accept="image/*">เลือกไฟล์&nbsp;+
+						</label>
+						<button class="btn primary margin-15-bottom" v-if="image_filename !== null" @click.prevent="removeFile">ลบ</button>
+
+						<div class="form-group">
+							<label class="full">ลิ้งค์&nbsp;(ไม่มีก็ได้)</label>
+							<input v-model="form.link" data-vv-as="*" v-validate="'url'" class="full-width" type="text" name="link" placeholder="https://www.example.com">
+							<span class="error" v-show="errors.first('link')">{{ errors.first('link') }}</span>
+						</div>
+					</div>
 				</div>
-				<div class="padding-15-bottom-mobile padding-15-v-screen">
-					<label class="file-input-btn full-width btn blue">
-						<input id="image-input" @change="preview" type="file" :name="image_filename" accept="image/jpeg">
-						เลือกไฟล์&nbsp;+
-					</label>
-					<button type="button" class="file-input-btn full-width btn teal margin-15-bottom" v-if="image_filename !== null" @click.prevent="removeFile">ลบ</button>
-          <button :disabled="$root.loading || errors.any() || !image_filename" type="submit" class="btn green file-input-btn full-width">อัพโหลด</button>
+				<div class="grid-x align-right">
+					<button :disabled="$root.loading || errors.any() || !image_filename" type="submit" class="btn success cell medium-4">อัพโหลด</button>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</transition>
+
 	<div v-show="banners.length">
     <h2 class="padding-5-top">แบนเนอร์บนหน้าแรก</h2>
 		<div class="padding-15-v thumbnail-grid">
@@ -38,7 +47,7 @@
 		</div>
 	</div>
 	<div class="padding-15-v text-center" v-show="!banners.length">
-    <h2>คุณไม่มีแบนเนอร์บนหน้าแรก</h2>
+    <h3>คุณไม่มีแบนเนอร์บนหน้าแรก</h3>
 	</div>
 </div>
 </template>
@@ -47,7 +56,7 @@
 export default {
 	data() {
 		return {
-      banners: this.bannerProp,
+      banners: [],
 			formVisible: false,
 			image_filename: null,
 			imgUrl: this.$root.url + '/file/banner/home/',
@@ -56,8 +65,12 @@ export default {
       }
 		}
 	},
-	props: ['bannerProp'],
 	methods: {
+		getBanner() {
+			axios.get(this.$root.url + '/api/get/banner').then(response => {
+				this.banners = response.data
+			})
+		},
 		preview(event) {
 			var input = event.target;
 			if (input.files && input.files[0]) {
@@ -107,5 +120,8 @@ export default {
       }
     }
 	},
+	created() {
+		this.getBanner()
+	}
 }
 </script>

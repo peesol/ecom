@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-container">
+  <div>
     <form v-on:submit.prevent="edit" enctype="multipart/form-data">
       <h2 class="page-title text-justify">แก้ไขสินค้า
       <back></back>

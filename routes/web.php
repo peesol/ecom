@@ -91,7 +91,7 @@ Route::delete('/admin/promotions/code/delete/{id}', 'Admin\Promotion\CodeControl
 | Category
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/category', 'Admin\Category\CategoryController@index');
+Route::get('/admin/category', 'Admin\Product\ProductController@index');
 Route::post('/admin/category/add', 'Admin\Category\CategoryController@create');
 Route::put('/admin/category/update', 'Admin\Category\CategoryController@update');
 Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryController@delete');
@@ -100,7 +100,7 @@ Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryContr
 | Contact
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/contact', 'Admin\Contact\ContactController@index');
+Route::get('/admin/contact', 'Admin\AdminController@index');
 Route::post('/admin/contact/add', 'Admin\Contact\ContactController@create');
 Route::put('/admin/contact/update/{contact}', 'Admin\Contact\ContactController@update');
 Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactController@delete');
@@ -109,7 +109,7 @@ Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactControlle
 | Shipping
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/shipping', 'Admin\Shipping\ShippingController@index');
+Route::get('/admin/shipping', 'Admin\AdminController@index');
 Route::post('/admin/shipping/add', 'Admin\Shipping\ShippingController@create');
 Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingController@delete');
 /*
@@ -117,7 +117,7 @@ Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingContr
 | Banner
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/banner', 'Admin\Banner\BannerController@index');
+Route::get('/admin/banner', 'Admin\AdminController@index');
 Route::post('/admin/banner/create', 'Admin\Banner\BannerController@create');
 Route::delete('/admin/banner/delete/{banner}', 'Admin\Banner\BannerController@delete');
 
@@ -136,3 +136,4 @@ Route::get('/api/get/contact', 'Api\GetterController@getContact');
 Route::get('/api/get/shipping', 'Api\GetterController@getShipping');
 Route::get('/api/get/check_email/{email}', 'Api\GetterController@checkEmail');
 Route::get('/api/get/redeem/{code}', 'Api\GetterController@redeemCode');
+Route::get('/api/get/banner', 'Api\GetterController@getBanner');
