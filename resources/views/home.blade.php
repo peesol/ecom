@@ -11,15 +11,15 @@
       </div>
     </section>
   @endif
-    <section class="grey text">
-      <div class="panel large col-2-flex-res">
-        <div class="half-width-res">
+    <section>
+      <div class="grid-x medium-up-2">
+        <div class="cell">
           <h1 class="main-color">Finest quality</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
         </div>
-        <div class="half-width-res text-center padding-15-top-mobile">
+        <div class="cell text-center align-self-middle">
           <h3>Get 50% off</h3>
           <button class="btn btn margin-15-v" name="button">Shop now</button>
         </div>

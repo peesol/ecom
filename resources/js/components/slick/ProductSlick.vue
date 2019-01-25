@@ -1,14 +1,15 @@
 <template>
 <div class="product-slick">
   <slick ref="slick" :options="slickOptions">
-    <div class="thumbnail-wrapper product" v-for="item in productsData">
-      <div class="thumbnail-img-wrapper">
+
+    <div class="card product" v-for="(item, index) in productsData">
+      <div class="card-section">
         <a :href="$root.url + '/product/' + item.uid">
-          <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+          <img src="http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg" :alt="item.thumbnail">
         </a>
-        <span v-if="item.discount_price" class="top-right sale">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
+        <span class="top-right sale" v-show="item.discount_price">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
       </div>
-      <div class="details">
+      <div class="details card-section">
         <a class="title" :href="$root.url + '/product/' + item.uid">{{ item.name }}</a>
         <p class="price" v-if="!item.discount_price">{{ $number.currency(item.price) }}&nbsp;THB</p>
         <p class="price sale" v-else>
@@ -17,6 +18,7 @@
         </p>
       </div>
     </div>
+
   </slick>
 </div>
 </template>

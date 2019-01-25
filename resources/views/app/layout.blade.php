@@ -33,7 +33,7 @@
       @include('app._navigation')
       <vue-progress-bar></vue-progress-bar>
       <load-overlay :show="$root.loading"></load-overlay>
-      <div class="container">
+      <div class="grid-container container">
         @yield('content')
       </div>
       @include('app._footer')

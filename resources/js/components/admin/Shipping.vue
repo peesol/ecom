@@ -4,7 +4,7 @@
     <back></back>
   </h2>
   <div class="margin-15-v">
-    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มการช่องทางส่งสินค้า&nbsp;+</button>
+    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มการช่องทางส่งสินค้า&nbsp;<i class="fas fa-plus"></i></button>
   </div>
   <transition name="fade">
     <div class="grid-x">

@@ -1,4 +1,4 @@
-@import "_shop_variables"
+@import "../_variables"
 .modal-backdrop
   position: fixed
   top: 0
@@ -41,35 +41,9 @@
   &.single>button
     width: 100%
 
-.modal-heading
-  border-bottom: 1px solid #eee
-  padding: 10px
-
-.modal-heading-tab
-  background: #eee
-  display: inline-flex
-  height: 50px
-  button
-    color: #6c6c6c !important
-    font-size: large
-    min-width: 100px
-    height: 50px
-    border: none
-    &:hover
-      color: $main-hover !important
-      background: #fff !important
-    &.active
-      color: $main-color !important
-      background: #fff !important
-    &.half
-      width: 50%
-
 @media (min-width: 768px)
   .modal
     min-width: 550px
-    &.login
-      min-width: 360px
-      max-width: 360px
 
 .order-product
   padding: 5px 10px

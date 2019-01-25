@@ -114,6 +114,13 @@ Route::post('/admin/shipping/add', 'Admin\Shipping\ShippingController@create');
 Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingController@delete');
 /*
 |--------------------------------------------------------------------------
+| Orders
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/orders', 'Admin\AdminController@index');
+
+/*
+|--------------------------------------------------------------------------
 | Banner
 |--------------------------------------------------------------------------
 */

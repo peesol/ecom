@@ -1,57 +1,77 @@
-@import "../_shop_variables"
-ul
+li
   &.no-style
     list-style-type: none
-    padding: 0
   &.number
-    list-style-type: armenian
+    list-style-type: decimal
+  &.disc
+    list-style-type: disc
+  &.table-like
+    padding: 8px 0px
+    border-bottom: 1px solid #c2c2c2
+    &:first-child
+      border-top: 1px solid #c2c2c2
+  &.dash
+    list-style-type: none
+    &::before
+      content: '- '
+.list
+  h1,h2,h3,h4,h5,p
+    margin: 0 0 5px 0 !important
+  li
+    padding-left: 8px
 
-footer
-  a
-    color: #fff !important
-    text-decoration: underline
+.clickable-list
+  div
+    cursor: pointer
+    border-bottom: 1px solid #c2c2c2
+    padding: 5px
+    word-break: break-all
     &:hover
-      color: $main-light !important
-      text-decoration: none
-
-.contact
-  li a
-    color: $main-color
-    &:hover
-      color: $main-hover
-      text-decoration: underline
-  li::before
+      background: #f2f2f2
+    &:first-child
+      border-top: 1px solid #c2c2c2
+      
+.contact-icon
+  i.contact::before
+    font-size: 1.8em
+  i::before
     display: inline-block
-    width: 25px
+    width: 30px
     font-family: "Font Awesome 5 Free"
+    font-style: normal
     padding-right: 10px
     font-weight: 600
-    font-size: 1.2em
+    font-size: 2em
+    color: #999
 
-  li.social::before
+  i.social::before
     font-family: "Font Awesome 5 Brands"
     font-weight: 400
 
-  li.phone::before
+  i.phone::before
     content: '\f095'
 
-  li.email::before
+  i.email::before
     content: '\f0e0'
 
-  li.address::before
+  i.address::before
     content: '\f3c5'
 
-  li.facebook::before
+  i.facebook::before
     content: '\f082'
 
-  li.instagram::before
+  i.instagram::before
     content: '\f16d'
 
-  li.youtube::before
+  i.youtube::before
     content: '\f167'
 
-  li.line::before
+  i.line::before
     content: '\f3c0'
 
-  li.twitter::before
+  i.twitter::before
     content: '\f099'
+
+tbody
+  border-left: none !important
+  border-right: none !important

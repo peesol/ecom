@@ -4,7 +4,7 @@
     <back></back>
   </h2>
   <div class="margin-15-v">
-    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มข้อมูล&nbsp;+</button>
+    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มข้อมูล&nbsp;<i class="fas fa-plus"></i></button>
   </div>
   <transition name="fade">
     <div class="grid-x">
@@ -40,7 +40,7 @@
   <table class="stack unstriped hover" v-show="contacts.length">
     <tbody>
       <tr v-for="(contact, index) in contacts">
-        <td width="50"><i class="contact" :class="[contact.sub, contact.type]"></i></td>
+        <td class="contact-icon" width="50"><i class="contact" :class="[contact.sub, contact.type]"></i></td>
         <td>{{ contact.body }}</td>
         <td v-show="contact.link"><a :href="contact.link">{{ contact.link }}</a></td>
         <td v-show="!contact.link">ไม่มีลิ้งค์</td>

@@ -44,6 +44,8 @@ Vue.component('add-to-cart', require('./components/cart/AddToCart.vue'));
 Vue.component('cart', require('./components/cart/Cart.vue'));
 Vue.component('navigation', require('./components/Navigation/Navigation.vue'));
 
+Vue.component('product-show', require('./components/product/ProductShow.vue'));
+
 Vue.component('modal', require('./components/Modal.vue'));
 Vue.component('back', {
   template: '<a class="btn primary float-right hide-for-small-only" @click.prevent="$router.go(-1)"><i class="fas fa-angle-left"></i>&nbsp;ย้อนกลับ</a>'

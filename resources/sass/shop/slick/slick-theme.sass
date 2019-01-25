@@ -24,7 +24,7 @@
   -moz-osx-font-smoothing: grayscale
 
 .slick-loading .slick-list
-  background: url(ajax-loader.gif) center center no-repeat #fff
+  background: center center no-repeat #fff
 
 @font-face
   font-family: 'font-awesome'
@@ -96,32 +96,27 @@
   .slick-prev
     left: 0
 
-.home-banner
-  width: 100%
-  img
-    width: 100%
-    object-fit: cover
-  .slick-slide
-    *
-      height: 100%
-  .slick-slider,.slick-list,.slick-track,.slick-slide
-    height: 100%
-
-.product-slick
-  .slick-slide
-    margin: 0 10px !important
-
-@media (min-width: 768px)
-  .home-banner
-    height: 400px
 @media (min-width: 922px)
-  .home-banner
-    height: 400px
-@media (min-width: 1200px)
-  .home-banner
-    height: 500px
+  .slick-next, .slick-prev
+    width: 40px
+    height: 40px
+    background: rgba(80, 80, 80, 0.5)
+    &:before
+      background: transparent
+      color: #fff
 
-@media (min-width: 922px)
+  .slick-next
+    right: 5px
+    &:before
+      padding: 0
+      margin-left: 3px
+
+  .slick-prev
+    left: 5px
+    &:before
+      padding: 0
+      margin-right: 3px
+
   .banner
     .slick-next, .slick-prev
       display: inline-block !important
@@ -189,7 +184,7 @@
         color: #000
     &.slick-active button:before
       opacity: .75
-      color: #29ad2c
+      color: #ea7800
 
 .slick-track img:focus
   outline: 0

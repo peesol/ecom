@@ -20,8 +20,7 @@
 
 .slick-list
   overflow: hidden
-  /* add margin to slick */
-  margin: 0
+  margin: 0 -10px
   padding: 0
   &:focus
     outline: 0
@@ -47,11 +46,10 @@
     clear: both
 
 .slick-slide
+  margin: 0  10px
   display: none
   float: left
   height: auto
-  /* add margin to slick */
-  margin: 0
 
 [dir=rtl] .slick-slide
   float: right
@@ -59,7 +57,6 @@
 .slick-slide
   img
     display: block
-    width: 100%
   &.slick-loading img
     display: none
   &.dragging img
@@ -75,3 +72,26 @@
 
 .slick-arrow.slick-hidden
   display: none
+
+$m-width: 180px
+$m-height: 180px
+$width: 200px
+$height: 200px
+
+.product-slick
+  .card
+    padding: 0
+    border: none
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important
+  .card-section
+    border: 1px solid #ddd
+  .card-section:first-child
+    height: $m-height
+    border-bottom: none !important
+    img
+      height: 100%
+
+@media (min-width: 768px)
+  .product-slick
+    .card-section:first-child
+      height: $height

@@ -12,6 +12,7 @@ const Code = require('../components/promotion/Code.vue');
 const Banner = require('../components/admin/Banner.vue');
 const Contact = require('../components/admin/Contact.vue');
 const Shipping = require('../components/admin/Shipping.vue');
+const Order = require('../components/admin/Order.vue');
 
 const routes = [
   {
@@ -53,6 +54,10 @@ const routes = [
   {
     path: '/admin/shipping',
     component: Shipping
+  },
+  {
+    path: '/admin/orders',
+    component: Order
   }
 ];
 
