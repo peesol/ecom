@@ -8,7 +8,7 @@
   <search-filter :can-toggle-view="true" :include-discount="true" v-on:search="addQueryParam" v-on:changeView="changeView"></search-filter>
   <pagination :meta="meta" v-on:switched="changePage" v-show="products.length"></pagination>
 
-  <div class="" :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
+  <div :class="{'thumbnail-grid' : view == 'grid', 'thumbnail-row' : view == 'list'}" v-if="products.length">
     <div class="card product" v-for="(item, index) in products">
       <div class="card-section">
         <a :href="$root.url + '/product/' + item.uid">

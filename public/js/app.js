@@ -58499,6 +58499,24 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58519,10 +58537,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   props: ['userData', 'shippings', 'view', 'productProp'],
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['cartContent']), {
+
     priceCalc: function priceCalc() {
       var totalPrice = [];
       var totalQty = [];
-      Object.entries(this.cartItems).forEach(function (_ref) {
+      Object.entries(this.cartContent).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             val = _ref2[1];
@@ -58531,6 +58550,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         totalPrice.push(subTotal);
         totalQty.push(val.qty);
       });
+
       var total = totalPrice.reduce(function (total, num) {
         return total + num;
       }, 0);
@@ -58540,6 +58560,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       if (this.confirm.shipping) {
         // If shipping is not free
         if (this.confirm.shipping.fee) {
+          this.confirm.fee = this.confirm.shipping.fee;
           var includeFee = total + this.confirm.shipping.fee;
           if (this.confirm.shipping.multiply) {
             //multiply
@@ -58553,7 +58574,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                   this.confirm.fee = 'FREE';
                   return multiplied - this.confirm.shipping.fee;
                 } else {
-                  this.confirm.fee = this.confirm.shipping.fee;
+                  this.confirm.fee = this.confirm.shipping.fee + this.confirm.shipping.multiply * (qty - 1);
                   return multiplied;
                 }
               } else {
@@ -58563,12 +58584,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                   this.confirm.fee = 'FREE';
                   return multiplied - this.confirm.shipping.fee;
                 } else {
-                  this.confirm.fee = this.confirm.shipping.fee;
+                  this.confirm.fee = this.confirm.shipping.fee + this.confirm.shipping.multiply * (qty - 1);
                   return multiplied;
                 }
               }
             } else {
               // if multiply bot no promo
+              this.confirm.fee = this.confirm.shipping.fee + this.confirm.shipping.multiply * (qty - 1);
               return multiplied;
             }
           } else {
@@ -58582,7 +58604,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                   this.confirm.fee = 'FREE';
                   return includeFee - this.confirm.shipping.fee;
                 } else {
-                  this.confirm.fee = this.confirm.shipping.fee;
                   return includeFee;
                 }
               } else {
@@ -58592,7 +58613,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                   this.confirm.fee = 'FREE';
                   return includeFee - this.confirm.shipping.fee;
                 } else {
-                  this.confirm.fee = this.confirm.shipping.fee;
                   return includeFee;
                 }
               }
@@ -58603,6 +58623,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           }
         } else {
           // If shipping is free
+          this.confirm.fee = 'FREE';
           return total;
         }
       } else {
@@ -58649,35 +58670,40 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       axios.get(this.$root.url + '/api/get/redeem/' + this.code).then(function (response) {
         _this.discount = response.data;
         _this.code = null;
-        toastr.success('Discount applied.');
+        toastr.success('ใช้ส่วนลดแล้ว');
       }, function (response) {
-        alert('Code is not valid.');
+        alert('ไม่สามารถส่วนลดได้ อาจกรอกข้อมูลไม่ถูกต้องหรือส่วนลดถูกใช้ไปหมดแล้ว');
       });
     },
     confirmOrder: function confirmOrder() {
       var _this2 = this;
 
-      if (confirm('Confirm?')) {
+      if (confirm('ยืนยันการสั่งซื้อ?')) {
         axios.post(this.$root.url + '/cart/confirm', {
           name: this.user.name,
           address: this.user.address,
           phone: this.user.phone,
-          body: this.cartItems,
+          body: this.cartContent,
           total: this.priceCalc,
           discount: this.discountCalc,
-          shipping: this.confirm.shipping
+          shipping: this.confirm.shipping,
+          fee: this.confirm.fee
         }).then(function (response) {
           document.location.href = _this2.$root.url + '/order/' + response.data;
         });
       }
+    },
+    setCart: function setCart() {
+      if (this.view == 'cart') {
+        console.log('it s a cartt');
+        this.cartItems = this.cartContent;
+      } else {
+        this.cartItems = this.productProp;
+      }
     }
   }),
   created: function created() {
-    if (this.view == 'cart') {
-      this.cartItems = this.cartContent;
-    } else {
-      this.cartItems = this.productProp;
-    }
+    this.setCart();
   }
 });
 
@@ -58689,182 +58715,210 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "cart" },
-    [
-      _vm._l(_vm.cartItems, function(item) {
-        return _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.cartItems.length,
-                expression: "cartItems.length"
-              }
-            ],
-            staticClass: "product"
-          },
-          [
-            _c("div", { staticClass: "thumbnail" }, [
-              _c("img", {
-                attrs: { src: _vm.imgUrl + item.options.thumbnail, alt: "img" }
-              })
+  return _c("div", { staticClass: "cart" }, [
+    _c("table", { staticClass: "unstriped stack hover" }, [
+      _c(
+        "tbody",
+        _vm._l(_vm.cartContent, function(item) {
+          return _c("tr", [
+            _c("td", [
+              _c("div", { staticClass: "grid-x grid-margin-x" }, [
+                _c("div", { staticClass: "cell medium-2 small-3 shrink" }, [
+                  _c("img", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      src:
+                        "http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg",
+                      alt: item.thumbnail
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "cell small-9 medium-10" }, [
+                  _c("p", {}, [_vm._v(_vm._s(item.name))]),
+                  _vm._v(" "),
+                  _c("p", {}, [
+                    _vm._v(
+                      _vm._s(item.options.choice ? item.options.choice : "")
+                    )
+                  ])
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "details" }, [
-              _c("div", { staticClass: "name" }, [_vm._v(_vm._s(item.name))]),
-              _vm._v(" "),
-              _c("div", { staticClass: "choice" }, [
-                _vm._v(_vm._s(item.options.choice ? item.options.choice : ""))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "price" }, [
-                _vm._v(_vm._s(_vm.$number.currency(item.price)) + " THB")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "qty" }, [
-                _c("button", {
-                  staticClass: "fas fa-minus",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.addQty(1, item)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: item.qty,
-                      expression: "item.qty"
-                    }
-                  ],
-                  attrs: { min: 1, type: "number", name: "qty" },
-                  domProps: { value: item.qty },
-                  on: {
-                    input: [
-                      function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(item, "qty", $event.target.value)
-                      },
-                      function($event) {
-                        $event.preventDefault()
-                        _vm.changeQty(item)
-                      }
-                    ]
-                  }
-                }),
-                _vm._v(" "),
-                _c("button", {
-                  staticClass: "fas fa-plus",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.addQty(2, item)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
+            _c(
+              "td",
+              [
+                _c("font", { staticClass: "show-for-small-only" }, [
+                  _vm._v("ราคา ")
+                ]),
+                _vm._v(_vm._s(_vm.$number.currency(item.price)) + " ฿")
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("td", [
               _c(
                 "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.view == "cart",
-                      expression: "view == 'cart'"
-                    }
-                  ],
-                  staticClass: "actions"
-                },
+                { staticClass: "grid-x" },
                 [
+                  _c(
+                    "font",
+                    {
+                      staticClass:
+                        "align-self-middle cell show-for-small-only shrink"
+                    },
+                    [_vm._v("จำนวน ")]
+                  ),
+                  _vm._v(" "),
                   _c("button", {
-                    staticClass: "fas fa-trash-alt",
+                    staticClass:
+                      "btn-flat primary cell shrink padding-10-h fas fa-minus",
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
-                        _vm.remove(item.rowId)
+                        _vm.addQty(1, item)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: item.qty,
+                        expression: "item.qty"
+                      }
+                    ],
+                    staticClass: "cell small-2 medium-3 no-margin text-center",
+                    attrs: { min: 1, type: "number", name: "qty" },
+                    domProps: { value: item.qty },
+                    on: {
+                      input: [
+                        function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(item, "qty", $event.target.value)
+                        },
+                        function($event) {
+                          $event.preventDefault()
+                          _vm.changeQty(item)
+                        }
+                      ]
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass:
+                      "btn-flat primary cell shrink padding-10-h fas fa-plus",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.addQty(2, item)
                       }
                     }
                   })
-                ]
-              )
-            ])
-          ]
-        )
-      }),
-      _vm._v(" "),
-      _c(
-        "section",
-        { staticClass: "grey col-2-flex-res" },
-        [
-          _c("div", { staticClass: "padding-10" }, [
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.shippings.length,
-                    expression: "shippings.length"
-                  }
                 ],
-                staticClass: "flex column"
-              },
-              [
-                _c("label", { staticClass: "full" }, [_vm._v("Shipping")]),
-                _vm._v(" "),
-                _vm._l(_vm.shippings, function(shipping, index) {
-                  return _c(
-                    "div",
-                    { staticClass: "radio-input margin-5-bottom" },
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "font-large text-right" }, [
+              _c("button", {
+                staticClass: "btn-flat error fas fa-trash-alt",
+                on: {
+                  click: function($event) {
+                    _vm.remove(item.rowId)
+                  }
+                }
+              })
+            ])
+          ])
+        }),
+        0
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "section",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.cartContent.length,
+            expression: "cartContent.length"
+          }
+        ],
+        staticClass: "grid-x medium-up-2"
+      },
+      [
+        _c("div", { staticClass: "cell" }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.shippings.length,
+                  expression: "shippings.length"
+                }
+              ]
+            },
+            [
+              _c("label", { staticClass: "lead" }, [_vm._v("เลือกการจัดส่ง")]),
+              _vm._v(" "),
+              _vm._l(_vm.shippings, function(shipping, index) {
+                return _c("div", { staticClass: "grid-x" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.confirm.shipping,
+                        expression: "confirm.shipping"
+                      }
+                    ],
+                    staticStyle: { "margin-top": "6px" },
+                    attrs: { id: index, type: "radio", name: "choice" },
+                    domProps: {
+                      value: shipping,
+                      checked: _vm._q(_vm.confirm.shipping, shipping)
+                    },
+                    on: {
+                      change: function($event) {
+                        _vm.$set(_vm.confirm, "shipping", shipping)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "text-nowrap", attrs: { for: index } },
                     [
-                      _c("input", {
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(shipping.method) +
+                          " " +
+                          _vm._s(
+                            shipping.fee ? shipping.fee + " THB" : "FREE"
+                          ) +
+                          "\n            "
+                      ),
+                      _c("br", {
                         directives: [
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.confirm.shipping,
-                            expression: "confirm.shipping"
+                            name: "show",
+                            rawName: "v-show",
+                            value: shipping.multiply || shipping.promotion.type,
+                            expression:
+                              "shipping.multiply || shipping.promotion.type"
                           }
-                        ],
-                        attrs: { id: index, type: "radio", name: "choice" },
-                        domProps: {
-                          value: shipping,
-                          checked: _vm._q(_vm.confirm.shipping, shipping)
-                        },
-                        on: {
-                          change: function($event) {
-                            _vm.$set(_vm.confirm, "shipping", shipping)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { staticClass: "text-nowrap", attrs: { for: index } },
-                        [
-                          _vm._v(
-                            _vm._s(shipping.method) +
-                              " " +
-                              _vm._s(
-                                shipping.fee ? shipping.fee + " THB" : "FREE"
-                              )
-                          )
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "check" }),
+                      }),
                       _vm._v(" "),
                       _c(
                         "small",
@@ -58876,16 +58930,28 @@ var render = function() {
                               value: shipping.multiply,
                               expression: "shipping.multiply"
                             }
-                          ]
+                          ],
+                          staticClass: "subheader"
                         },
                         [
                           _vm._v(
                             "+" +
                               _vm._s(shipping.multiply) +
-                              " THB each if you buy more than 2 items."
+                              " THB ต่อชิ้นหากซื้อเกิน 2 ชิ้นขึ้นไป."
                           )
                         ]
                       ),
+                      _vm._v(" "),
+                      _c("br", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: shipping.promotion.type,
+                            expression: "shipping.promotion.type"
+                          }
+                        ]
+                      }),
                       _vm._v(" "),
                       _c(
                         "small",
@@ -58897,201 +58963,215 @@ var render = function() {
                               value: shipping.promotion.type,
                               expression: "shipping.promotion.type"
                             }
-                          ]
+                          ],
+                          staticClass: "subheader"
                         },
                         [
                           _vm._v(
-                            "free shipping if you buy " +
+                            "ส่งฟรีเมื่อซื้อเกิน " +
                               _vm._s(shipping.promotion.amount) +
                               " " +
                               _vm._s(
                                 shipping.promotion.type == "qty"
-                                  ? "items"
-                                  : "THB"
+                                  ? "ชิ้น"
+                                  : "บาท"
                               )
                           )
                         ]
                       )
                     ]
                   )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "h2",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.discountCalc,
-                      expression: "!discountCalc"
-                    }
-                  ],
-                  staticClass: "padding-10-top"
-                },
-                [_vm._v(_vm._s(_vm.$number.currency(_vm.priceCalc)) + " THB")]
-              ),
-              _vm._v(" "),
-              _c(
-                "h2",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.discountCalc,
-                      expression: "discountCalc"
-                    }
-                  ],
-                  staticClass: "padding-10-top font-green"
-                },
-                [
-                  _vm._v(
-                    _vm._s(_vm.$number.currency(_vm.discountCalc)) + " THB"
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "h4",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.confirm.fee,
-                      expression: "confirm.fee"
-                    }
-                  ]
-                },
-                [_vm._v("Shipping fee: " + _vm._s(_vm.confirm.fee) + " THB")]
-              ),
-              _vm._v(" "),
-              _c(
-                "h4",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.confirm.promotion,
-                      expression: "confirm.promotion"
-                    }
-                  ]
-                },
-                [_vm._v("Promotion")]
-              ),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: Object.keys(_vm.discount).length,
-                      expression: "Object.keys(discount).length"
-                    }
-                  ],
-                  staticClass: "font-green"
-                },
-                [
-                  _vm._v(
-                    "Discount - " +
-                      _vm._s(_vm.discount.value) +
-                      _vm._s(_vm.discount.type == "percent" ? "%" : " THB")
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex padding-15-v" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "padding-10-right",
-                    staticStyle: { "line-height": "35px" }
-                  },
-                  [_vm._v("CODE")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.code,
-                      expression: "code"
-                    }
-                  ],
-                  staticClass: "half-width-res",
-                  attrs: { type: "text", placeholder: "CODE" },
-                  domProps: { value: _vm.code },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.code = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn margin-10-left",
-                    staticStyle: { height: "35px", "line-height": "1" },
-                    attrs: { type: "button", name: "button" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.redeemCode()
-                      }
-                    }
-                  },
-                  [_vm._v("Redeem")]
-                )
-              ])
-            ])
-          ]),
+                ])
+              })
+            ],
+            2
+          ),
           _vm._v(" "),
-          _c("transition", { attrs: { name: "fade" } }, [
+          _c("div", [
             _c(
-              "div",
+              "h2",
               {
                 directives: [
                   {
                     name: "show",
                     rawName: "v-show",
-                    value: _vm.confirm.shipping,
-                    expression: "confirm.shipping"
+                    value: !_vm.discountCalc,
+                    expression: "!discountCalc"
                   }
                 ],
-                staticClass: "padding-10"
+                staticClass: "padding-10-top"
               },
               [
-                _c("h2", { staticClass: "padding-10-bottom" }, [
-                  _vm._v("Delivery address")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "form",
+                _vm._v(
+                  "ยอดชำระ " +
+                    _vm._s(_vm.$number.currency(_vm.priceCalc)) +
+                    " THB"
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "h2",
+              {
+                directives: [
                   {
-                    attrs: { method: "post" },
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        _vm.confirmOrder()
-                      }
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.discountCalc,
+                    expression: "discountCalc"
+                  }
+                ],
+                staticClass: "padding-10-top font-green"
+              },
+              [
+                _vm._v(
+                  "ยอดชำระ " +
+                    _vm._s(_vm.$number.currency(_vm.discountCalc)) +
+                    " THB"
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "h4",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.confirm.fee,
+                    expression: "confirm.fee"
+                  }
+                ]
+              },
+              [
+                _vm._v(
+                  "ค่าส่งสินค้า: " +
+                    _vm._s(
+                      _vm.confirm.fee == "FREE"
+                        ? "FREE"
+                        : _vm.confirm.fee + " THB"
+                    )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "h4",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.confirm.promotion,
+                    expression: "confirm.promotion"
+                  }
+                ]
+              },
+              [_vm._v("Promotion")]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: Object.keys(_vm.discount).length,
+                    expression: "Object.keys(discount).length"
+                  }
+                ],
+                staticClass: "font-green"
+              },
+              [
+                _vm._v(
+                  "Discount - " +
+                    _vm._s(_vm.discount.value) +
+                    _vm._s(_vm.discount.type == "percent" ? "%" : " THB")
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "grid-x padding-15-bottom form-group" }, [
+              _c("label", { staticClass: "cell small-12" }, [_vm._v("CODE")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.code,
+                    expression: "code"
+                  }
+                ],
+                staticClass: "cell no-margin small-8 medium-6",
+                attrs: { type: "text", placeholder: "CODE" },
+                domProps: { value: _vm.code },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  },
-                  [
-                    _c("div", { staticClass: "col-2-flex-res" }, [
-                      _c("div", { staticClass: "form-group" }, [
+                    _vm.code = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "cell btn primary small-4 medium-3",
+                  attrs: { type: "button", name: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.redeemCode()
+                    }
+                  }
+                },
+                [_vm._v("ยืนยัน")]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.confirm.shipping,
+                  expression: "confirm.shipping"
+                }
+              ],
+              staticClass: "padding-15-bottom"
+            },
+            [
+              _c("p", { staticClass: "lead no-margin" }, [
+                _vm._v("ที่อยู่ในการจัดส่ง")
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { method: "post" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.confirmOrder()
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "grid-x medium-up-2 grid-margin-x" },
+                    [
+                      _c("div", { staticClass: "cell form-group" }, [
                         _c("label", { staticClass: "full" }, [_vm._v("Name")]),
                         _vm._v(" "),
                         _c("input", {
@@ -59117,7 +59197,7 @@ var render = function() {
                         })
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
+                      _c("div", { staticClass: "cell form-group" }, [
                         _c("label", { staticClass: "full" }, [_vm._v("Phone")]),
                         _vm._v(" "),
                         _c("input", {
@@ -59142,71 +59222,70 @@ var render = function() {
                           }
                         })
                       ])
-                    ]),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "full" }, [_vm._v("Address")]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "full" }, [_vm._v("Address")]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.user.address,
-                            expression: "user.address"
-                          }
-                        ],
-                        staticClass: "address-input",
-                        attrs: { required: "", rows: "8", cols: "50" },
-                        domProps: { value: _vm.user.address },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.user, "address", $event.target.value)
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text-right" }, [
-                      _c(
-                        "button",
+                    _c("textarea", {
+                      directives: [
                         {
-                          staticClass: "btn half-width-res",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("Confirm")]
-                      )
-                    ])
-                  ]
-                )
-              ]
-            )
-          ])
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.address,
+                          expression: "user.address"
+                        }
+                      ],
+                      staticClass: "address-input",
+                      attrs: { required: "", rows: "8", cols: "50" },
+                      domProps: { value: _vm.user.address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "address", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "grid-x align-right" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn success cell medium-3",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("ยืนยัน")]
+                    )
+                  ])
+                ]
+              )
+            ]
+          )
+        ])
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.cartContent.length,
+            expression: "!cartContent.length"
+          }
         ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.cartItems.length,
-              expression: "!cartItems.length"
-            }
-          ],
-          staticClass: "text-center"
-        },
-        [_c("h2", [_vm._v("Your cart is empty.")])]
-      )
-    ],
-    2
-  )
+        staticClass: "text-center"
+      },
+      [_c("h2", [_vm._v("ไม่มีสินค้าบนรถเข็น")])]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

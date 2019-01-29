@@ -1,0 +1,25 @@
+$success-idle: linear-gradient(to bottom, rgba(79,171,94,0), #4fab5e 97%),linear-gradient(#6dc55a, #6dc55a)
+$success-border: 1px solid #4fab5e
+
+$error-idle: linear-gradient(to bottom, #e86854 5%, #be2626 100%)
+$error-border: 1px solid #be2626
+
+$warning-idle: linear-gradient(to bottom, #ffc319 5%, #ecbe01 100%)
+$warning-border: 1px solid #ecbe01
+
+label.status
+  padding: 5px 8px
+  border-radius: 2px
+  color: #fff
+  width: 150px
+  text-align: center
+  font-size: 1rem
+  &.success
+    background: $success-idle
+    border: $success-border
+  &.error
+    background: $error-idle
+    border: $error-border
+  &.warning
+    background: $warning-idle
+    border: $warning-border

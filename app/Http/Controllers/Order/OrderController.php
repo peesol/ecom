@@ -27,6 +27,7 @@ class OrderController extends Controller
       'total' => $request->total,
       'discount' => $request->discount,
       'shipping' => $request->shipping,
+      'fee' => $request->fee,
       'address' => $request->name . ' ' . $request->address . ' tel.' . $request->phone,
       'status' => [
         'paid' => false,
