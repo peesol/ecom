@@ -31,7 +31,9 @@ Route::put('/cart/update/qty', 'Cart\CartController@updateQty');
 Route::put('/cart/update/remove', 'Cart\CartController@removeFromCart');
 
 Route::post('/cart/confirm', 'Order\OrderController@create');
-Route::get('/order/{order}', 'Order\OrderController@index');
+
+Route::get('/order', 'Order\OrderController@index');
+Route::get('/order/{order}', 'Order\OrderController@orderView');
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +120,8 @@ Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingContr
 |--------------------------------------------------------------------------
 */
 Route::get('/admin/orders', 'Admin\AdminController@index');
+Route::get('/admin/orders/{order}', 'Admin\AdminController@index');
+Route::put('/admin/orders/{order}/deny', 'Admin\Order\OrderController@deny');
 
 /*
 |--------------------------------------------------------------------------
@@ -144,3 +148,5 @@ Route::get('/api/get/shipping', 'Api\GetterController@getShipping');
 Route::get('/api/get/check_email/{email}', 'Api\GetterController@checkEmail');
 Route::get('/api/get/redeem/{code}', 'Api\GetterController@redeemCode');
 Route::get('/api/get/banner', 'Api\GetterController@getBanner');
+Route::get('/api/get/order', 'Api\GetterController@getOrder');
+Route::get('/api/get/order/{order}', 'Api\GetterController@getSpecificOrder');

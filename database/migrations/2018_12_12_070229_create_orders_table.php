@@ -29,7 +29,7 @@ class CreateOrdersTable extends Migration
           $table->text('address')->nullable();
           $table->string('date_paid', 100)->nullable();
           $table->text('status');
-          $table->boolean('cancle')->nullable();
+          $table->text('cancle')->nullable();
 
           $table->timestamps();
           $table->softDeletes();

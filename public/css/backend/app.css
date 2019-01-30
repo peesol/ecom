@@ -671,6 +671,19 @@ span.error::before {
      object-fit: contain;
 }
 
+th .toggle-th {
+  background: #fff !important;
+}
+
+th i.label {
+  font-style: normal;
+  background: #c2c2c2;
+}
+
+th i.label .active {
+  background: #6dc55a;
+}
+
 .slick-list,
 .slick-slider,
 .slick-track {

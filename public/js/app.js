@@ -30387,7 +30387,7 @@ function __guardMethod__(obj, methodName, transform) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-module.exports = __webpack_require__(119);
+module.exports = __webpack_require__(122);
 
 
 /***/ }),
@@ -59656,12 +59656,12 @@ var render = function() {
             staticClass: "dropdown-menu right"
           },
           [
-            _c("a", [
+            _c("a", { attrs: { href: "/myaccount" } }, [
               _c("i", { staticClass: "fas fa-user" }),
               _vm._v(" MY ACCOUNT")
             ]),
             _vm._v(" "),
-            _c("a", [
+            _c("a", { attrs: { href: "/order" } }, [
               _c("i", { staticClass: "fas fa-list" }),
               _vm._v(" MY ORDERS")
             ]),
@@ -61935,6 +61935,7 @@ var Banner = __webpack_require__(107);
 var Contact = __webpack_require__(110);
 var Shipping = __webpack_require__(113);
 var Order = __webpack_require__(116);
+var OrderView = __webpack_require__(119);
 
 var routes = [{
   path: '/admin/category',
@@ -61969,6 +61970,9 @@ var routes = [{
 }, {
   path: '/admin/orders',
   component: Order
+}, {
+  path: '/admin/orders/:uid',
+  component: OrderView
 }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
@@ -70363,16 +70367,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      orders: []
+      orders: [],
+      tab: null
     };
   },
 
-  methods: {}
+  computed: {
+    orderCount: function orderCount() {
+      var ordered = 0;
+      var paid = 0;
+      var shipped = 0;
+      this.orders.forEach(function (item) {
+        if (!item.status.paid) {
+          ordered++;
+        }
+        if (item.status.paid && !item.status.shipped) {
+          paid++;
+        }
+        if (item.status.shipped) {
+          shipped++;
+        }
+      });
+      return { paid: paid, ordered: ordered, shipped: shipped };
+    }
+  },
+  methods: {
+    getOrder: function getOrder() {
+      var _this = this;
 
+      this.$root.loading = true;
+      axios.get(this.$root.url + '/api/get/order').then(function (response) {
+        _this.orders = response.data;
+        _this.$root.loading = false;
+      }, function (response) {
+        _this.$root.loading = false;
+      });
+    },
+    toggleTab: function toggleTab(id) {
+      if (this.tab == id) {
+        this.tab = null;
+      } else {
+        this.tab = id;
+      }
+    }
+  },
+  created: function created() {
+    this.getOrder();
+  }
 });
 
 /***/ }),
@@ -70387,18 +70461,242 @@ var render = function() {
     _c(
       "h2",
       { staticClass: "page-title" },
-      [_vm._v("ออเดอร์\n    "), _c("back")],
+      [_vm._v("รายการสั่งซื้อ\n    "), _c("back")],
       1
     ),
     _vm._v(" "),
-    _c("section", [
-      _c("table", [
-        _vm._m(0),
+    _c("section", { staticClass: "padding-15-v" }, [
+      _c("table", { staticClass: "unstriped" }, [
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "toggle-th",
+                class: { active: _vm.tab == 1 },
+                on: {
+                  click: function($event) {
+                    _vm.toggleTab(1)
+                  }
+                }
+              },
+              [
+                _c(
+                  "i",
+                  {
+                    staticClass: "label",
+                    class: { active: _vm.orderCount.ordered > 0 }
+                  },
+                  [_vm._v(_vm._s(_vm.orderCount.ordered))]
+                ),
+                _vm._v("\n             ยังไม่ชำระเงิน "),
+                _c("i", { staticClass: "fas fa-angle-down" })
+              ]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.tab == 1,
+                expression: "tab == 1"
+              }
+            ]
+          },
           _vm._l(_vm.orders, function(order) {
-            return _c("tr", [_vm._m(1, true)])
+            return _c(
+              "tr",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !order.status.paid,
+                    expression: "!order.status.paid"
+                  }
+                ]
+              },
+              [
+                _c("td", [
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: order.cancle,
+                        expression: "order.cancle"
+                      }
+                    ],
+                    staticClass: "fas fa-times font-red"
+                  }),
+                  _vm._v(" "),
+                  _c("a", { attrs: { href: "/admin/orders/" + order.uid } }, [
+                    _vm._v(_vm._s(order.title))
+                  ])
+                ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "toggle-th",
+                class: { active: _vm.tab == 2 },
+                on: {
+                  click: function($event) {
+                    _vm.toggleTab(2)
+                  }
+                }
+              },
+              [
+                _c(
+                  "i",
+                  {
+                    staticClass: "label",
+                    class: { active: _vm.orderCount.paid > 0 }
+                  },
+                  [_vm._v(_vm._s(_vm.orderCount.paid))]
+                ),
+                _vm._v("\n             ชำระเงินแล้ว "),
+                _c("i", { staticClass: "fas fa-angle-down" })
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.tab == 2,
+                expression: "tab == 2"
+              }
+            ]
+          },
+          _vm._l(_vm.orders, function(order) {
+            return _c(
+              "tr",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: order.status.paid && !order.status.shipped,
+                    expression: "order.status.paid && !order.status.shipped"
+                  }
+                ]
+              },
+              [
+                _c("td", [
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: order.cancle,
+                        expression: "order.cancle"
+                      }
+                    ],
+                    staticClass: "fas fa-times font-red"
+                  }),
+                  _vm._v(" "),
+                  _c("a", { attrs: { href: "/admin/orders/" + order.uid } }, [
+                    _vm._v(_vm._s(order.title))
+                  ])
+                ])
+              ]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "toggle-th",
+                class: { active: _vm.tab == 3 },
+                on: {
+                  click: function($event) {
+                    _vm.toggleTab(3)
+                  }
+                }
+              },
+              [
+                _c(
+                  "i",
+                  {
+                    staticClass: "label",
+                    class: { active: _vm.orderCount.shipped > 0 }
+                  },
+                  [_vm._v(_vm._s(_vm.orderCount.shipped))]
+                ),
+                _vm._v("\n             จัดส่งแล้ว "),
+                _c("i", { staticClass: "fas fa-angle-down" })
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.tab == 3,
+                expression: "tab == 3"
+              }
+            ]
+          },
+          _vm._l(_vm.orders, function(order) {
+            return _c(
+              "tr",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: order.status.paid && order.status.shipped,
+                    expression: "order.status.paid && order.status.shipped"
+                  }
+                ]
+              },
+              [
+                _c("td", [
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: order.cancle,
+                        expression: "order.cancle"
+                      }
+                    ],
+                    staticClass: "fas fa-times font-red"
+                  }),
+                  _vm._v(" "),
+                  _c("a", { attrs: { href: "/admin/orders/" + order.uid } }, [
+                    _vm._v(_vm._s(order.title))
+                  ])
+                ])
+              ]
+            )
           }),
           0
         )
@@ -70406,20 +70704,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [_c("tr", [_c("th", [_vm._v("ยังไม่ชำระเงิน")])])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("a", { attrs: { href: "#" } })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -70431,6 +70716,391 @@ if (false) {
 
 /***/ }),
 /* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(120)
+/* template */
+var __vue_template__ = __webpack_require__(121)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/admin/OrderView.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-202fb990", Component.options)
+  } else {
+    hotAPI.reload("data-v-202fb990", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 120 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      order: {},
+      deny_message: null,
+      formVisible: false,
+      imgUrl: this.$root.url + '/file/product/thumbnail/'
+    };
+  },
+
+  methods: {
+    getOrder: function getOrder() {
+      var _this = this;
+
+      this.$root.loading = true;
+      axios.get(this.$root.url + '/api/get/order/' + this.$route.params.uid).then(function (response) {
+        _this.order = response.data;
+        _this.$root.loading = false;
+      }, function (response) {
+        _this.$root.loading = false;
+      });
+    },
+    deny: function deny(uid) {
+      var _this2 = this;
+
+      if (confirm('คุณแน่ใจหรือไม่ว่าจะปฏิเสธรายการนี้?')) {
+        axios.put(this.$root.url + '/admin/orders/' + uid + '/deny', {
+          message: this.deny_message
+        }).then(function (response) {
+          toastr.success('ปฏิเสธรายการนี้แล้ว');
+          _this2.order.cancle = _this2.deny_message;
+        }, function (response) {
+          toastr.error('เกิดข้อผิดพลาด');
+        });
+      }
+    }
+  },
+  created: function created() {
+    this.getOrder();
+  }
+});
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("h2", [_vm._v("รายการสั่งซื้อ")]),
+      _vm._v(" "),
+      _c("h3", [_vm._v("#" + _vm._s(_vm.order.uid))]),
+      _vm._v(" "),
+      _c(
+        "label",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.order.status.paid,
+              expression: "!order.status.paid"
+            }
+          ],
+          staticClass: "status warning margin-15-bottom"
+        },
+        [_vm._v("ยังไม่ชำระเงิน")]
+      ),
+      _vm._v(" "),
+      _c(
+        "label",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.order.status.paid && _vm.order.status.shipped,
+              expression: "order.status.paid && order.status.shipped"
+            }
+          ],
+          staticClass: "status success margin-15-bottom"
+        },
+        [_vm._v("ส่งสินค้าแล้ว")]
+      ),
+      _vm._v(" "),
+      _c(
+        "label",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.order.status.paid && !_vm.order.status.shipped,
+              expression: "order.status.paid && !order.status.shipped"
+            }
+          ],
+          staticClass: "status success margin-15-bottom"
+        },
+        [_vm._v("เตรียมจัดส่ง")]
+      ),
+      _vm._v(" "),
+      _c(
+        "h4",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.order.cancle,
+              expression: "order.cancle"
+            }
+          ],
+          staticClass: "font-red"
+        },
+        [_vm._v("รายการนี้ถูกปฏิเสธแล้ว")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.order.cancle && !_vm.order.status.shipped,
+              expression: "!order.cancle && !order.status.shipped"
+            }
+          ],
+          staticClass: "btn error margin-15-bottom",
+          staticStyle: { width: "150px" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.formVisible = !_vm.formVisible
+            }
+          }
+        },
+        [_vm._v("ปฏิเสธรายการนี้")]
+      ),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _c(
+          "form",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.formVisible && !_vm.order.cancle,
+                expression: "formVisible && !order.cancle"
+              }
+            ],
+            staticClass: "grid-x margin-15-bottom",
+            attrs: { method: "" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.deny(_vm.order.uid)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "cell medium-5 filter form-group" }, [
+              _c("label", [_vm._v("เหตุผลการปฏิเสธ")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.deny_message,
+                    expression: "deny_message"
+                  }
+                ],
+                attrs: { required: "", type: "text" },
+                domProps: { value: _vm.deny_message },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.deny_message = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-right" }, [
+                _c(
+                  "button",
+                  { staticClass: "btn success", attrs: { type: "submit" } },
+                  [_vm._v("ยืนยัน")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "no-margin" }, [_vm._v("ที่อยู่ในการจัดส่ง")]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(_vm.order.address))]),
+      _vm._v(" "),
+      _c("table", { staticClass: "stack unstriped margin-15-v" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.order.body, function(item) {
+            return _c("tr", [
+              _c("td", [
+                _c("img", {
+                  staticStyle: { width: "60px", "margin-right": "8px" },
+                  attrs: { src: _vm.imgUrl + item.thumbnail, alt: "img" }
+                }),
+                _vm._v(
+                  "\n          " +
+                    _vm._s(item.name) +
+                    _vm._s(
+                       true ? item.options.choice : ""
+                    ) +
+                    "\n        "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("font", { staticClass: "show-for-small-only" }, [
+                    _vm._v("ราคา")
+                  ]),
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm.$number.currency(item.price)) +
+                      " ฿ × " +
+                      _vm._s(item.qty)
+                  )
+                ],
+                1
+              )
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("h3", { staticClass: "font-green" }, [
+        _vm._v(
+          "ยอดชำระ " + _vm._s(_vm.$number.currency(_vm.order.total)) + " ฿"
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("ค่าจัดส่ง " + _vm._s(_vm.$number.currency(_vm.order.fee)))
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("สินค้า")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ราคา")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-202fb990", module.exports)
+  }
+}
+
+/***/ }),
+/* 122 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

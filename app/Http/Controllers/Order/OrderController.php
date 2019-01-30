@@ -10,9 +10,16 @@ use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
-  public function index(Order $order)
+  public function index()
   {
-    return view('order.index', ['order' => $order]);
+    $orders = Auth::user()->order;
+
+    return view('order.index', ['orders' => $orders]);
+  }
+
+  public function orderView(Order $order)
+  {
+    return view('order.order', ['order' => $order]);
   }
 
   public function create(Request $request)
@@ -44,5 +51,14 @@ class OrderController extends Controller
       $user->save();
     }
     return response($created->uid);
+  }
+
+  public function deny(Order $order, Request $request)
+  {
+    $order->update([
+      'cancle' => $request->message
+    ]);
+
+    return response('123');
   }
 }

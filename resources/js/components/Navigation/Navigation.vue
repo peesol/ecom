@@ -10,8 +10,8 @@
   <a v-show="$root.authenticated" class="fas fa-user icon-nav" @click="dropdown = !dropdown"><font>ACCOUNT&nbsp;<i class="fas fa-caret-down"></i></font></a>
   <transition name="fade">
     <div class="dropdown-menu right" v-show="dropdown && $root.authenticated">
-      <a><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
-      <a><i class="fas fa-list"></i>&nbsp;MY ORDERS</a>
+      <a href="/myaccount"><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
+      <a href="/order"><i class="fas fa-list"></i>&nbsp;MY ORDERS</a>
       <a @click.prevent="logout()"><i class="fas fa-sign-out-alt"></i>&nbsp;LOGOUT</a>
     </div>
   </transition>

@@ -6,7 +6,7 @@
         <td>
           <div class="grid-x grid-margin-x">
             <div class="cell medium-2 small-3 shrink">
-              <img style="width:100%" src="http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg" :alt="item.thumbnail">
+              <img style="width:100%" :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
             </div>
             <div class="cell small-9 medium-10">
               <p class="">{{ item.name }}</p>

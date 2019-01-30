@@ -13,6 +13,7 @@ const Banner = require('../components/admin/Banner.vue');
 const Contact = require('../components/admin/Contact.vue');
 const Shipping = require('../components/admin/Shipping.vue');
 const Order = require('../components/admin/Order.vue');
+const OrderView = require('../components/admin/OrderView.vue');
 
 const routes = [
   {
@@ -58,6 +59,10 @@ const routes = [
   {
     path: '/admin/orders',
     component: Order
+  },
+  {
+    path: '/admin/orders/:uid',
+    component: OrderView
   }
 ];
 

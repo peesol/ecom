@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use DB;
 use Illuminate\Http\Request;
-use App\Models\{Category, Product, Shipping};
+use App\Models\{Category, Product, Shipping, Order};
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 
@@ -60,6 +60,17 @@ class GetterController extends Controller
   {
     $data = Shipping::all();
     return response()->json($data);
+  }
+
+  public function getOrder()
+  {
+    $data = Order::all();
+    return response()->json($data);
+  }
+
+  public function getSpecificOrder(Order $order)
+  {
+    return response()->json($order);
   }
 
   public function checkEmail($email)

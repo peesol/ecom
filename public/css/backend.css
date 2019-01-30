@@ -671,6 +671,56 @@ span.error::before {
      object-fit: contain;
 }
 
+table th.toggle-th {
+  background: #fff;
+  cursor: pointer;
+}
+
+table th.toggle-th:hover {
+  background: #f5f5f5;
+}
+
+table th.toggle-th.active {
+  color: #fff;
+  background: #3898ff;
+}
+
+table i.label {
+  font-style: normal;
+  background: #c2c2c2;
+}
+
+table i.label.active {
+  background: #6dc55a;
+}
+
+label.status {
+  padding: 5px 8px;
+  border-radius: 2px;
+  color: #fff;
+  width: 150px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+label.status.success {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(79, 171, 94, 0)), color-stop(97%, #4fab5e)), -webkit-gradient(linear, left top, left bottom, from(#6dc55a), to(#6dc55a));
+  background: linear-gradient(to bottom, rgba(79, 171, 94, 0), #4fab5e 97%), linear-gradient(#6dc55a, #6dc55a);
+  border: 1px solid #4fab5e;
+}
+
+label.status.error {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(5%, #e86854), to(#be2626));
+  background: linear-gradient(to bottom, #e86854 5%, #be2626 100%);
+  border: 1px solid #be2626;
+}
+
+label.status.warning {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(5%, #ffc319), to(#ecbe01));
+  background: linear-gradient(to bottom, #ffc319 5%, #ecbe01 100%);
+  border: 1px solid #ecbe01;
+}
+
 .slick-list,
 .slick-slider,
 .slick-track {

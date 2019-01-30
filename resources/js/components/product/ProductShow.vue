@@ -12,7 +12,7 @@
     <div class="card product" v-for="(item, index) in products">
       <div class="card-section">
         <a :href="$root.url + '/product/' + item.uid">
-          <img src="http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg" :alt="item.thumbnail">
+          <img :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
         </a>
         <span class="top-right sale" v-show="item.discount_price">-&nbsp;{{ saleCalc(item.price, item.discount_price) }}%</span>
       </div>
