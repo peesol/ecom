@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use Auth;
 use Carbon\Carbon;
-use App\Models\{Order, User};
+use App\Models\{Order, User, PaymentMethod};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,6 +20,15 @@ class OrderController extends Controller
   public function orderView(Order $order)
   {
     return view('order.order', ['order' => $order]);
+  }
+
+  public function paymentView(Order $order)
+  {
+    return view('order.payment',
+      [
+        'order' => $order,
+        'payments' => PaymentMethod::all()
+      ]);
   }
 
   public function create(Request $request)
@@ -51,14 +60,5 @@ class OrderController extends Controller
       $user->save();
     }
     return response($created->uid);
-  }
-
-  public function deny(Order $order, Request $request)
-  {
-    $order->update([
-      'cancle' => $request->message
-    ]);
-
-    return response('123');
   }
 }

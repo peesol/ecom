@@ -30,10 +30,22 @@ Route::put('/cart/add/{product}', 'Cart\CartController@addToCart');
 Route::put('/cart/update/qty', 'Cart\CartController@updateQty');
 Route::put('/cart/update/remove', 'Cart\CartController@removeFromCart');
 
-Route::post('/cart/confirm', 'Order\OrderController@create');
+/*
+|--------------------------------------------------------------------------
+| Auth Middleware Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth']], function () {
+  Route::get('/order', 'Order\OrderController@index');
+  Route::get('/order/{order}', 'Order\OrderController@orderView');
+  Route::get('/order/{order}/payment', 'Order\OrderController@paymentView')->name('payment');
 
-Route::get('/order', 'Order\OrderController@index');
-Route::get('/order/{order}', 'Order\OrderController@orderView');
+  Route::get('/order/{order}/payment/notify', 'Admin\Payment\PaymentController@transaction');
+  Route::put('/order/{order}/payment/confirm_trans', 'Admin\Payment\PaymentController@confirmTransaction')->name('confirmTransaction');
+
+  Route::post('/cart/confirm', 'Order\OrderController@create');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +53,12 @@ Route::get('/order/{order}', 'Order\OrderController@orderView');
 |--------------------------------------------------------------------------
 */
 Route::get('/admin', 'Admin\AdminController@index')->name('adminIndex');
+Route::get('/admin/contact', 'Admin\AdminController@index');
+Route::get('/admin/shipping', 'Admin\AdminController@index');
+Route::get('/admin/orders', 'Admin\AdminController@index');
+Route::get('/admin/orders/{order}', 'Admin\AdminController@index');
+Route::get('/admin/banner', 'Admin\AdminController@index');
+Route::get('/admin/payment', 'Admin\AdminController@index');
 /*
 |--------------------------------------------------------------------------
 | Product
@@ -102,7 +120,7 @@ Route::delete('/admin/category/delete/{category}', 'Admin\Category\CategoryContr
 | Contact
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/contact', 'Admin\AdminController@index');
+
 Route::post('/admin/contact/add', 'Admin\Contact\ContactController@create');
 Route::put('/admin/contact/update/{contact}', 'Admin\Contact\ContactController@update');
 Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactController@delete');
@@ -111,7 +129,7 @@ Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactControlle
 | Shipping
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/shipping', 'Admin\AdminController@index');
+
 Route::post('/admin/shipping/add', 'Admin\Shipping\ShippingController@create');
 Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingController@delete');
 /*
@@ -119,8 +137,7 @@ Route::delete('/admin/shipping/delete/{shipping}', 'Admin\Shipping\ShippingContr
 | Orders
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/orders', 'Admin\AdminController@index');
-Route::get('/admin/orders/{order}', 'Admin\AdminController@index');
+
 Route::put('/admin/orders/{order}/deny', 'Admin\Order\OrderController@deny');
 
 /*
@@ -128,9 +145,17 @@ Route::put('/admin/orders/{order}/deny', 'Admin\Order\OrderController@deny');
 | Banner
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/banner', 'Admin\AdminController@index');
+
 Route::post('/admin/banner/create', 'Admin\Banner\BannerController@create');
 Route::delete('/admin/banner/delete/{banner}', 'Admin\Banner\BannerController@delete');
+/*
+|--------------------------------------------------------------------------
+| Payment
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/admin/payment/create', 'Admin\Payment\PaymentController@create');
+Route::delete('/admin/payment/delete/{id}', 'Admin\Payment\PaymentController@delete');
 
 /*
 |--------------------------------------------------------------------------
@@ -150,3 +175,4 @@ Route::get('/api/get/redeem/{code}', 'Api\GetterController@redeemCode');
 Route::get('/api/get/banner', 'Api\GetterController@getBanner');
 Route::get('/api/get/order', 'Api\GetterController@getOrder');
 Route::get('/api/get/order/{order}', 'Api\GetterController@getSpecificOrder');
+Route::get('/api/get/payment_methods', 'Api\GetterController@getPaymentMethod');

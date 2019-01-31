@@ -97,4 +97,11 @@ class GetterController extends Controller
 
     return response()->json($data);
   }
+
+  public function getPaymentMethod()
+  {
+    $data = DB::table('payment_methods')->get();
+
+    return response()->json($data);
+  }
 }

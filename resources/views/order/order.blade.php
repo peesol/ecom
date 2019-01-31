@@ -8,7 +8,7 @@
 <div class="grid-x">
   @if (!$order->status['paid'])
     <label class="status warning">ยังไม่ชำระเงิน</label>
-    <button class="margin-15-left btn primary">ชำระเงินที่นี่</button>
+    <button class="margin-15-left btn primary" onclick="document.location.href='{{ route('payment', ['order' => $order->uid]) }}'">ชำระเงินที่นี่</button>
   @endif
   @if ($order->status['paid'] && $order->status['shipped'])
   <label class="status success">ส่งสินค้าแล้ว</label>

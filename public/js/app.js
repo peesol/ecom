@@ -30387,7 +30387,7 @@ function __guardMethod__(obj, methodName, transform) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-module.exports = __webpack_require__(122);
+module.exports = __webpack_require__(125);
 
 
 /***/ }),
@@ -57914,8 +57914,7 @@ var render = function() {
                 [
                   _c("img", {
                     attrs: {
-                      src:
-                        "http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg",
+                      src: _vm.imgUrl + item.thumbnail,
                       alt: item.thumbnail
                     }
                   })
@@ -58727,8 +58726,7 @@ var render = function() {
                   _c("img", {
                     staticStyle: { width: "100%" },
                     attrs: {
-                      src:
-                        "http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg",
+                      src: _vm.imgUrl + item.thumbnail,
                       alt: item.thumbnail
                     }
                   })
@@ -61431,8 +61429,7 @@ var render = function() {
                     [
                       _c("img", {
                         attrs: {
-                          src:
-                            "http://home.bt.com/images/the-20-best-views-in-the-uk-revealed-136417214455702601-170411144310.jpg",
+                          src: _vm.imgUrl + item.thumbnail,
                           alt: item.thumbnail
                         }
                       })
@@ -61936,6 +61933,7 @@ var Contact = __webpack_require__(110);
 var Shipping = __webpack_require__(113);
 var Order = __webpack_require__(116);
 var OrderView = __webpack_require__(119);
+var Payment = __webpack_require__(122);
 
 var routes = [{
   path: '/admin/category',
@@ -61973,6 +61971,9 @@ var routes = [{
 }, {
   path: '/admin/orders/:uid',
   component: OrderView
+}, {
+  path: '/admin/payment',
+  component: Payment
 }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
@@ -71101,6 +71102,475 @@ if (false) {
 
 /***/ }),
 /* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(123)
+/* template */
+var __vue_template__ = __webpack_require__(124)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/admin/Payment.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f1b5b82a", Component.options)
+  } else {
+    hotAPI.reload("data-v-f1b5b82a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 123 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      accounts: [],
+      form: {
+        ref: null,
+        method: null,
+        provider: null
+      },
+      formVisible: false,
+      providers: [{
+        'name': 'ธนาคารกรุงเทพ',
+        'code': 'BBL'
+      }, {
+        'name': 'ธนาคารกสิกรไทย',
+        'code': 'KBANK'
+      }, {
+        'name': 'ธนาคารกรุงไทย',
+        'code': 'KTB'
+      }, {
+        'name': 'ธนาคารไทยพาณิชย์',
+        'code': 'SCB'
+      }, {
+        'name': 'ธนาคารทหารไทย',
+        'code': 'TMB'
+      }, {
+        'name': 'ธนาคารออมสิน',
+        'code': 'GSB'
+      }, {
+        'name': 'ธนาคารกรุงศรีอยุธยา',
+        'code': 'BAY'
+      }]
+    };
+  },
+
+  methods: {
+    getPaymentMethod: function getPaymentMethod() {
+      var _this = this;
+
+      axios.get(this.$root.url + '/api/get/payment_methods').then(function (response) {
+        _this.accounts = response.data;
+      });
+    },
+    addPayment: function addPayment() {
+      var _this2 = this;
+
+      axios.post(this.$root.url + '/admin/payment/create', {
+        ref: this.form.ref,
+        method: this.form.method,
+        provider: this.form.provider
+      }).then(function (response) {
+        _this2.accounts.push(response.data);
+        toastr.success('เพิ่มช่องทางชำระเงินแล้ว');
+        _this2.form.ref = null, _this2.form.method = null, _this2.form.provider = null;
+      }, function (response) {
+        toastr.error('เกิดข้อผิดพลาด');
+      });
+    }
+  },
+  created: function created() {
+    this.getPaymentMethod();
+  }
+});
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "h2",
+        { staticClass: "page-title" },
+        [_vm._v("ช่องทางการชำระเงิน\n    "), _c("back")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn primary margin-10-top",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.formVisible = !_vm.formVisible
+            }
+          }
+        },
+        [
+          _vm._v("เพิ่มช่องทางชำระเงิน "),
+          _c("i", { staticClass: "fas fa-plus" })
+        ]
+      ),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _c(
+          "form",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.formVisible,
+                expression: "formVisible"
+              }
+            ],
+            staticClass: "grid-x margin-15-top",
+            attrs: { method: "post" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.addPayment()
+              }
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "cell medium-5 filter" },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("ประเภท")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.method,
+                          expression: "form.method"
+                        }
+                      ],
+                      attrs: { required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "method",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "บัญชีธนาคาร" } }, [
+                        _vm._v("บัญชีธนาคาร")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "PromptPay" } }, [
+                        _vm._v("PromptPay")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "fade" } }, [
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.form.method,
+                          expression: "form.method"
+                        }
+                      ],
+                      staticClass: "form-group"
+                    },
+                    [
+                      _c("label", [_vm._v("ธนาคาร")]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.provider,
+                              expression: "form.provider"
+                            }
+                          ],
+                          attrs: { required: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "provider",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.providers, function(bank) {
+                          return _c(
+                            "option",
+                            { domProps: { value: bank.name } },
+                            [_vm._v(_vm._s(bank.name))]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c("label", [_vm._v("เลขที่บัญชี")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.ref,
+                            expression: "form.ref"
+                          }
+                        ],
+                        attrs: {
+                          required: "",
+                          type: "text",
+                          placeholder: "ถ้ามีสัญลักษณ์โปรดกรอกให้ครบ"
+                        },
+                        domProps: { value: _vm.form.ref },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "ref", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "fade" } }, [
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            _vm.form.method &&
+                            _vm.form.provider &&
+                            _vm.form.ref,
+                          expression: "form.method && form.provider && form.ref"
+                        }
+                      ],
+                      staticClass: "align-right cell grid-x padding-10-top"
+                    },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn success small-12 medium-4",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("ยืนยัน")]
+                      )
+                    ]
+                  )
+                ])
+              ],
+              1
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "unstriped stack hover margin-15-top" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.accounts, function(account) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(account.provider))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(account.method))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(account.ref))])
+            ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.accounts.length,
+              expression: "!accounts.length"
+            }
+          ],
+          staticClass: "text-center padding-15-v"
+        },
+        [_c("h3", [_vm._v("ไม่มีช่องทางการชำระเงิน")])]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ธนาคาร")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ประเภท")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("เลขที่")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f1b5b82a", module.exports)
+  }
+}
+
+/***/ }),
+/* 125 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

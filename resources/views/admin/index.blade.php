@@ -9,7 +9,7 @@
       <p class="menu-title">Admin</p>
       <a class="fas fa-warehouse" href="{{ url('/admin/product') }}">จัดการสินค้า</a>
       <router-link class="fas fa-ad" to="/admin/banner">แบนเนอร์</router-link>
-      <router-link class="fas fa-money-check" to="/admin/account">ช่องทางชำระเงิน</router-link>
+      <router-link class="fas fa-money-check" to="/admin/payment">ช่องทางชำระเงิน</router-link>
       <router-link class="fas fa-truck" to="/admin/shipping">การจัดส่ง</router-link>
       <router-link class="fas fa-list-ul" to="/admin/orders">รายการสั่งซื้อ</router-link>
       <router-link class="fas fa-user-tie" to="/admin/contact">ข้อมูลของร้าน</router-link>

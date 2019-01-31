@@ -14,6 +14,6 @@ class OrderController extends Controller
       'cancle' => $request->message
     ]);
 
-    return response('123');
+    return ;
   }
 }

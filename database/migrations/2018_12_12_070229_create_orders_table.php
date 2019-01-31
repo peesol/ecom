@@ -27,7 +27,7 @@ class CreateOrdersTable extends Migration
           $table->string('carrier', 30)->nullable();
           $table->string('tracking_number', 40)->nullable();
           $table->text('address')->nullable();
-          $table->string('date_paid', 100)->nullable();
+          $table->text('date_paid')->nullable();
           $table->text('status');
           $table->text('cancle')->nullable();
 
