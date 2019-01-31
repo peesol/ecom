@@ -57792,7 +57792,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -59429,6 +59428,31 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -59544,166 +59568,191 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "links-wrapper" },
+    "nav",
     [
-      _c(
-        "a",
-        { staticClass: "fas fa-home icon-nav", attrs: { href: "/" } },
-        [_c("font", [_vm._v("HOME")])],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "fas fa-shopping-basket icon-nav",
-          attrs: { href: "/shop" }
-        },
-        [_c("font", [_vm._v("SHOP")])],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        { staticClass: "fas fa-phone icon-nav", attrs: { href: "/contact" } },
-        [_c("font", [_vm._v("CONTACT US")])],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.$root.authenticated,
-              expression: "$root.authenticated"
-            }
-          ],
-          staticClass: "fas fa-shopping-cart icon-nav relative",
-          attrs: { href: "/cart" },
-          on: {
-            click: function($event) {
-              _vm.goToCart()
-            }
-          }
-        },
-        [
-          _c("font", [_vm._v("CART (" + _vm._s(_vm.count) + ")")]),
+      _c("div", { staticClass: "grid-container" }, [
+        _c("div", { staticClass: "left-nav" }, [
+          _vm._m(0),
           _vm._v(" "),
           _c(
-            "span",
+            "a",
+            { attrs: { href: "/" } },
+            [
+              _c("i", { staticClass: "fas fa-home" }),
+              _vm._v(" "),
+              _c("font", [_vm._v(" HOME")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            { attrs: { href: "/shop" } },
+            [
+              _c("i", { staticClass: "fas fa-shopping-basket" }),
+              _vm._v(" "),
+              _c("font", [_vm._v(" SHOP")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            { attrs: { href: "/contact" } },
+            [
+              _c("i", { staticClass: "fas fa-phone" }),
+              _vm._v(" "),
+              _c("font", [_vm._v(" CONTACT US")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
             {
               directives: [
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.count > 0,
-                  expression: "count > 0"
+                  value: _vm.$root.authenticated,
+                  expression: "$root.authenticated"
                 }
               ],
-              staticClass: "cart-count"
-            },
-            [_vm._v(_vm._s(_vm.count))]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.$root.authenticated,
-              expression: "$root.authenticated"
-            }
-          ],
-          staticClass: "fas fa-user icon-nav",
-          on: {
-            click: function($event) {
-              _vm.dropdown = !_vm.dropdown
-            }
-          }
-        },
-        [
-          _c("font", [
-            _vm._v("ACCOUNT "),
-            _c("i", { staticClass: "fas fa-caret-down" })
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("transition", { attrs: { name: "fade" } }, [
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.dropdown && _vm.$root.authenticated,
-                expression: "dropdown && $root.authenticated"
-              }
-            ],
-            staticClass: "dropdown-menu right"
-          },
-          [
-            _c("a", { attrs: { href: "/myaccount" } }, [
-              _c("i", { staticClass: "fas fa-user" }),
-              _vm._v(" MY ACCOUNT")
-            ]),
-            _vm._v(" "),
-            _c("a", { attrs: { href: "/order" } }, [
-              _c("i", { staticClass: "fas fa-list" }),
-              _vm._v(" MY ORDERS")
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.logout()
-                  }
+              attrs: { href: "/cart" },
+              on: {
+                click: function($event) {
+                  _vm.goToCart()
                 }
-              },
-              [
-                _c("i", { staticClass: "fas fa-sign-out-alt" }),
-                _vm._v(" LOGOUT")
-              ]
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          directives: [
+              }
+            },
+            [
+              _c("i", { staticClass: "fas fa-shopping-cart" }),
+              _vm._v(" "),
+              _c("font", [_vm._v("CART (" + _vm._s(_vm.count) + ")")]),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.count > 0,
+                      expression: "count > 0"
+                    }
+                  ],
+                  staticClass: "cart-count"
+                },
+                [_vm._v(_vm._s(_vm.count))]
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "right-nav" }, [
+          _c(
+            "div",
+            { staticClass: "dropdown" },
+            [
+              _c(
+                "a",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.$root.authenticated,
+                      expression: "$root.authenticated"
+                    }
+                  ],
+                  on: {
+                    click: function($event) {
+                      _vm.dropdown = !_vm.dropdown
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fas fa-user" }),
+                  _vm._v(" "),
+                  _c("font", [
+                    _vm._v("ACCOUNT "),
+                    _c("i", { staticClass: "fas fa-caret-down" })
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("transition", { attrs: { name: "fade" } }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.dropdown && _vm.$root.authenticated,
+                        expression: "dropdown && $root.authenticated"
+                      }
+                    ],
+                    staticClass: "dropdown-menu"
+                  },
+                  [
+                    _c("a", { attrs: { href: "/myaccount" } }, [
+                      _c("i", { staticClass: "fas fa-user" }),
+                      _vm._v(" MY ACCOUNT")
+                    ]),
+                    _vm._v(" "),
+                    _c("a", { attrs: { href: "/order" } }, [
+                      _c("i", { staticClass: "fas fa-list" }),
+                      _vm._v(" MY ORDERS")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.logout()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-sign-out-alt" }),
+                        _vm._v(" LOGOUT")
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
             {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.$root.authenticated,
-              expression: "!$root.authenticated"
-            }
-          ],
-          staticClass: "login",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.openModal()
-            }
-          }
-        },
-        [_vm._v("LOGIN")]
-      ),
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.$root.authenticated,
+                  expression: "!$root.authenticated"
+                }
+              ],
+              staticClass: "login",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.openModal()
+                }
+              }
+            },
+            [_vm._v("LOGIN")]
+          )
+        ])
+      ]),
       _vm._v(" "),
       _c(
         "modal",
@@ -60193,8 +60242,8 @@ var render = function() {
             "div",
             {
               staticClass: "modal-btn single margin-10-top",
-              attrs: { slot: "footer" },
-              slot: "footer"
+              attrs: { slot: "footerdiv" },
+              slot: "footerdiv"
             },
             [
               _c(
@@ -60218,7 +60267,22 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "logo hide-for-small-only", attrs: { href: "#" } },
+      [
+        _c("img", {
+          attrs: { src: "https://cdn.svgporn.com/logos/angular.svg", alt: "" }
+        })
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

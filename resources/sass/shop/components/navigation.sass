@@ -5,116 +5,65 @@ $btn-color: #6c6c6c
 $m-height: 50px
 $height: 70px
 $logo-width: 120px
+$nav-shadow: 0 .125rem .25rem #ddd
 
 nav
   position: fixed
-  display: flex
   top: 0
   width: 100%
-  height: $m-height
   z-index: 9999
   background: #fff
-  box-shadow: 1px 1px 7px 0 #c2c2c2
-  .nav-wrapper
-    position: relative
+  box-shadow: $nav-shadow
+  > div
     display: flex
-  .logo-wrapper
-    min-width: 60px
-    width: 60px
-    height: 50px
-    img
-      width: 100%
-      height: 100%
-      object-fit: contain
-  .links-wrapper
-    display: flex
-    width: calc(100% - 60px)
-    justify-content: space-evenly
-    > a
-      font-family: 'Prompt', sans-serif
-      border: none
-      padding: 0 10px
-      height: $m-height
-      line-height: $m-height
-      color: $btn-color
-      background: $btn-bg
-      text-align: center
-      font
-        display: none
-        font-weight: 400
-      &:hover
-        color: $btn-hover
-      &::before
-        font-family: 'Font Awesome 5 Free'
-        font-size: 1.5em
-      /* contact us */
-      &:nth-child(3)
-        display: none
-
-.dropdown-menu
-  position: absolute
-  right: 0
-  top: $m-height
-  background-color: #fff
-  min-width: 180px
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2)
+    height: $m-height
   a
-    display: block
-    padding: 15px 20px
-    color: #000
-    width: 100%
-    &:hover
-      color: #6c6c6c
-      background-color: #eee
+    display: inline-block
+    line-height: $m-height
+    > i
+      display: inline-block !important
+      font-size: 1.5rem
+      padding: 0 8px
+    > font
+      display: none !important
 
-.cart-count
-  font-family: 'Prompt'
-  color: #fff
-  font-size: 1rem
-  position: absolute
-  bottom: 5px
-  right: 0px
-  display: block
-  line-height: 20px
-  background-color: #e3342f
-  padding: 0 8px
-  border-radius: 100%
+nav .logo
+  max-width: 120px
+  margin-right: 15px
+  img
+    width: 100%
+    object-fit: contain
+
+nav
+  .dropdown
+    position: relative
+  .dropdown-menu
+    box-shadow: $nav-shadow
+    position: absolute
+    right: 0
+    background: #fff
+    min-width: 180px
+    z-index: 9999
+    border-top: 1px solid #ddd
+    a
+      display: block
+      line-height: 40px !important
+      padding: 8px 0
 
 @media(min-width: 768px)
   nav
-    height: $height
-    button
-      display: block
-    .nav-wrapper
-      justify-content: flex-start
-      position: relative
-    .logo-wrapper
+    position: relative
+    > div
+      justify-content: space-between
       height: $height
-      width: $logo-width
-    .links-wrapper
-      display: flex
-      width: auto
-      > a
-        line-height: $height
-        min-width: 100px
-        height: $height
-        margin-right: 10px
-        font
-          display: block
-        &::before
-          display: none
-        /* contact us */
-        &:nth-child(3)
-          display: block
-        &.fa-user, &.login
-          position: absolute
-          right: 0
-          top: 0
-
-  .dropdown-menu
-    top: $height
-  .cart-count
-    display: none
+    a
+      text-align: center
+      line-height: $height
+      > i
+        display: none !important
+      > font
+        padding: 0 15px
+        display: inline-block !important
 
 /* ADMIN BTN */
 .admin-btn

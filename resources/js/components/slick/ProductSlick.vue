@@ -1,7 +1,6 @@
 <template>
 <div class="product-slick">
   <slick ref="slick" :options="slickOptions">
-
     <div class="card product" v-for="(item, index) in productsData">
       <div class="card-section">
         <a :href="$root.url + '/product/' + item.uid">

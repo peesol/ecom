@@ -1,22 +1,47 @@
 <template>
-<div class="links-wrapper">
-  <a href="/" class="fas fa-home icon-nav"><font>HOME</font></a>
-  <a href="/shop" class="fas fa-shopping-basket icon-nav"><font>SHOP</font></a>
-  <a href="/contact" class="fas fa-phone icon-nav"><font>CONTACT US</font></a>
-  <a v-show="$root.authenticated" href="/cart" class="fas fa-shopping-cart icon-nav relative" @click="goToCart()">
-    <font>CART&nbsp;({{count}})</font>
-    <span class="cart-count" v-show="count > 0">{{count}}</span>
-  </a>
-  <a v-show="$root.authenticated" class="fas fa-user icon-nav" @click="dropdown = !dropdown"><font>ACCOUNT&nbsp;<i class="fas fa-caret-down"></i></font></a>
-  <transition name="fade">
-    <div class="dropdown-menu right" v-show="dropdown && $root.authenticated">
-      <a href="/myaccount"><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
-      <a href="/order"><i class="fas fa-list"></i>&nbsp;MY ORDERS</a>
-      <a @click.prevent="logout()"><i class="fas fa-sign-out-alt"></i>&nbsp;LOGOUT</a>
+<nav>
+  <div class="grid-container">
+    <div class="left-nav">
+      <a class="logo hide-for-small-only" href="#">
+        <img src="https://cdn.svgporn.com/logos/angular.svg" alt="">
+      </a>
+      <a href="/">
+        <i class="fas fa-home"></i>
+        <font>&nbsp;HOME</font>
+      </a>
+      <a href="/shop">
+        <i class="fas fa-shopping-basket"></i>
+        <font>&nbsp;SHOP</font>
+      </a>
+      <a href="/contact">
+        <i class="fas fa-phone"></i>
+        <font>&nbsp;CONTACT US</font>
+      </a>
+      <a v-show="$root.authenticated" href="/cart" @click="goToCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <font>CART&nbsp;({{count}})</font>
+        <span class="cart-count" v-show="count > 0">{{count}}</span>
+      </a>
     </div>
-  </transition>
-  <a v-show="!$root.authenticated" class="login" @click.prevent="openModal()">LOGIN</a>
+    <div class="right-nav">
+      <div class="dropdown">
+        <a v-show="$root.authenticated" @click="dropdown = !dropdown">
+          <i class="fas fa-user"></i>
+          <font>ACCOUNT&nbsp;<i class="fas fa-caret-down"></i></font>
+        </a>
+        <transition name="fade">
+          <div class="dropdown-menu" v-show="dropdown && $root.authenticated">
+            <a href="/myaccount"><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
+            <a href="/order"><i class="fas fa-list"></i>&nbsp;MY ORDERS</a>
+            <a @click.prevent="logout()"><i class="fas fa-sign-out-alt"></i>&nbsp;LOGOUT</a>
+          </div>
+        </transition>
+      </div>
+      <a v-show="!$root.authenticated" class="login" @click.prevent="openModal()">LOGIN</a>
+    </div>
+  </div>
 
+  <!-- MODAL -->
   <modal v-show="!$root.authenticated" size="login">
     <div slot="heading" class="modal-heading-tab">
       <button class="half" :class="{'active' : tab == 'login'}" type="button" @click.prevent="tab = 'login'">Login</button>
@@ -69,11 +94,11 @@
       </div>
       <button :disabled="errors.any()" class="auth-modal full-width" type="submit" name="button">Register</button>
     </form>
-    <div class="modal-btn single margin-10-top" slot="footer">
+    <div class="modal-btn single margin-10-top" slot="footerdiv">
       <button type="button" name="button" @click.prevent="hideModal()">Close&nbsp;<i class="fas fa-times"></i></button>
     </div>
   </modal>
-</div>
+</nav>
 </template>
 
 <script>
