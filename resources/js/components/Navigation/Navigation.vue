@@ -49,52 +49,52 @@
     </div>
     <div class="padding-10" slot="body" v-if="tab == 'login'">
       <div>
-        <form @submit.prevent="login()" method="post" action="">
+        <form class="grid-y" @submit.prevent="login()" method="post" action="">
           <div class="login">
             <div class="form-group">
-              <label class="full" for="email">Email</label>
+              <label for="email">Email</label>
               <input required class="full-width" id="email" type="text" name="user" v-model="loginForm.email">
               <span class="error" v-show="errors.first('user')">{{ errors.first('user') }}</span>
             </div>
             <div class="form-group padding-10-bottom">
-              <label class="full" for="password">Password</label>
+              <label for="password">Password</label>
               <input required class="full-width" id="password" type="password" v-model="loginForm.password">
             </div>
-            <button class="auth-modal full-width" type="submit" :disabled="!loginForm.email || !loginForm.password">LOGIN</button>
+            <button class="cell btn primary" type="submit" :disabled="!loginForm.email || !loginForm.password">LOGIN</button>
           </div>
         </form>
       </div>
-      <div class="text-center oauth">
-        <h3 class="text-center padding-15-v">Login with</h3>
-        <button class="google auth-modal full-width margin-15-bottom" type="button" @click="google()">Google +</button>
-        <button class="facebook auth-modal full-width" type="button" @click="facebook()">Facebook</button>
+      <div class="text-center grid-y">
+        <h4 class="text-center padding-15-v">Login with</h4>
+        <button class="cell google auth-modal margin-15-bottom" type="button" @click="google()">Google +</button>
+        <button class="cell facebook auth-modal" type="button" @click="facebook()">Facebook</button>
       </div>
     </div>
     <form @submit.prevent="register()" class="padding-10" method="POST" action="" slot="body" v-else>
       <div class="form-group">
-        <label class="full">Name</label>
+        <label>Name</label>
         <input data-vv-as="ชื่อ" required v-validate="'required'" class="full-width" type="text" v-model="form.name" name="name">
         <span class="error" v-show="errors.first('name')">{{ errors.first('name') }}</span>
       </div>
       <div class="form-group">
-        <label class="full">Email</label>
+        <label>Email</label>
         <input @input="checkEmail()" data-vv-as="อีเมล" required v-validate="'required|email'" class="full-width" type="email" v-model="form.email" name="email" placeholder="example@gmail.com">
         <span class="error" v-show="errors.first('email')">{{ errors.first('email') }}</span>
         <span class="error" v-show="emailError">{{ emailError }}</span>
       </div>
       <div class="form-group">
-        <label class="full">Password</label>
+        <label>Password</label>
         <input data-vv-as="รหัสผ่าน" required v-validate="'required|alpha_num|min:6'" class="full-width" type="password" v-model="form.password" name="password" ref="password">
         <span class="error" v-show="errors.first('password')">{{ errors.first('password') }}</span>
       </div>
       <div class="form-group padding-10-bottom">
-        <label class="full">Confirm password</label>
+        <label>Confirm password</label>
         <input data-vv-as="รหัสผ่าน" required v-validate="'required|confirmed:password|min:6'" class="full-width" type="password" name="confirm">
         <span class="error" v-show="errors.first('confirm')">{{ errors.first('confirm') }}</span>
       </div>
-      <button :disabled="errors.any()" class="auth-modal full-width" type="submit" name="button">Register</button>
+      <button :disabled="errors.any()" class="cell btn primary" type="submit" name="button">Register</button>
     </form>
-    <div class="modal-btn single margin-10-top" slot="footerdiv">
+    <div class="modal-btn single margin-10-top" slot="footer">
       <button type="button" name="button" @click.prevent="hideModal()">Close&nbsp;<i class="fas fa-times"></i></button>
     </div>
   </modal>

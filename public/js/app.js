@@ -59823,6 +59823,7 @@ var render = function() {
                     _c(
                       "form",
                       {
+                        staticClass: "grid-y",
                         attrs: { method: "post", action: "" },
                         on: {
                           submit: function($event) {
@@ -59834,11 +59835,9 @@ var render = function() {
                       [
                         _c("div", { staticClass: "login" }, [
                           _c("div", { staticClass: "form-group" }, [
-                            _c(
-                              "label",
-                              { staticClass: "full", attrs: { for: "email" } },
-                              [_vm._v("Email")]
-                            ),
+                            _c("label", { attrs: { for: "email" } }, [
+                              _vm._v("Email")
+                            ]),
                             _vm._v(" "),
                             _c("input", {
                               directives: [
@@ -59892,14 +59891,9 @@ var render = function() {
                             "div",
                             { staticClass: "form-group padding-10-bottom" },
                             [
-                              _c(
-                                "label",
-                                {
-                                  staticClass: "full",
-                                  attrs: { for: "password" }
-                                },
-                                [_vm._v("Password")]
-                              ),
+                              _c("label", { attrs: { for: "password" } }, [
+                                _vm._v("Password")
+                              ]),
                               _vm._v(" "),
                               _c("input", {
                                 directives: [
@@ -59936,7 +59930,7 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "auth-modal full-width",
+                              staticClass: "cell btn primary",
                               attrs: {
                                 type: "submit",
                                 disabled:
@@ -59951,16 +59945,15 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "text-center oauth" }, [
-                    _c("h3", { staticClass: "text-center padding-15-v" }, [
+                  _c("div", { staticClass: "text-center grid-y" }, [
+                    _c("h4", { staticClass: "text-center padding-15-v" }, [
                       _vm._v("Login with")
                     ]),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass:
-                          "google auth-modal full-width margin-15-bottom",
+                        staticClass: "cell google auth-modal margin-15-bottom",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -59974,7 +59967,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "facebook auth-modal full-width",
+                        staticClass: "cell facebook auth-modal",
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
@@ -60002,7 +59995,7 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "full" }, [_vm._v("Name")]),
+                    _c("label", [_vm._v("Name")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -60055,7 +60048,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "full" }, [_vm._v("Email")]),
+                    _c("label", [_vm._v("Email")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -60130,7 +60123,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "full" }, [_vm._v("Password")]),
+                    _c("label", [_vm._v("Password")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -60184,9 +60177,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group padding-10-bottom" }, [
-                    _c("label", { staticClass: "full" }, [
-                      _vm._v("Confirm password")
-                    ]),
+                    _c("label", [_vm._v("Confirm password")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -60226,7 +60217,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "auth-modal full-width",
+                      staticClass: "cell btn primary",
                       attrs: {
                         disabled: _vm.errors.any(),
                         type: "submit",
@@ -60242,8 +60233,8 @@ var render = function() {
             "div",
             {
               staticClass: "modal-btn single margin-10-top",
-              attrs: { slot: "footerdiv" },
-              slot: "footerdiv"
+              attrs: { slot: "footer" },
+              slot: "footer"
             },
             [
               _c(
