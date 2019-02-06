@@ -30,6 +30,9 @@ Route::put('/cart/add/{product}', 'Cart\CartController@addToCart');
 Route::put('/cart/update/qty', 'Cart\CartController@updateQty');
 Route::put('/cart/update/remove', 'Cart\CartController@removeFromCart');
 
+Route::get('/profile', 'User\UserController@index');
+Route::get('/profile/edit', 'User\UserController@edit');
+Route::put('/profile/edit', 'User\UserController@update');
 /*
 |--------------------------------------------------------------------------
 | Auth Middleware Routes

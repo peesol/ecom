@@ -59710,7 +59710,7 @@ var render = function() {
                     staticClass: "dropdown-menu"
                   },
                   [
-                    _c("a", { attrs: { href: "/myaccount" } }, [
+                    _c("a", { attrs: { href: "/profile" } }, [
                       _c("i", { staticClass: "fas fa-user" }),
                       _vm._v(" MY ACCOUNT")
                     ]),

@@ -31,7 +31,7 @@
         </a>
         <transition name="fade">
           <div class="dropdown-menu" v-show="dropdown && $root.authenticated">
-            <a href="/myaccount"><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
+            <a href="/profile"><i class="fas fa-user"></i>&nbsp;MY ACCOUNT</a>
             <a href="/order"><i class="fas fa-list"></i>&nbsp;MY ORDERS</a>
             <a @click.prevent="logout()"><i class="fas fa-sign-out-alt"></i>&nbsp;LOGOUT</a>
           </div>
