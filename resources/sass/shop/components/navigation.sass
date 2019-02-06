@@ -17,15 +17,23 @@ nav
   > div
     display: flex
     height: $m-height
+    justify-content: space-between
   a
     display: inline-block
+    position: relative
     line-height: $m-height
+    color: $btn-color
+    font-family: 'Prompt', sans-serif
+    &:hover
+      color: $btn-hover
     > i
       display: inline-block !important
       font-size: 1.5rem
       padding: 0 8px
     > font
       display: none !important
+    > i, > font
+      line-height: $m-height !important
 
 nav .logo
   max-width: 120px
@@ -100,3 +108,18 @@ button.auth-modal
     background: #4156a7
     &:hover
       background: #596fc8
+
+.cart-count
+  position: absolute
+  top: 25px
+  right: -5px
+  display: block
+  padding: 0 8px
+  border-radius: 6px
+  line-height: 20px
+  height: 20px
+  text-align: center
+  background: #cc4b37
+  color: #fff
+  font-weight: bold
+  font-size: small

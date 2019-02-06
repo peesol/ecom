@@ -1,7 +1,7 @@
 <template>
 <slick ref="slick" :options="slickOptions">
   <a v-for="img in imgs">
-    <img :src="imgUrl + img.filename" alt="">
+    <img class="product-slick-img" :src="imgUrl + img.filename" alt="">
   </a>
 </slick>
 </template>

@@ -2,11 +2,11 @@
 <div class="cart">
   <table class="unstriped stack hover">
     <tbody>
-      <tr v-for="item in cartContent">
+      <tr v-for="item in cartItems">
         <td>
           <div class="grid-x grid-margin-x">
             <div class="cell medium-2 small-3 shrink">
-              <img style="width:100%" :src="imgUrl + item.thumbnail" :alt="item.thumbnail">
+              <img style="width:100%" :src="imgUrl + item.options.thumbnail" :alt="item.thumbnail">
             </div>
             <div class="cell small-9 medium-10">
               <p class="">{{ item.name }}</p>
@@ -99,7 +99,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      cartItems: [],
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       code: null,
       user: this.userData,
@@ -116,6 +115,14 @@ export default {
     ...mapGetters([
       'cartContent'
     ]),
+
+    cartItems: function () {
+      if (this.view == 'cart') {
+        return this.cartContent;
+      } else {
+        return this.productProp;
+      }
+    },
 
     priceCalc: function() {
       let totalPrice = [];
@@ -270,15 +277,15 @@ export default {
 
     setCart() {
       if (this.view == 'cart') {
-        console.log('it s a cartt');
-        this.cartItems = this.cartContent
+        console.log(this.cartContent);
+        this.cartItems = this.$store.state.cartContent
       } else {
         this.cartItems = this.productProp
       }
     }
   },
-  created() {
-    this.setCart()
+  mounted() {
+
   }
 }
 </script>

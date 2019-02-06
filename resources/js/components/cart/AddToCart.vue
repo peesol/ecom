@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="add()" class="add-to-cart padding-15-v">
     <div class="form-group padding-15-bottom" v-show="product.choice">
-      <label class="full">Options</label>
-      <div class="flex column-mobile padding-5-v">
+      <label>ตัวเลือกสินค้า</label>
+      <div>
         <div class="radio-input" v-for="(choice, index) in product.choice">
           <input :id="index" type="radio" name="choice" :value="choice.name" v-model="selectedChoice">
           <label :for="index">{{ choice.name }}</label>
@@ -10,12 +10,12 @@
         </div>
       </div>
     </div>
-    <div class="col-2-flex-res">
-      <div class="margin-15-bottom-mobile padding-10-right-screen">
-        <button class="btn full-width" type="button" @click.prevent="buyNow">Buy now</button>
+    <div class="grid-padding-x grid-padding-y grid-x medium-up-2">
+      <div class="cell">
+        <button style="height:40px" class="btn success cell" type="button" @click.prevent="buyNow">ซื้อเลย</button>
       </div>
-      <div class="padding-10-left-screen">
-        <button class="btn full-width" type="submit">Add to cart</button>
+      <div class="cell">
+        <button style="height:40px" class="btn primary cell" type="submit">เพิ่มลงรถเข็น&nbsp;<i class="fas fa-plus"></i></button>
       </div>
     </div>
   </form>

@@ -20,7 +20,7 @@ class ProductController extends Controller
       'id' => $product->id,
       'name' => $product->name,
       'options' => [
-        'thumbnail' => $product->filename,
+        'thumbnail' => $product->thumbnail,
         'choice' => $choice == 'empty' ? null : $choice,
       ],
       'price' => $product->discount_price ? $product->discount_price : $product->price,

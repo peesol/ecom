@@ -28,3 +28,68 @@ span.error
     min-width: 100%
     min-height: 100%
     object-fit: contain
+
+
+/* The radio-input
+
+.radio-input
+  display: block
+  position: relative
+  padding-left: 25px
+  cursor: pointer
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  min-width: 120px
+  max-width: fit-content
+  input
+    position: absolute
+    opacity: 0
+    left: 0
+    z-index: 2
+    width: 30px
+    height: 30px
+    cursor: pointer
+  label
+    min-width: 120px
+
+/* Create a custom radio button
+
+.check
+  position: absolute
+  top: 3px
+  left: 0
+  width: 25px
+  height: 25px
+  background-color: #ddd
+  border-radius: 50%
+
+/* On mouse-over, add a grey background color
+
+.radio-input
+  &:hover input ~ .check
+    background-color: #29ad2c
+  input:checked ~ .check
+    background-color: #29ad2c
+
+.check:after
+  content: ""
+  position: absolute
+  display: block
+
+.radio-input
+  input:checked ~ .check:after
+    top: 1px
+    color: #fff
+    font-family: 'Font Awesome 5 Free'
+    font-weight: 600
+    content: '\f00c'
+    background-color: transparent
+  .check:after
+    top: 5px
+    left: 5px
+    width: 15px
+    height: 15px
+    border-radius: 50%
+    background: white

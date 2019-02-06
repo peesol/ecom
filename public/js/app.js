@@ -58079,7 +58079,10 @@ var render = function() {
     { ref: "slick", attrs: { options: _vm.slickOptions } },
     _vm._l(_vm.imgs, function(img) {
       return _c("a", [
-        _c("img", { attrs: { src: _vm.imgUrl + img.filename, alt: "" } })
+        _c("img", {
+          staticClass: "product-slick-img",
+          attrs: { src: _vm.imgUrl + img.filename, alt: "" }
+        })
       ])
     }),
     0
@@ -58271,11 +58274,10 @@ var render = function() {
           staticClass: "form-group padding-15-bottom"
         },
         [
-          _c("label", { staticClass: "full" }, [_vm._v("Options")]),
+          _c("label", [_vm._v("ตัวเลือกสินค้า")]),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "flex column-mobile padding-5-v" },
             _vm._l(_vm.product.choice, function(choice, index) {
               return _c("div", { staticClass: "radio-input" }, [
                 _c("input", {
@@ -58311,15 +58313,16 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "col-2-flex-res" }, [
-        _c(
-          "div",
-          { staticClass: "margin-15-bottom-mobile padding-10-right-screen" },
-          [
+      _c(
+        "div",
+        { staticClass: "grid-padding-x grid-padding-y grid-x medium-up-2" },
+        [
+          _c("div", { staticClass: "cell" }, [
             _c(
               "button",
               {
-                staticClass: "btn full-width",
+                staticClass: "btn success cell",
+                staticStyle: { height: "40px" },
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -58328,13 +58331,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Buy now")]
+              [_vm._v("ซื้อเลย")]
             )
-          ]
-        ),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ]
+      )
     ]
   )
 }
@@ -58343,11 +58346,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "padding-10-left-screen" }, [
+    return _c("div", { staticClass: "cell" }, [
       _c(
         "button",
-        { staticClass: "btn full-width", attrs: { type: "submit" } },
-        [_vm._v("Add to cart")]
+        {
+          staticClass: "btn primary cell",
+          staticStyle: { height: "40px" },
+          attrs: { type: "submit" }
+        },
+        [_vm._v("เพิ่มลงรถเข็น "), _c("i", { staticClass: "fas fa-plus" })]
       )
     ])
   }
@@ -58520,7 +58527,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      cartItems: [],
       imgUrl: this.$root.url + '/file/product/thumbnail/',
       code: null,
       user: this.userData,
@@ -58535,6 +58541,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
   props: ['userData', 'shippings', 'view', 'productProp'],
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])(['cartContent']), {
+
+    cartItems: function cartItems() {
+      if (this.view == 'cart') {
+        return this.cartContent;
+      } else {
+        return this.productProp;
+      }
+    },
 
     priceCalc: function priceCalc() {
       var totalPrice = [];
@@ -58693,16 +58707,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     setCart: function setCart() {
       if (this.view == 'cart') {
-        console.log('it s a cartt');
-        this.cartItems = this.cartContent;
+        console.log(this.cartContent);
+        this.cartItems = this.$store.state.cartContent;
       } else {
         this.cartItems = this.productProp;
       }
     }
   }),
-  created: function created() {
-    this.setCart();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -58717,7 +58729,7 @@ var render = function() {
     _c("table", { staticClass: "unstriped stack hover" }, [
       _c(
         "tbody",
-        _vm._l(_vm.cartContent, function(item) {
+        _vm._l(_vm.cartItems, function(item) {
           return _c("tr", [
             _c("td", [
               _c("div", { staticClass: "grid-x grid-margin-x" }, [
@@ -58725,7 +58737,7 @@ var render = function() {
                   _c("img", {
                     staticStyle: { width: "100%" },
                     attrs: {
-                      src: _vm.imgUrl + item.thumbnail,
+                      src: _vm.imgUrl + item.options.thumbnail,
                       alt: item.thumbnail
                     }
                   })
@@ -59641,7 +59653,7 @@ var render = function() {
                       expression: "count > 0"
                     }
                   ],
-                  staticClass: "cart-count"
+                  staticClass: "cart-count hide-for-medium"
                 },
                 [_vm._v(_vm._s(_vm.count))]
               )

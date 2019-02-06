@@ -20,7 +20,7 @@
       <a v-show="$root.authenticated" href="/cart" @click="goToCart()">
         <i class="fas fa-shopping-cart"></i>
         <font>CART&nbsp;({{count}})</font>
-        <span class="cart-count" v-show="count > 0">{{count}}</span>
+        <span class="cart-count hide-for-medium" v-show="count > 0">{{count}}</span>
       </a>
     </div>
     <div class="right-nav">
