@@ -30458,7 +30458,7 @@ Vue.component('back', {
 
 Vue.component('load-overlay', {
   props: ['bg', 'show', 'padding'],
-  template: '<div class="load-overlay" :style="{ padding : padding }" :class="[{show : show}, bg]"><div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>'
+  template: '<div class="load-overlay align-center-middle" :style="{ padding : padding }" :class="[{show : show}, bg]"><div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>'
 });
 
 // const files = require.context('./', true, /\.vue$/i)
