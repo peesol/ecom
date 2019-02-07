@@ -58517,11 +58517,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58553,7 +58548,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     priceCalc: function priceCalc() {
       var totalPrice = [];
       var totalQty = [];
-      Object.entries(this.cartContent).forEach(function (_ref) {
+      Object.entries(this.cartItems).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             val = _ref2[1];
@@ -58701,7 +58696,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
           shipping: this.confirm.shipping,
           fee: this.confirm.fee
         }).then(function (response) {
-          document.location.href = _this2.$root.url + '/order/' + response.data;
+          var lineToken = 'qt97GCNOcLtpcEp10Yioair47biAOXIdNLgAh1RMcgz';
+          var Ajax = {
+            "async": true,
+            "crossDomain": true,
+            "url": 'https://cors-anywhere.herokuapp.com/' + 'https://notify-api.line.me/api/notify',
+            "method": "POST",
+            "headers": {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Authorization": "Bearer " + lineToken
+            },
+            "data": {
+              "message": "มีการสั่งซื้อสินค้า " + response.data.title
+            }
+          };
+          var self = _this2;
+          $.ajax(Ajax).done(function () {
+            document.location.href = self.$root.url + '/order/' + response.data.uid;
+          });
+          // axios.post(`${'https://cors-anywhere.herokuapp.com/'}https://notify-api.line.me/api/notify`, { message: 'teste' }, config).then(response => {
+          //   document.location.href = this.$root.url + '/order/' + response.data
+          // }, response => {
+          //   console.log(bodyParameters);
+          // })
         });
       }
     },
@@ -58857,8 +58874,8 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.cartContent.length,
-            expression: "cartContent.length"
+            value: _vm.cartItems.length,
+            expression: "cartItems.length"
           }
         ],
         staticClass: "grid-x medium-up-2"
@@ -59286,8 +59303,8 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: !_vm.cartContent.length,
-            expression: "!cartContent.length"
+            value: !_vm.cartItems.length,
+            expression: "!cartItems.length"
           }
         ],
         staticClass: "text-center"

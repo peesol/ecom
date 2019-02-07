@@ -25,15 +25,10 @@
         </td>
         <td class="font-large text-right"><button class="btn-flat error fas fa-trash-alt" @click="remove(item.rowId)"></button></td>
       </tr>
-      <!-- <tr>
-        <td colspan="4">
-          <p class="h4 no-margin">รวม&nbsp;{{ $number.currency(priceCalc) }}&nbsp;THB</p>
-        </td>
-      </tr> -->
     </tbody>
   </table>
 
-  <section class="grid-x medium-up-2" v-show="cartContent.length">
+  <section class="grid-x medium-up-2" v-show="cartItems.length">
     <div class="cell">
       <div v-show="shippings.length">
         <label class="lead">เลือกการจัดส่ง</label>
@@ -88,7 +83,7 @@
   </transition>
   </section>
 
-  <div class="text-center" v-show="!cartContent.length">
+  <div class="text-center" v-show="!cartItems.length">
     <h2>ไม่มีสินค้าบนรถเข็น</h2>
   </div>
 </div>
@@ -127,7 +122,7 @@ export default {
     priceCalc: function() {
       let totalPrice = [];
       let totalQty = [];
-      Object.entries(this.cartContent).forEach(([key, val]) => {
+      Object.entries(this.cartItems).forEach(([key, val]) => {
           var subTotal = val.price * val.qty
           totalPrice.push(subTotal)
           totalQty.push(val.qty)
@@ -270,7 +265,29 @@ export default {
           shipping: this.confirm.shipping,
           fee: this.confirm.fee,
         }).then(response => {
-          document.location.href = this.$root.url + '/order/' + response.data
+          var lineToken = 'qt97GCNOcLtpcEp10Yioair47biAOXIdNLgAh1RMcgz';
+          var Ajax = {
+            "async": true,
+            "crossDomain": true,
+            "url": `${'https://cors-anywhere.herokuapp.com/'}https://notify-api.line.me/api/notify`,
+            "method": "POST",
+            "headers": {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Authorization": "Bearer " + lineToken
+            },
+            "data": {
+              "message": "มีการสั่งซื้อสินค้า " + response.data.title
+            }
+          }
+          var self = this;
+          $.ajax(Ajax).done(function () {
+            document.location.href = self.$root.url + '/order/' + response.data.uid
+          });
+          // axios.post(`${'https://cors-anywhere.herokuapp.com/'}https://notify-api.line.me/api/notify`, { message: 'teste' }, config).then(response => {
+          //   document.location.href = this.$root.url + '/order/' + response.data
+          // }, response => {
+          //   console.log(bodyParameters);
+          // })
         })
       }
     },

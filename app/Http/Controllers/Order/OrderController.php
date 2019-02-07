@@ -59,6 +59,6 @@ class OrderController extends Controller
       ]);
       $user->save();
     }
-    return response($created->uid);
+    return response($created);
   }
 }
