@@ -35,4 +35,16 @@
         </div>
       </section>
     @endif
+    @if ($showcases)
+      <section>
+        @foreach ($showcases as $showcase)
+          @if (count($showcase->products))
+            <h3>{{ $showcase->name }}</h3>
+            <div class="panel large padding-15-v">
+              <product-slick :products="{{$showcase->products}}"></product-slick>
+            </div>
+          @endif
+        @endforeach
+      </section>
+    @endif
 @endsection

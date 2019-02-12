@@ -62,6 +62,8 @@ Route::get('/admin/orders', 'Admin\AdminController@index');
 Route::get('/admin/orders/{order}', 'Admin\AdminController@index');
 Route::get('/admin/banner', 'Admin\AdminController@index');
 Route::get('/admin/payment', 'Admin\AdminController@index');
+Route::get('/admin/showcase', 'Admin\AdminController@index');
+Route::get('/admin/showcase/{showcase}/edit', 'Admin\AdminController@index');
 /*
 |--------------------------------------------------------------------------
 | Product
@@ -98,7 +100,7 @@ Route::get('/admin/product/{product}/get_choice', 'Admin\Product\ChoiceControlle
 Route::put('/admin/product/{product}/add_choice', 'Admin\Product\ChoiceController@create');
 Route::put('/admin/product/{product}/delete_choice', 'Admin\Product\ChoiceController@delete');
 /*
-|--------------------------------------------------------------------------
+|------------------------------------------------------------------------payment--
 | Prommotions
 |--------------------------------------------------------------------------
 */
@@ -162,6 +164,20 @@ Route::delete('/admin/payment/delete/{id}', 'Admin\Payment\PaymentController@del
 
 /*
 |--------------------------------------------------------------------------
+| Showcase
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/admin/showcase/create', 'Admin\Showcase\ShowcaseController@create');
+Route::put('/admin/showcase/update_order', 'Admin\Showcase\ShowcaseController@delete');
+Route::put('/admin/showcase/show_toggle/{showcase}', 'Admin\Showcase\ShowcaseController@showToggle');
+Route::delete('/admin/showcase/delete/{showcase}', 'Admin\Showcase\ShowcaseController@updateOrder');
+
+Route::put('/admin/showcase/update_name/{showcase}', 'Admin\Showcase\ShowcaseEditController@update');
+Route::put('/admin/showcase/add_product/{showcase}', 'Admin\Showcase\ShowcaseEditController@storeProduct');
+
+/*
+|--------------------------------------------------------------------------
 | Utilities
 |--------------------------------------------------------------------------
 */
@@ -179,3 +195,5 @@ Route::get('/api/get/banner', 'Api\GetterController@getBanner');
 Route::get('/api/get/order', 'Api\GetterController@getOrder');
 Route::get('/api/get/order/{order}', 'Api\GetterController@getSpecificOrder');
 Route::get('/api/get/payment_methods', 'Api\GetterController@getPaymentMethod');
+Route::get('/api/get/showcase', 'Api\GetterController@getShowcase');
+Route::get('/api/get/showcase/{showcase}', 'Api\GetterController@getSpecificShowcase');

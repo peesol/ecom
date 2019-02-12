@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use DB;
 use Illuminate\Http\Request;
-use App\Models\{Category, Product, Shipping, Order};
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Models\{Category, Product, Shipping, Order, Showcase};
 
 class GetterController extends Controller
 {
@@ -101,6 +101,22 @@ class GetterController extends Controller
   public function getPaymentMethod()
   {
     $data = DB::table('payment_methods')->get();
+
+    return response()->json($data);
+  }
+
+  public function getShowcase()
+  {
+    $data = Showcase::all();
+
+    return response()->json($data);
+  }
+  public function getSpecificShowcase(Showcase $showcase)
+  {
+    $data = [
+      'products' => $showcase->products,
+      'name' => $showcase->name,
+    ];
 
     return response()->json($data);
   }

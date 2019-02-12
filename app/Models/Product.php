@@ -50,6 +50,14 @@ class Product extends Model
     }
     return $data;
   }
+  public function showcase()
+  {
+    return $this->belongsToMany(Showcase::class, 'showcase_products');
+  }
+  public function addedToShowcase($showcaseId, $productId)
+  {
+    return (bool) $this->showcase()->where(['showcase_id' => $showcaseId], ['product_id' => $productId])->count();
+  }
   public function getThumbnail()
   {
     return config('app.url') . '/file/product/thumbnail/'. $this->thumbnail ;

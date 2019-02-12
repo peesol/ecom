@@ -97,13 +97,13 @@ export default {
     addQueryParam(params) {
       _.mapValues(this.query, (val) => {val = null})
       this.query.name = params.name
+      this.query.orderBy = params.order
       this.query.category = params.category
       this.query.subcategory = params.subcategory
       this.query.maxPrice = params.max
       this.query.minPrice = params.min
-      this.query.discount = params.discount
+      this.query.discount = params.discount ? true : null
       this.query.page = null
-      this.getProduct()
     },
     discounted(price) {
       return this.$number.currency(price - this.discount);

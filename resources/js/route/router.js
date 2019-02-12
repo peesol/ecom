@@ -15,6 +15,8 @@ const Shipping = require('../components/admin/Shipping.vue');
 const Order = require('../components/admin/Order.vue');
 const OrderView = require('../components/admin/OrderView.vue');
 const Payment = require('../components/admin/Payment.vue');
+const Showcase = require('../components/admin/Showcase.vue');
+const ShowcaseEdit = require('../components/admin/ShowcaseEdit.vue');
 
 const routes = [
   {
@@ -68,6 +70,14 @@ const routes = [
   {
     path: '/admin/payment',
     component: Payment
+  },
+  {
+    path: '/admin/showcase',
+    component: Showcase
+  },
+  {
+    path: '/admin/showcase/:showcase/edit',
+    component: ShowcaseEdit
   }
 ];
 

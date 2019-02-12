@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
-use App\Models\{Product, Banner};
+use App\Models\{Product, Banner, Showcase};
 
 class HomeController extends Controller
 {
@@ -28,11 +28,13 @@ class HomeController extends Controller
       $banners = Banner::all();
       $products = Product::whereNull('discount_price')->where('featured', true)->get();
       $promotion = Product::whereNotNull('discount_price')->where('featured', true)->get();
+      $showcases = Showcase::where('show', true)->get();
 
       return view('home', [
         'banners' => $banners,
         'products' => $products,
         'promotion' => $promotion,
+        'showcases' => $showcases,
       ]);
     }
 

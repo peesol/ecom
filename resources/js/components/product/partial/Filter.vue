@@ -92,7 +92,7 @@ export default {
     props: ['canToggleView', 'includeDiscount'],
     computed: {
       activated() {
-        if (this.selected.c || this.min || this.max || this.selected.discount || this.name) {
+        if (this.selected.c || this.min || this.max || this.selected.discount || this.name || this.orderBy) {
           return true
         } else {
           return false
