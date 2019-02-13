@@ -10,13 +10,14 @@ const ProductUpload = require('../components/product/ProductUpload.vue');
 const ProductDiscount = require('../components/promotion/ProductDiscount.vue');
 const Code = require('../components/promotion/Code.vue');
 const Banner = require('../components/admin/Banner.vue');
-const Contact = require('../components/admin/Contact.vue');
 const Shipping = require('../components/admin/Shipping.vue');
 const Order = require('../components/admin/Order.vue');
 const OrderView = require('../components/admin/OrderView.vue');
 const Payment = require('../components/admin/Payment.vue');
 const Showcase = require('../components/admin/Showcase.vue');
 const ShowcaseEdit = require('../components/admin/ShowcaseEdit.vue');
+
+const Contact = require('../components/admin/Info/Contact.vue');
 
 const routes = [
   {

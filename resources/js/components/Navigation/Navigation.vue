@@ -3,7 +3,7 @@
   <div class="grid-container">
     <div class="left-nav">
       <a class="logo hide-for-small-only" href="#">
-        <img src="https://cdn.svgporn.com/logos/angular.svg" alt="">
+        <img src="/file/logo/logo.jpg" alt="">
       </a>
       <a href="/">
         <i class="fas fa-home"></i>

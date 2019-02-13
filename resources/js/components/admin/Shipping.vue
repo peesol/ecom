@@ -77,7 +77,7 @@
             </div>
           </td>
           <td class="text-right">
-            <button class="btn-flat error lead padding-15-h" type="button" @click="remove(shipping.id, index)">ลบ</button>
+            <button class="btn error fas fa-trash-alt" type="button" @click="remove(shipping.id, index)"></button>
           </td>
         </tr>
       </tbody>
@@ -130,6 +130,7 @@ export default {
       })
     },
     create() {
+      this.$root.loading = true
       axios.post(this.$root.url + '/admin/shipping/add', {
         method: this.form.method,
         fee: this.form.fee,
@@ -138,8 +139,10 @@ export default {
       }).then(response => {
         this.shippings.push(response.data)
         toastr.success('เพิ่มช่องทางการส่งสินค้าแล้ว')
+        this.$root.loading = false
       }, response => {
         toastr.error('เกิดข้อผิดพลาด')
+        this.$root.loading = false
       })
     },
     remove(id, index) {
@@ -154,7 +157,9 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getShipping()
+    this.$root.loading = false
   }
 }
 </script>

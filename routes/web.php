@@ -131,6 +131,14 @@ Route::put('/admin/contact/update/{contact}', 'Admin\Contact\ContactController@u
 Route::delete('/admin/contact/delete/{contact}', 'Admin\Contact\ContactController@delete');
 /*
 |--------------------------------------------------------------------------
+| Configs
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/info/get_config', 'Admin\Config\InfoController@getConfig');
+Route::put('/admin/info/logo/update', 'Admin\Config\InfoController@updateLogo');
+Route::put('/admin/info/description/update', 'Admin\Config\InfoController@updateDesc');
+/*
+|--------------------------------------------------------------------------
 | Shipping
 |--------------------------------------------------------------------------
 */

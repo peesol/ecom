@@ -57,24 +57,24 @@ export default {
     },
 
     remove(index) {
-      if (!confirm('คุณแน่ใจหรือไม่ที่จะลบ?')) {
-        return;
+      if (confirm('คุณแน่ใจหรือไม่ที่จะลบ?')) {
+        this.choices.splice(index, 1)
+        axios.put(this.$root.url + '/admin/product/' + this.$route.params.uid + '/delete_choice', {
+          choices: this.choices
+        }).then(response => {
+          toastr.success('ลบตัวเลือกแล้ว')
+        }, response => {
+          toastr.error('เกิดข้อผิดพลาด')
+        });
       }
-      this.choices.splice(index, 1)
-      axios.put(this.$root.url + '/admin/product/' + this.$route.params.uid + '/delete_choice', {
-        choices: this.choices
-      }).then(response => {
-        toastr.success('ลบตัวเลือกแล้ว')
-      }, response => {
-        toastr.error('เกิดข้อผิดพลาด')
-      });
     },
 
   },
 
   mounted() {
-    this.getChoice();
+    this.$root.loading = true
+    this.getChoice()
+    this.$root.loading = false
   }
-
 }
 </script>

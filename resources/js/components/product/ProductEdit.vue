@@ -78,7 +78,6 @@ export default {
   },
   methods: {
     getProduct() {
-      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/products/' + this.$route.params.uid).then(response => {
         this.image_filename = this.$root.url + '/file/product/thumbnail/' + response.data.thumbnail
         this.name = response.data.name
@@ -86,7 +85,6 @@ export default {
         this.description = response.data.description
         this.visibility = response.data.visibility
         this.uid = response.data.uid
-        this.$root.loading = false
       })
     },
     previewThumbnail(event) {
@@ -151,7 +149,9 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getProduct()
+    this.$root.loading = false
   }
 }
 </script>

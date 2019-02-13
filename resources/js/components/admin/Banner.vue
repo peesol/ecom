@@ -75,7 +75,7 @@ export default {
 			var input = event.target;
 			if (input.files && input.files[0]) {
 				if (input.files[0].size > 1048576) {
-					alert(this.$trans.translation.file_size_limit + ' 1 MB');
+					alert('ขนาดไฟล์ต้องไม่เกิน 1 MB');
 					this.removefile()
 				}
 				var reader = new FileReader();
@@ -121,7 +121,9 @@ export default {
     }
 	},
 	created() {
+		this.$root.loading = true
 		this.getBanner()
+		this.$root.loading = false
 	}
 }
 </script>

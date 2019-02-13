@@ -56,12 +56,8 @@ export default {
   },
   methods: {
     getOrder() {
-      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/order/' + this.$route.params.uid).then(response => {
         this.order = response.data
-        this.$root.loading = false
-      }, response => {
-        this.$root.loading = false
       })
     },
     deny(uid) {
@@ -78,7 +74,9 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getOrder()
+    this.$root.loading = false
   }
 }
 </script>

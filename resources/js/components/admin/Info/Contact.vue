@@ -3,12 +3,17 @@
   <h2 class="page-title">ข้อมูลร้าน
     <back></back>
   </h2>
-  <div class="margin-15-v">
-    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มข้อมูล&nbsp;<i class="fas fa-plus"></i></button>
+  <logo></logo>
+  <hr>
+  <description :old-desc="configs[1].array_value"></description>
+  <hr>
+  <h3 class="">ช่องทางการติดต่อ</h3>
+  <div class="margin-15-bottom">
+    <button class="btn primary" type="button" @click="formVisible = !formVisible">เพิ่มช่องทางการติดต่อ&nbsp;<i class="fas fa-plus"></i></button>
   </div>
   <transition name="fade">
-    <div class="grid-x">
-      <form class="filter cell medium-6 grid-y" v-show="formVisible" @submit.prevent="create()">
+    <div class="grid-x margin-15-bottom" v-show="formVisible">
+      <form class="filter cell medium-6 grid-y" @submit.prevent="create()">
         <div class="form-group">
           <label>ประเภท</label>
           <select required v-model="sub" @change.prevent="selectType()">
@@ -36,7 +41,6 @@
       </form>
     </div>
   </transition>
-  <h3 class="margin-15-v">ข้อมูลติดต่อของร้าน</h3>
   <table class="stack unstriped hover" v-show="contacts.length">
     <tbody>
       <tr v-for="(contact, index) in contacts">
@@ -45,7 +49,7 @@
         <td v-show="contact.link"><a :href="contact.link">{{ contact.link }}</a></td>
         <td v-show="!contact.link">ไม่มีลิ้งค์</td>
         <td class="text-right">
-          <button class="btn-flat error lead padding-15-h" type="button" @click="remove(contact.id, index)">ลบ</button>
+          <button class="btn error fas fa-trash-alt" type="button" @click="remove(contact.id, index)"></button>
         </td>
       </tr>
     </tbody>
@@ -57,10 +61,16 @@
 </template>
 
 <script>
+import Logo from './Logo';
+import Description from './Description';
 export default {
+  components: {
+    Logo, Description
+  },
   data() {
     return {
       contacts: [],
+      configs: [],
       type: null,
       sub: null,
       body: null,
@@ -70,10 +80,13 @@ export default {
   },
   methods: {
     getContact() {
-      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/contact').then(response => {
         this.contacts = response.data
-        this.$root.loading = false
+      })
+    },
+    getConfig() {
+      axios.get(this.$root.url + '/admin/info/get_config').then(response => {
+        this.configs = response.data
       })
     },
     selectType() {
@@ -122,7 +135,10 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getContact()
+    this.getConfig()
+    this.$root.loading = false
   }
 }
 </script>

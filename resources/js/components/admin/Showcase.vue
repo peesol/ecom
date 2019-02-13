@@ -73,10 +73,8 @@ export default {
 			}
 		},
 		getShowcase() {
-			this.$root.loading = true
 			axios.get(this.$root.url + '/api/get/showcase').then(response => {
 				this.showcases = response.data;
-				this.$root.loading = false
 			});
 		},
 		create() {
@@ -120,11 +118,6 @@ export default {
 				toastr.error('เกิดข้อผิดพลาด');
 			});
 		},
-		// order() {
-		// 	this.showcases.map((showcase, index) => {
-		// 		showcase.order = index + 1;
-		// 	})
-		// },
 		saveOrder:	_.debounce(function() {
 			axios.put(this.$root.url + '/admin/showcase/update_order', {
 				showcases: this.showcases
@@ -136,7 +129,9 @@ export default {
 		}, 1500)
 	},
 	created() {
+		this.$root.loading = true
 		this.getShowcase()
+		this.$root.loading = false
 	}
 }
 </script>

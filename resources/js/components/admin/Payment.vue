@@ -132,7 +132,9 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getPaymentMethod()
+    this.$root.loading = false
   }
 }
 </script>

@@ -63,10 +63,8 @@ export default {
   },
   methods: {
     getCode() {
-      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/code').then(response => {
         this.codes = response.data
-        this.$root.loading = false
       })
     },
     create() {
@@ -99,7 +97,9 @@ export default {
     }
   },
   created() {
+    this.$root.loading = true
     this.getCode()
+    this.$root.loading = false
   }
 }
 </script>

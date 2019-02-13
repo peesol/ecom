@@ -154,7 +154,9 @@ export default {
 		}
 	},
 	created() {
+		this.$root.loading = true
 		this.getCategory()
+		this.$root.loading = false
 	}
 }
 </script>
