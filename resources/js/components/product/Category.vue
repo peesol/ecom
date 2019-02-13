@@ -67,8 +67,8 @@
 					<td>
 
             <div class="text-right" v-show="editForm !== index">
-              <button @click.prevent="edit(index, category.id)" class="btn-flat primary padding-10-h" type="button">แก้ไข</button>
-              <button @click.prevent="remove(index, category.id)" class="btn-flat error padding-10-h" type="button">ลบ</button>
+              <button @click.prevent="edit(index, category.id)" class="btn primary fas fa-pen" type="button"></button>
+              <button @click.prevent="remove(index, category.id)" class="btn error fas fa-trash-alt" type="button"></button>
             </div>
           </td>
 				</tr>

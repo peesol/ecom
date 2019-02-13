@@ -65378,35 +65378,27 @@ var render = function() {
                           staticClass: "text-right"
                         },
                         [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn-flat primary padding-10-h",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.edit(index, category.id)
-                                }
+                          _c("button", {
+                            staticClass: "btn primary fas fa-pen",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.edit(index, category.id)
                               }
-                            },
-                            [_vm._v("แก้ไข")]
-                          ),
+                            }
+                          }),
                           _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn-flat error padding-10-h",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.remove(index, category.id)
-                                }
+                          _c("button", {
+                            staticClass: "btn error fas fa-trash-alt",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.remove(index, category.id)
                               }
-                            },
-                            [_vm._v("ลบ")]
-                          )
+                            }
+                          })
                         ]
                       )
                     ])
@@ -67938,7 +67930,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn-flat error",
+                    staticClass: "btn error",
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -68010,7 +68002,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn-flat primary",
+                    staticClass: "btn primary",
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -68488,23 +68480,19 @@ var render = function() {
           { staticClass: "list" },
           _vm._l(_vm.codes, function(code, index) {
             return _c("li", { staticClass: "no-style table-like" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "btn-flat error",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.remove(code.id, index)
-                    }
+              _c("a", {
+                staticClass: "btn error fas fa-trash-alt",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.remove(code.id, index)
                   }
-                },
-                [_vm._v("ลบ")]
-              ),
+                }
+              }),
+              _vm._v(" \n        "),
+              _c("strong", [_vm._v(_vm._s(code.code))]),
               _vm._v(
-                " \n        " +
-                  _vm._s(code.code) +
-                  " ลด " +
+                " ลด " +
                   _vm._s(code.value) +
                   _vm._s(code.type == "cash" ? " บาท" : "%") +
                   "\n      "
@@ -71301,6 +71289,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -71359,6 +71351,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }, function (response) {
         toastr.error('เกิดข้อผิดพลาด');
       });
+    },
+    remove: function remove(id, index) {
+      var _this3 = this;
+
+      if (confirm('คุณแน่ใจหรือไม่ว่าจะลบ?')) {
+        axios.delete(this.$root.url + '/admin/payment/delete/' + id).then(function (response) {
+          _this3.accounts.splice(index, 1);
+          toastr.success('ลบบัญชีเรียบร้อยแล้ว');
+        }, function (response) {
+          toastr.error('เกิดข้อผิดพลาด');
+        });
+      }
     }
   },
   created: function created() {
@@ -71604,13 +71608,33 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.accounts, function(account) {
+          _vm._l(_vm.accounts, function(account, index) {
             return _c("tr", [
               _c("td", [_vm._v(_vm._s(account.provider))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(account.method))]),
+              _c("td", [
+                _vm._v(
+                  _vm._s(
+                    account.method == "account" ? "บัญชีธนาคาร" : "PromptPay"
+                  )
+                )
+              ]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(account.ref))])
+              _c("td", [
+                _vm._v("\n          " + _vm._s(account.ref) + "\n        ")
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "text-right" }, [
+                _c("button", {
+                  staticClass: "btn error fas fa-trash-alt",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.remove(account.id, index)
+                    }
+                  }
+                })
+              ])
             ])
           }),
           0
@@ -71647,7 +71671,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("ประเภท")]),
         _vm._v(" "),
-        _c("th", [_vm._v("เลขที่")])
+        _c("th", [_vm._v("เลขที่")]),
+        _vm._v(" "),
+        _c("th")
       ])
     ])
   }
@@ -71714,6 +71740,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -71970,7 +71999,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("h3", { staticClass: "margin-15-v" }, [_vm._v("ตู้แสดงสินค้าในร้าน")]),
+      _vm._m(0),
       _vm._v(" "),
       _c("table", { staticClass: "margin-15-top stack unstriped" }, [
         _c(
@@ -71979,7 +72008,8 @@ var render = function() {
             return _c("tr", { staticClass: "grid-x align-center-middle" }, [
               _c("td", { staticClass: "cell shrink" }, [
                 _c("button", {
-                  staticClass: "btn-flat primary fas fa-angle-down padding-5-h",
+                  staticClass:
+                    "btn-flat secondary fas fa-caret-square-down padding-5-h",
                   class: { "not-visible": index + 1 >= _vm.showcases.length },
                   on: {
                     click: function($event) {
@@ -71989,7 +72019,8 @@ var render = function() {
                 }),
                 _vm._v("\n\t\t\t\t\t\t" + _vm._s(index + 1) + "\n\t\t\t\t\t\t"),
                 _c("button", {
-                  staticClass: "btn-flat primary fas fa-angle-up padding-5-h",
+                  staticClass:
+                    "btn-flat secondary fas fa-caret-square-up padding-5-h",
                   class: { "not-visible": index + 1 <= 1 },
                   on: {
                     click: function($event) {
@@ -72056,7 +72087,24 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "margin-15-v" }, [
+      _vm._v("\n\t\tตู้แสดงสินค้าในร้าน"),
+      _c("br"),
+      _vm._v(" "),
+      _c("small", { staticClass: "subheader h6" }, [
+        _vm._v("*จัดลำดับโดยการคลิก "),
+        _c("i", { staticClass: "btn-flat secondary fas fa-caret-square-down" }),
+        _vm._v(" หรือ "),
+        _c("i", { staticClass: "btn-flat secondary fas fa-caret-square-up" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

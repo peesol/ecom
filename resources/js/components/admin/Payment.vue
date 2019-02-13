@@ -38,13 +38,17 @@
         <th>ธนาคาร</th>
         <th>ประเภท</th>
         <th>เลขที่</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="account in accounts">
+      <tr v-for="(account, index) in accounts">
         <td>{{ account.provider }}</td>
-        <td>{{ account.method }}</td>
-        <td>{{ account.ref }}</td>
+        <td>{{ account.method == 'account' ? 'บัญชีธนาคาร' : 'PromptPay' }}</td>
+        <td>
+          {{ account.ref }}
+        </td>
+        <td class="text-right"><button class="btn error fas fa-trash-alt" type="button" @click="remove(account.id, index)"></button></td>
       </tr>
     </tbody>
   </table>
@@ -115,6 +119,16 @@ export default {
       }, response => {
         toastr.error('เกิดข้อผิดพลาด')
       })
+    },
+    remove(id, index) {
+      if (confirm('คุณแน่ใจหรือไม่ว่าจะลบ?')) {
+        axios.delete(this.$root.url + '/admin/payment/delete/' + id).then(response => {
+          this.accounts.splice(index, 1)
+          toastr.success('ลบบัญชีเรียบร้อยแล้ว')
+        }, response => {
+          toastr.error('เกิดข้อผิดพลาด')
+        })
+      }
     }
   },
   created() {

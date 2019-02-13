@@ -17,7 +17,7 @@
             <font class="font-green">{{$number.currency(item.discount_price)}}&nbsp;฿</font>
           </p>
           <div class="action-wrapper">
-            <button @click.prevent="remove(item.uid, index)" class="btn-flat error">เลิกโปรโมชั่น</button>
+            <button @click.prevent="remove(item.uid, index)" class="btn error">เลิกโปรโมชั่น</button>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
           <p class="title">{{ item.name }}</p>
           <p class="price">{{ $number.currency(item.price) }}&nbsp;฿</p>
           <div class="action-wrapper">
-            <button @click.prevent="open(item, index)" class="btn-flat primary">จัดโปรโมชั่น</button>
+            <button @click.prevent="open(item, index)" class="btn primary">จัดโปรโมชั่น</button>
           </div>
         </div>
       </div>

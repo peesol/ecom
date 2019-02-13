@@ -160,7 +160,7 @@ Route::delete('/admin/banner/delete/{banner}', 'Admin\Banner\BannerController@de
 */
 
 Route::post('/admin/payment/create', 'Admin\Payment\PaymentController@create');
-Route::delete('/admin/payment/delete/{id}', 'Admin\Payment\PaymentController@delete');
+Route::delete('/admin/payment/delete/{method}', 'Admin\Payment\PaymentController@delete');
 
 /*
 |--------------------------------------------------------------------------

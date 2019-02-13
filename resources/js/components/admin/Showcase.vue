@@ -17,14 +17,17 @@
 			</form>
 		</div>
 	</transition>
-  <h3 class="margin-15-v">ตู้แสดงสินค้าในร้าน</h3>
+  <h3 class="margin-15-v">
+		ตู้แสดงสินค้าในร้าน<br>
+		<small class="subheader h6">*จัดลำดับโดยการคลิก <i class="btn-flat secondary fas fa-caret-square-down"></i> หรือ <i class="btn-flat secondary fas fa-caret-square-up"></i></small>
+	</h3>
 	<table class="margin-15-top stack unstriped">
 		<tbody>
 			<tr class="grid-x align-center-middle" v-for="(showcase, index) in showcases">
 				<td class="cell shrink">
-						<button class="btn-flat primary fas fa-angle-down padding-5-h" :class="{'not-visible' : (index + 1) >= showcases.length}" @click="setArrayDown(index, showcase.order)"></button>
+						<button class="btn-flat secondary fas fa-caret-square-down padding-5-h" :class="{'not-visible' : (index + 1) >= showcases.length}" @click="setArrayDown(index, showcase.order)"></button>
 						{{ index + 1 }}
-						<button class="btn-flat primary fas fa-angle-up padding-5-h" :class="{'not-visible' : (index + 1) <= 1}" @click="setArrayUp(index, showcase.order)"></button>
+						<button class="btn-flat secondary fas fa-caret-square-up padding-5-h" :class="{'not-visible' : (index + 1) <= 1}" @click="setArrayUp(index, showcase.order)"></button>
 						<a class="padding-15-h fas" :class="{'fa-check font-green': showcase.show, 'fa-times font-red': !showcase.show}" @click.prevent="showToggle(showcase.id, index)">&nbsp;หน้าแรก</a>
         </td>
 				<td class="cell auto">{{ showcase.name }}</td>

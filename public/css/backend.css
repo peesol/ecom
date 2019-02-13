@@ -517,6 +517,14 @@ button {
   color: #3b9cdc;
 }
 
+.btn-flat.secondary {
+  color: #0099ff;
+}
+
+.btn-flat.secondary:hover {
+  color: #1779ba;
+}
+
 .btn-flat.error {
   color: #be2626;
 }

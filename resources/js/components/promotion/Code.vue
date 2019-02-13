@@ -29,8 +29,8 @@
     <h3>ส่วนลดของร้าน</h3>
     <div class="list">
       <li class="no-style table-like" v-for="(code, index) in codes">
-        <a class="btn-flat error" @click.prevent="remove(code.id, index)">ลบ</a>&nbsp;
-        {{ code.code }}&nbsp;ลด&nbsp;{{ code.value }}{{ code.type == 'cash' ? ' บาท' : '%' }}
+        <a class="btn error fas fa-trash-alt" @click.prevent="remove(code.id, index)"></a>&nbsp;
+        <strong>{{ code.code }}</strong>&nbsp;ลด&nbsp;{{ code.value }}{{ code.type == 'cash' ? ' บาท' : '%' }}
       </li>
     </div>
   </div>

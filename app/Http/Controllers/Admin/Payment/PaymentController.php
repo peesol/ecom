@@ -19,6 +19,12 @@ class PaymentController extends Controller
     return response()->json($created);
   }
 
+  public function delete(PaymentMethod $method)
+  {
+    $method->delete();
+    return ;
+  }
+
   public function transaction(Order $order)
   {
     return view('order.payment._transaction', [
