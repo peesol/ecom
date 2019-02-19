@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+const Dashboard = require('../components/admin/Dashboard/Dashboard.vue');
 const Category = require('../components/product/Category.vue');
 const ProductShow = require('../components/product/ProductShow.vue');
 const ProductEdit = require('../components/product/ProductEdit.vue');
@@ -20,6 +21,10 @@ const ShowcaseEdit = require('../components/admin/ShowcaseEdit.vue');
 const Contact = require('../components/admin/Info/Contact.vue');
 
 const routes = [
+  {
+    path: '/admin',
+    component: Dashboard
+  },
   {
     path: '/admin/category',
     component: Category

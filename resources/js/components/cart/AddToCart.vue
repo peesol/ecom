@@ -82,7 +82,16 @@ export default {
           this.$root.showModal = true
         }
       }
+    },
+    logView() {
+      var self = this;
+      setTimeout(function() {
+         axios.put(self.$root.url + '/product/' + self.product.uid + '/log_view')
+       }, 7000)
     }
+  },
+  mounted() {
+    this.logView()
   }
 }
 </script>

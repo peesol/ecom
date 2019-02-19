@@ -7,6 +7,7 @@
   <transition name="width">
     <div class="menu hide-for-small-only" :class="{'active' : $root.menu}">
       <p class="menu-title">Admin</p>
+      <router-link class="fas fa-home" to="/admin">หน้าแรก</router-link>
       <a class="fas fa-warehouse" href="{{ url('/admin/product') }}">จัดการสินค้า</a>
       <router-link class="fas fa-grip-horizontal" to="/admin/showcase">ตู้แสดงสินค้า</router-link>
       <router-link class="fas fa-ad" to="/admin/banner">แบนเนอร์</router-link>

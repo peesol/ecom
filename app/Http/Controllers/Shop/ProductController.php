@@ -35,4 +35,10 @@ class ProductController extends Controller
       'shippings' => $shippings
     ]);
   }
+
+  public function logView(Product $product)
+  {
+    $product->increment('view_count', 1);
+    return;
+  }
 }

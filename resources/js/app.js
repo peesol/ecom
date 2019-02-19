@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 import VueProgressBar from 'vue-progressbar'
 import VeeValidate from 'vee-validate';
+import VueCharts from 'vue-chartjs'
 
 import number from './misc/number-filter'
 Vue.use(number)

@@ -21,6 +21,7 @@ Route::get('/oauth/{provider}/redirect', 'Auth\LoginController@redirectToProvide
 Route::get('/oauth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
 Route::get('/product/{product}', 'Shop\ProductController@index')->name('productPage');
+Route::put('/product/{product}/log_view', 'Shop\ProductController@logView');
 Route::get('/product/{product}/{choice}/buy', 'Shop\ProductController@buyNow');
 
 Route::get('/cart', 'Cart\CartController@index');
@@ -64,6 +65,12 @@ Route::get('/admin/banner', 'Admin\AdminController@index');
 Route::get('/admin/payment', 'Admin\AdminController@index');
 Route::get('/admin/showcase', 'Admin\AdminController@index');
 Route::get('/admin/showcase/{showcase}/edit', 'Admin\AdminController@index');
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/get_data', 'Admin\AdminController@getData');
 /*
 |--------------------------------------------------------------------------
 | Product

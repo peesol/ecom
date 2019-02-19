@@ -1,11 +1,13 @@
 <template>
 <div>
-  <h2>รายการสั่งซื้อ</h2>
+  <h2 class="page-title">รายการสั่งซื้อ
+    <back></back>
+  </h2>
   <h3>#{{ order.uid }}</h3>
 
-  <label class="status warning margin-15-bottom" v-show="!order.status.paid">ยังไม่ชำระเงิน</label>
-  <label class="status success margin-15-bottom" v-show="order.status.paid && order.status.shipped">ส่งสินค้าแล้ว</label>
-  <label class="status success margin-15-bottom" v-show="order.status.paid && !order.status.shipped">เตรียมจัดส่ง</label>
+  <label class="status warning margin-15-bottom" v-show="!order.status.paid && !order.cancle">ยังไม่ชำระเงิน</label>
+  <label class="status success margin-15-bottom" v-show="order.status.paid && order.status.shipped && !order.cancle">ส่งสินค้าแล้ว</label>
+  <label class="status success margin-15-bottom" v-show="order.status.paid && !order.status.shipped && !order.cancle">เตรียมจัดส่ง</label>
 
   <h4 class="font-red" v-show="order.cancle">รายการนี้ถูกปฏิเสธแล้ว</h4>
   <button class="btn error margin-15-bottom" @click.prevent="formVisible = !formVisible" v-show="!order.cancle && !order.status.shipped" style="width:150px">ปฏิเสธรายการนี้</button>
@@ -40,7 +42,7 @@
     </tbody>
   </table>
   <h3 class="font-green">ยอดชำระ&nbsp;{{ $number.currency(order.total) }}&nbsp;฿</h3>
-  <p>ค่าจัดส่ง&nbsp;{{ $number.currency(order.fee) }}</p>
+  <p>ค่าจัดส่ง&nbsp;{{ $number.currency(order.fee ? order.fee : 'FREE') }}</p>
 </div>
 </template>
 
