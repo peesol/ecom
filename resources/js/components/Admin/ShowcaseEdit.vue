@@ -62,8 +62,8 @@
 </template>
 
 <script>
-  import SearchFilter from '../product/partial/Filter'
-  import Pagination from '../product/partial/Pagination'
+  import SearchFilter from '../Partials/Filter'
+  import Pagination from '../Partials/Pagination'
 	export default{
     components: {
       SearchFilter,

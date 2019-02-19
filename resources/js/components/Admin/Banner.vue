@@ -67,8 +67,10 @@ export default {
 	},
 	methods: {
 		getBanner() {
+			this.$root.loading = true
 			axios.get(this.$root.url + '/api/get/banner').then(response => {
 				this.banners = response.data
+				this.$root.loading = false
 			})
 		},
 		preview(event) {
@@ -121,9 +123,7 @@ export default {
     }
 	},
 	created() {
-		this.$root.loading = true
 		this.getBanner()
-		this.$root.loading = false
 	}
 }
 </script>

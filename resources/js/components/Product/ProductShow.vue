@@ -37,8 +37,8 @@
 </div>
 </template>
 <script>
-import SearchFilter from './partial/Filter'
-import Pagination from './partial/Pagination'
+import SearchFilter from '../Partials/Filter'
+import Pagination from '../Partials/Pagination'
 export default {
   components: {
     SearchFilter,

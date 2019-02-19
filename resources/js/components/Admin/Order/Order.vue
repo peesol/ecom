@@ -3,6 +3,10 @@
     <h2 class="page-title">รายการสั่งซื้อ
       <back></back>
     </h2>
+    <p class="subheader">
+      *แสดงรายการในเดือนปัจจุบันเท่านั้นถ้าต้องการดูรายการย้อนหลังคลิก
+      <router-link to="/admin/orders_history">ประวัติรายการสั่งซื้อ</router-link>
+    </p>
     <section class="padding-15-v">
       <table class="unstriped">
         <thead>
@@ -72,8 +76,10 @@ export default {
   },
   methods: {
     getOrder() {
-      axios.get( this.$root.url + '/api/get/order').then(response => {
+      this.$root.loading = true
+      axios.get( this.$root.url + '/api/get/order_month').then(response => {
         this.orders = response.data
+        this.$root.loading = false
       })
     },
     toggleTab(id) {
@@ -85,9 +91,7 @@ export default {
     }
   },
   created() {
-    this.$root.loading = true
     this.getOrder()
-    this.$root.loading = false
   }
 
 }

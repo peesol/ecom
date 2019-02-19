@@ -73,8 +73,10 @@ export default {
 			}
 		},
 		getShowcase() {
+			this.$root.loading = true
 			axios.get(this.$root.url + '/api/get/showcase').then(response => {
 				this.showcases = response.data;
+				this.$root.loading = false
 			});
 		},
 		create() {
@@ -129,9 +131,7 @@ export default {
 		}, 1500)
 	},
 	created() {
-		this.$root.loading = true
 		this.getShowcase()
-		this.$root.loading = false
 	}
 }
 </script>

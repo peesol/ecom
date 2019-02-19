@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
@@ -65,6 +66,27 @@ class GetterController extends Controller
   public function getOrder()
   {
     $data = Order::all();
+    return response()->json($data);
+  }
+
+  public function getOrderHistory(Request $request)
+  {
+    if ($request->query('year') && $request->query('month')) {
+      $data = Order::whereYear('created_at', $request->query('year'))->whereMonth('created_at', $request->query('month'))->paginate(50);
+    } elseif ($request->query('year')) {
+      $data = Order::whereYear('created_at', $request->query('year'))->paginate(50);
+    } else {
+      $data = Order::paginate(50);
+    }
+
+
+    return new ProductResource($data);
+  }
+
+  public function getThisMonthOrder()
+  {
+    $data = Order::whereMonth('created_at', Carbon::now()->month)->get();
+
     return response()->json($data);
   }
 

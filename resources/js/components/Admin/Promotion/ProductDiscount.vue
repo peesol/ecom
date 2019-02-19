@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import SearchFilter from '../product/partial/Filter'
+import SearchFilter from '../../Partials/Filter'
 export default {
   components: {
     SearchFilter

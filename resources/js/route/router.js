@@ -2,23 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-const Dashboard = require('../components/admin/Dashboard/Dashboard.vue');
-const Category = require('../components/product/Category.vue');
-const ProductShow = require('../components/product/ProductShow.vue');
-const ProductEdit = require('../components/product/ProductEdit.vue');
-const ProductStock = require('../components/product/ProductStock.vue');
-const ProductUpload = require('../components/product/ProductUpload.vue');
-const ProductDiscount = require('../components/promotion/ProductDiscount.vue');
-const Code = require('../components/promotion/Code.vue');
-const Banner = require('../components/admin/Banner.vue');
-const Shipping = require('../components/admin/Shipping.vue');
-const Order = require('../components/admin/Order.vue');
-const OrderView = require('../components/admin/OrderView.vue');
-const Payment = require('../components/admin/Payment.vue');
-const Showcase = require('../components/admin/Showcase.vue');
-const ShowcaseEdit = require('../components/admin/ShowcaseEdit.vue');
+const Dashboard = require('../components/Admin/Dashboard/Dashboard.vue');
+const Category = require('../components/Admin/Product/Category.vue');
+const ProductShow = require('../components/Product/ProductShow.vue');
+const ProductEdit = require('../components/Admin/Product/ProductEdit.vue');
+const ProductStock = require('../components/Admin/Product/ProductStock.vue');
+const ProductUpload = require('../components/Admin/Product/ProductUpload.vue');
+const ProductDiscount = require('../components/Admin/Promotion/ProductDiscount.vue');
+const Code = require('../components/Admin/Promotion/Code.vue');
+const Banner = require('../components/Admin/Banner.vue');
+const Shipping = require('../components/Admin/Shipping.vue');
+const Order = require('../components/Admin/Order/Order.vue');
+const OrderView = require('../components/Admin/Order/OrderView.vue');
+const OrderHistory = require('../components/Admin/Order/OrderHistory.vue');
+const Payment = require('../components/Admin/Payment.vue');
+const Showcase = require('../components/Admin/Showcase.vue');
+const ShowcaseEdit = require('../components/Admin/ShowcaseEdit.vue');
 
-const Contact = require('../components/admin/Info/Contact.vue');
+const Contact = require('../components/Admin/Info/Contact.vue');
 
 const routes = [
   {
@@ -72,6 +73,10 @@ const routes = [
   {
     path: '/admin/orders/:uid',
     component: OrderView
+  },
+  {
+    path: '/admin/orders_history',
+    component: OrderHistory
   },
   {
     path: '/admin/payment',

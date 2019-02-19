@@ -41,11 +41,11 @@ Vue.use(VeeValidate, {
 Vue.component('banner-slick', require('./components/slick/BannerSlick.vue'));
 Vue.component('product-slick', require('./components/slick/ProductSlick.vue'));
 Vue.component('img-slick', require('./components/slick/ImageSlick.vue'));
-Vue.component('add-to-cart', require('./components/cart/AddToCart.vue'));
-Vue.component('cart', require('./components/cart/Cart.vue'));
+Vue.component('add-to-cart', require('./components/Cart/AddToCart.vue'));
+Vue.component('cart', require('./components/Cart/Cart.vue'));
 Vue.component('navigation', require('./components/Navigation/Navigation.vue'));
 
-Vue.component('product-show', require('./components/product/ProductShow.vue'));
+Vue.component('product-show', require('./components/Product/ProductShow.vue'));
 
 Vue.component('modal', require('./components/Modal.vue'));
 Vue.component('back', {

@@ -50,12 +50,14 @@ export default {
   },
   methods: {
     getData() {
+      this.$root.loading = true
       axios.get(this.$root.url + '/admin/get_data').then(response => {
         this.monthly_count = response.data.count
         this.monthly = response.data.monthly
         this.yearly = response.data.yearly
         this.products = response.data.products
         this.assignValues(response.data.graph)
+        this.$root.loading = false
       })
     },
     salesCalc(data) {
@@ -82,12 +84,7 @@ export default {
     }
   },
   created() {
-    this.$root.loading = true
     this.getData()
-    this.$root.loading = false
-  },
-  updated() {
-    //this.assignValues()
   }
 }
 </script>

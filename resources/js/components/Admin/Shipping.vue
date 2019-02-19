@@ -125,8 +125,10 @@ export default {
   },
   methods: {
     getShipping() {
+      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/shipping').then(response => {
         this.shippings = response.data
+        this.$root.loading = false
       })
     },
     create() {
@@ -157,9 +159,7 @@ export default {
     }
   },
   created() {
-    this.$root.loading = true
     this.getShipping()
-    this.$root.loading = false
   }
 }
 </script>

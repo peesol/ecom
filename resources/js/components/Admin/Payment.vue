@@ -101,8 +101,10 @@ export default {
   },
   methods: {
     getPaymentMethod() {
+      this.$root.loading = true
       axios.get(this.$root.url + '/api/get/payment_methods').then(response => {
         this.accounts = response.data
+        this.$root.loading = false
       })
     },
     addPayment() {
@@ -132,9 +134,7 @@ export default {
     }
   },
   created() {
-    this.$root.loading = true
     this.getPaymentMethod()
-    this.$root.loading = false
   }
 }
 </script>
