@@ -17,7 +17,7 @@
         <i class="fas fa-phone"></i>
         <font>&nbsp;CONTACT US</font>
       </a>
-      <a v-show="$root.authenticated" href="/cart" @click="goToCart()">
+      <a @click="goToCart()">
         <i class="fas fa-shopping-cart"></i>
         <font>CART&nbsp;({{count}})</font>
         <span class="cart-count hide-for-medium" v-show="count > 0">{{count}}</span>
@@ -132,7 +132,11 @@ export default {
       'getCartCount',
     ]),
     goToCart() {
-      document.location.href = this.$root.url + '/cart';
+      if (this.$root.authenticated) {
+        document.location.href = this.$root.url + '/cart';
+      } else {
+        alert('โปรดลงชื่อเข้าใช้ก่อน')
+      }
     },
     logout() {
       this.$root.loading = true

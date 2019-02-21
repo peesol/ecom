@@ -1,3 +1,9 @@
+body, html, #app
+  margin: 0
+  height: 100%
+  font-family: 'Prompt', sans-serif
+  box-sizing: border-box
+  
 .container
   margin-top: 50px !important
   padding-top: 10px
@@ -6,3 +12,18 @@
   .container
     margin-top: 0 !important
     padding-top: 20px
+
+#app
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+nav
+  flex-shrink: 0
+
+.container
+  position: relative
+  flex: 1 0 auto
+
+footer
+  flex-shrink: 0

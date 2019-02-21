@@ -6,7 +6,7 @@
   </div>
   <transition name="width">
     <div class="menu" :class="{'active' : $root.menu}">
-      <p class="menu-title">Admin</p>
+      <p class="menu-title hide-for-small-only">Admin</p>
       <router-link class="fas fa-home" to="/admin" @click.prevent="$root.menu = false" exact>หน้าแรก</router-link>
       <a class="fas fa-warehouse" href="{{ url('/admin/product') }}">จัดการสินค้า</a>
       <router-link class="fas fa-grip-horizontal" to="/admin/showcase" @click.native="$root.menu = false">ตู้แสดงสินค้า</router-link>
@@ -15,6 +15,7 @@
       <router-link class="fas fa-truck" to="/admin/shipping" @click.native="$root.menu = false">การจัดส่ง</router-link>
       <router-link class="fas fa-list-ul" to="/admin/orders" @click.native="$root.menu = false">รายการสั่งซื้อ</router-link>
       <router-link class="fas fa-user-tie" to="/admin/contact" @click.native="$root.menu = false">ข้อมูลของร้าน</router-link>
+      <a class="fas fa-door-open" href="/" @click.native="$root.menu = false">กลับหน้าเว็บไซต์</a>
     </div>
   </transition>
   <div class="dashboard">

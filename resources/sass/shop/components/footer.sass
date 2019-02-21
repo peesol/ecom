@@ -1,16 +1,27 @@
 footer
   font-family: 'Prompt', sans-serif
-  background: #eee
+  background: $idle-main
+  color: #fff
+  margin-top: 30px
   font
     font-family: 'Prompt', sans-serif !important
     font-weight: normal
-  ul
-    display: flex
-    flex-direction: column
-    list-style-type: none
-    margin: 0
+  li
+    list-style-type: none !important
+  a
+    color: #fff
+    &:hover , &:focus
+      text-decoration: underline
+      color: #fff
+ul.contact
+  display: flex
+  flex-direction: column
+  list-style-type: none
+  margin: 0
   li
     padding: 3px 10px
+    font
+      font-family: 'Prompt', sans-serif !important
   li::before
     margin-right: 8px
   li.contact

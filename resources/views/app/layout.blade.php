@@ -34,8 +34,10 @@
       @include('app._navigation')
       <vue-progress-bar></vue-progress-bar>
       <load-overlay :show="$root.loading"></load-overlay>
-      <div class="grid-container container">
-        @yield('content')
+      <div class="container">
+        <div class="grid-container">
+          @yield('content')
+        </div>
       </div>
       @include('app._footer')
       @if (Auth::id() === 1)
